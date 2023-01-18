@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
 
@@ -9,8 +9,12 @@ const AppBar: React.FC = () => {
     <>
       <StatusBar backgroundColor="#ADD8E6" style="light" />
       <View style={styles.container}>
-        <Link to="/">Cafe</Link>
-        <Link to="/outside">Outside</Link>
+        <Link to="/" background="black">
+          <Text style={styles.link}>Cafe</Text>
+        </Link>
+        <Link to="/outside" background="black">
+          <Text style={styles.link}>Outside</Text>
+        </Link>
       </View>
     </>
   );
@@ -25,6 +29,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: Constants.statusBarHeight
     // #ffa0b0
+  },
+  link: {
+    color: 'white',
+    fontSize: 20
   }
 });
 

@@ -3,7 +3,10 @@ import { Table } from '../types/table';
 export const TABLES: Array<Table> = [
   {
     id: 1,
-    orders: [{ item: 'cofe', price: 1.5 }]
+    orders: [
+      { item: 'Espresso', price: 1.5 },
+      { item: 'Bosnian', price: 1.5 }
+    ]
   },
   {
     id: 2,

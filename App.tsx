@@ -27,8 +27,12 @@ const App: React.FC = () => {
     );
   };
 
+  const removeOrder = (id: string): void => {
+    setTables(tables.filter((table) => table.id.toString() !== id));
+  };
+
   return (
-    <TablesContext.Provider value={{ tables, addOrder }}>
+    <TablesContext.Provider value={{ tables, addOrder, removeOrder }}>
       <View>
         <NativeRouter>
           <AppBar />

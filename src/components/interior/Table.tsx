@@ -1,28 +1,35 @@
+import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
-import { NavigateFunction, useNavigate } from 'react-router-native';
+import { TableContext, TablesContext } from '../../context/TablesContext';
+import Link from '../shared/UI/Link';
 
 interface TableProps {
   id: number;
 }
 
 const Table: React.FC<TableProps> = (props) => {
-  const redirect: NavigateFunction = useNavigate();
+  const { tables } = React.useContext<TableContext>(TablesContext);
+  const table = tables.find((table) => table.id === props.id);
 
-  const redirectHandler = (): void => {
-    redirect(`/tables/${props.id}`);
-  };
+  const unpaidTable = table?.orders?.length === 0 ? 'black' : '#93E9BE';
 
-  return <Pressable onPress={redirectHandler} style={styles.table} />;
+  const styles = StyleSheet.create({
+    table: {
+      borderWidth: 2,
+      borderColor: unpaidTable,
+      height: 50,
+      width: 50,
+      borderRadius: 25
+    }
+  });
+
+  return (
+    <Link
+      to={`/tables/${props.id}`}
+      style={styles.table}
+      background={unpaidTable}
+    />
+  );
 };
-
-const styles = StyleSheet.create({
-  table: {
-    borderWidth: 2,
-    borderColor: 'black',
-    height: 50,
-    width: 50,
-    borderRadius: 25
-  }
-});
 
 export default Table;

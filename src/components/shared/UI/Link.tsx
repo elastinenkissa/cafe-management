@@ -1,24 +1,37 @@
-import { Link as RouterLink } from 'react-router-native';
-import { StyleSheet, Text } from 'react-native';
+import { NavigateFunction, useNavigate } from 'react-router-native';
+import { Pressable, StyleProp, ViewStyle } from 'react-native';
 
 interface LinkProps {
   to: string;
-  children: string;
+  background: string;
+  style?: StyleProp<ViewStyle>;
+  children?: JSX.Element;
 }
 
 const Link: React.FC<LinkProps> = (props) => {
+  const redirect: NavigateFunction = useNavigate();
+
+  const redirectHandler = () => {
+    redirect(props.to);
+  };
+
   return (
-    <RouterLink to={props.to}>
-      <Text style={styles.link}>{props.children}</Text>
-    </RouterLink>
+    <Pressable
+      onPress={redirectHandler}
+      style={({ pressed }) => {
+        return [
+          {
+            backgroundColor: pressed ? props.background : 'transparent',
+            padding: 8,
+            borderRadius: 20
+          },
+          props.style
+        ];
+      }}
+    >
+      {props.children}
+    </Pressable>
   );
 };
-
-const styles = StyleSheet.create({
-  link: {
-    color: 'white',
-    fontSize: 20
-  }
-});
 
 export default Link;

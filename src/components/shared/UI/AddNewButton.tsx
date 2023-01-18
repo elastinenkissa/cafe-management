@@ -1,13 +1,15 @@
 import React from 'react';
-import { Text, StyleSheet, View, Pressable } from 'react-native';
+import { Text, StyleSheet, Pressable } from 'react-native';
 
-const AddNewButton: React.FC = () => {
+interface AddNewProps {
+  onPress: () => void;
+}
+
+const AddNewButton: React.FC<AddNewProps> = (props) => {
   return (
-    <View>
-      <Pressable style={styles.new}>
-        <Text style={styles.plus}>＋</Text>
-      </Pressable>
-    </View>
+    <Pressable style={styles.new} onPress={props.onPress}>
+      <Text style={styles.plus}>＋</Text>
+    </Pressable>
   );
 };
 
@@ -17,10 +19,11 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 100,
-    textAlign: 'center'
+    textAlign: 'center',
+    alignItems: 'center'
   },
   plus: {
-    fontSize: 35,
+    fontSize: 45,
     color: 'white'
   }
 });

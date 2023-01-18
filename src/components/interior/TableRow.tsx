@@ -19,7 +19,11 @@ const TableRow: React.FC<TableRowProps> = (props) => {
 };
 
 const styles = StyleSheet.create({
-  tables: { justifyContent: 'space-around', height: '90%', paddingLeft: '25%' }
+  tables: {
+    justifyContent: 'space-around',
+    height: '90%',
+    alignItems: 'center'
+  }
 });
 
 export default TableRow;
