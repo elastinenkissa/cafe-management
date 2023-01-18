@@ -1,7 +1,18 @@
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
+import { NavigateFunction, useNavigate } from 'react-router-native';
 
-const Table: React.FC = () => {
-  return <View style={styles.table}></View>;
+interface TableProps {
+  id: number;
+}
+
+const Table: React.FC<TableProps> = (props) => {
+  const redirect: NavigateFunction = useNavigate();
+
+  const redirectHandler = (): void => {
+    redirect(`/tables/${props.id}`);
+  };
+
+  return <Pressable onPress={redirectHandler} style={styles.table} />;
 };
 
 const styles = StyleSheet.create({
