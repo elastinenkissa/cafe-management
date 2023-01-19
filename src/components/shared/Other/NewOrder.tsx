@@ -5,9 +5,9 @@ import { useParams } from 'react-router-native';
 import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid';
 
-import { ITEMS } from '../../util/data/items';
+import { ITEMS } from '../../../util/data/items';
 
-import { Order } from '../../util/types/order';
+import { Order } from '../../../util/types/order';
 
 interface NewOrdeProps {
   closeModal: () => void;

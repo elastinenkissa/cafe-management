@@ -3,7 +3,7 @@ import { FlatList } from 'react-native';
 import { useParams } from 'react-router-native';
 
 import OrderItem from '../../components/interior/OrderItem';
-import NewOrder from '../../components/interior/NewOrder';
+import NewCafeOrder from '../../components/interior/NewCafeOrder';
 import ListSeparator from '../../components/shared/UI/ListSeparator';
 import PageView from '../../components/shared/Other/PageView';
 
@@ -36,7 +36,7 @@ const TableView: React.FC = () => {
         />
       }
       modal={
-        <NewOrder
+        <NewCafeOrder
           addOrder={addOrderHandler}
           closeModal={() => setModalIsVisible(false)}
         />
