@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
 
-import Link from './Link';
+import Link from '../UI/Link';
 
 const AppBar: React.FC = () => {
   return (

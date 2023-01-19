@@ -7,6 +7,7 @@ import AddNewButton from '../../components/shared/UI/AddNewButton';
 import NewOrder from '../../components/interior/NewOrder';
 
 import { TableContext, TablesContext } from '../../context/TablesContext';
+import ListSeparator from '../../components/shared/UI/ListSeparator';
 
 const TableView: React.FC = () => {
   const { id } = useParams<string>();
@@ -22,8 +23,9 @@ const TableView: React.FC = () => {
       <View>
         <FlatList
           data={orders}
-          renderItem={({ item }) => <OrderItem item={item} />}
-          keyExtractor={(item) => item.item}
+          renderItem={({ item }) => <OrderItem item={item} id={item.id!} />}
+          keyExtractor={(item) => item.id!}
+          ItemSeparatorComponent={ListSeparator}
         />
       </View>
       <NewOrder

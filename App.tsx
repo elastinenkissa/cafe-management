@@ -1,8 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Button, View } from 'react-native';
 import { NativeRouter, Route, Routes } from 'react-router-native';
 
-import AppBar from './src/components/shared/UI/AppBar';
+import AppBar from './src/components/shared/Navigation/AppBar';
 import Cafe from './src/pages/interior/Cafe';
 import Debtors from './src/pages/outside/Debtors';
 import TableView from './src/pages/interior/TableView';
@@ -28,7 +28,12 @@ const App: React.FC = () => {
   };
 
   const removeOrder = (id: string): void => {
-    setTables(tables.filter((table) => table.id.toString() !== id));
+    setTables(
+      tables.map((table) => ({
+        ...table,
+        orders: table.orders?.filter((order) => order.id !== id)
+      }))
+    );
   };
 
   return (
