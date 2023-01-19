@@ -7,7 +7,7 @@ import {
 
 interface ModalProps {
   visible: boolean;
-  setVisible: (value: boolean) => void;
+  setInvisible: (value: boolean) => void;
   children?: JSX.Element | Array<JSX.Element>;
 }
 
@@ -15,10 +15,10 @@ const Modal: React.FC<ModalProps> = (props) => {
   return (
     <NativeModal
       visible={props.visible}
-      onRequestClose={() => props.setVisible(false)}
+      onRequestClose={() => props.setInvisible(false)}
       transparent
     >
-      <Pressable onPress={() => props.setVisible(false)}>
+      <Pressable onPress={() => props.setInvisible(false)}>
         <View style={styles.backdrop}>{props.children}</View>
       </Pressable>
     </NativeModal>

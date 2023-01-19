@@ -1,13 +1,15 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList } from 'react-native';
 import { useParams } from 'react-router-native';
 
 import OrderItem from '../../components/interior/OrderItem';
-import AddNewButton from '../../components/shared/UI/AddNewButton';
 import NewOrder from '../../components/interior/NewOrder';
+import ListSeparator from '../../components/shared/UI/ListSeparator';
+import PageView from '../../components/shared/Other/PageView';
 
 import { TableContext, TablesContext } from '../../context/TablesContext';
-import ListSeparator from '../../components/shared/UI/ListSeparator';
+
+import { Order } from '../../util/types/order';
 
 const TableView: React.FC = () => {
   const { id } = useParams<string>();
@@ -15,52 +17,36 @@ const TableView: React.FC = () => {
   const [modalIsVisible, setModalIsVisible] = React.useState<boolean>(false);
 
   const { tables } = React.useContext<TableContext>(TablesContext);
+  const { addOrder } = React.useContext<TableContext>(TablesContext);
 
   const orders = tables.find((table) => table.id.toString() === id)?.orders;
 
+  const addOrderHandler = (id: string, order: Order) => {
+    addOrder(id!, order);
+  };
+
   return (
-    <View style={styles.container}>
-      <View>
+    <PageView
+      list={
         <FlatList
           data={orders}
           renderItem={({ item }) => <OrderItem item={item} id={item.id!} />}
           keyExtractor={(item) => item.id!}
           ItemSeparatorComponent={ListSeparator}
         />
-      </View>
-      <NewOrder
-        visible={modalIsVisible}
-        setVisible={() => setModalIsVisible(false)}
-      />
-      <View style={styles.footer}>
-        <Text style={styles.total}>
-          Total:{' '}
-          {orders?.reduce(
-            (accumulator, current) => accumulator + current.price,
-            0
-          )}{' '}
-          KM
-        </Text>
-        <AddNewButton onPress={() => setModalIsVisible(true)} />
-      </View>
-    </View>
+      }
+      modal={
+        <NewOrder
+          addOrder={addOrderHandler}
+          closeModal={() => setModalIsVisible(false)}
+        />
+      }
+      onAddNew={() => setModalIsVisible(true)}
+      entries={orders!}
+      modalIsVisible={modalIsVisible}
+      setInvisible={(visibility: boolean) => setModalIsVisible(visibility)}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    height: '85%',
-    justifyContent: 'space-between'
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  total: {
-    fontSize: 18
-  }
-});
 
 export default TableView;

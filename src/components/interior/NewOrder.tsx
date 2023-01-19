@@ -5,25 +5,19 @@ import { useParams } from 'react-router-native';
 import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid';
 
-import Modal from '../shared/UI/Modal';
-
-import { TableContext, TablesContext } from '../../context/TablesContext';
-
 import { ITEMS } from '../../util/data/items';
 
 import { Order } from '../../util/types/order';
 
 interface NewOrdeProps {
-  visible: boolean;
-  setVisible: () => void;
+  closeModal: () => void;
+  addOrder: (id: string, order: Order) => void;
 }
 
 const NewOrder: React.FC<NewOrdeProps> = (props) => {
   const { id } = useParams<string>();
 
   const [orderItem, setOrderItem] = React.useState<string>('');
-
-  const { addOrder } = React.useContext<TableContext>(TablesContext);
 
   const addOrderHandler = (): void => {
     if (orderItem === '') {
@@ -33,29 +27,27 @@ const NewOrder: React.FC<NewOrdeProps> = (props) => {
       id: uuid(),
       ...ITEMS.find((item) => item.item === orderItem)!
     };
-    addOrder(id!, order);
+    props.addOrder(id!, order);
     setOrderItem('');
-    props.setVisible();
+    props.closeModal();
   };
 
   return (
-    <Modal visible={props.visible} setVisible={props.setVisible}>
-      <View style={styles.buttons}>
-        <RadioButton.Group
-          value={orderItem}
-          onValueChange={(value) => setOrderItem(value)}
-        >
-          <FlatList
-            data={ITEMS}
-            renderItem={({ item }) => (
-              <RadioButton.Item label={item.item} value={item.item} />
-            )}
-            keyExtractor={(item) => item.item}
-          />
-          <Button color="#ffc0cb" title="Add order" onPress={addOrderHandler} />
-        </RadioButton.Group>
-      </View>
-    </Modal>
+    <View style={styles.buttons}>
+      <RadioButton.Group
+        value={orderItem}
+        onValueChange={(value) => setOrderItem(value)}
+      >
+        <FlatList
+          data={ITEMS}
+          renderItem={({ item }) => (
+            <RadioButton.Item label={item.item} value={item.item} />
+          )}
+          keyExtractor={(item) => item.item}
+        />
+        <Button color="#ffc0cb" title="Add order" onPress={addOrderHandler} />
+      </RadioButton.Group>
+    </View>
   );
 };
 
