@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { TableContext, TablesContext } from '../../context/TablesContext';
 import Link from '../shared/UI/Link';
 
@@ -11,15 +11,15 @@ const Table: React.FC<TableProps> = (props) => {
   const { tables } = React.useContext<TableContext>(TablesContext);
   const table = tables.find((table) => table.id === props.id);
 
-  const unpaidTable = table?.orders?.length === 0 ? 'black' : '#93E9BE';
+  const tableColor = table?.orders?.length === 0 ? 'grey' : '#93E9BE';
 
   const styles = StyleSheet.create({
     table: {
-      borderWidth: 2,
-      borderColor: unpaidTable,
+      borderWidth: 3,
+      borderColor: tableColor,
       height: 50,
       width: 50,
-      borderRadius: 25
+      borderRadius: 25,
     }
   });
 
@@ -27,7 +27,7 @@ const Table: React.FC<TableProps> = (props) => {
     <Link
       to={`/tables/${props.id}`}
       style={styles.table}
-      background={unpaidTable}
+      background={tableColor}
     />
   );
 };

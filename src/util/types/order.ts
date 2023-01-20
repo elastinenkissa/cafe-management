@@ -1,6 +1,6 @@
 export interface Order {
   id?: string;
-  item: string;
+  name: string;
   price: number;
 }
 

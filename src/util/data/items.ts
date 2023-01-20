@@ -2,31 +2,31 @@ import { OrderSchema } from '../types/order';
 
 export const ITEMS: Array<OrderSchema> = [
   {
-    item: 'Espresso',
+    name: 'Espresso',
     price: 1.5
   },
   {
-    item: 'Double',
+    name: 'Double',
     price: 3
   },
   {
-    item: 'Bosnian',
+    name: 'Bosnian',
     price: 1.5
   },
   {
-    item: 'Tea',
+    name: 'Tea',
     price: 1.5
   },
   {
-    item: 'Cola',
+    name: 'Cola',
     price: 2
   },
   {
-    item: 'Sensation',
+    name: 'Sensation',
     price: 2
   },
   {
-    item: 'Selters',
+    name: 'Selters',
     price: 2
   }
 ];

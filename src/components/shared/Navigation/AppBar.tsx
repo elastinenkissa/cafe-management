@@ -24,10 +24,12 @@ const styles = StyleSheet.create({
   container: {
     height: 100,
     backgroundColor: '#ffc0cb',
+    // backgroundColor: 'tomato',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    paddingTop: Constants.statusBarHeight
+    paddingTop: Constants.statusBarHeight,
+    elevation: 10
     // #ffa0b0
   },
   link: {

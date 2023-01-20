@@ -6,7 +6,7 @@ import AddNewButton from '../UI/AddNewButton';
 import { Order } from '../../../util/types/order';
 
 interface NewEntryFooterProps {
-  entries: Array<Order>;
+  entries?: Array<Order>;
   onPress: () => void;
 }
 

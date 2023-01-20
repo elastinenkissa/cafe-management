@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button, View } from 'react-native';
+import { View } from 'react-native';
 import { NativeRouter, Route, Routes } from 'react-router-native';
+import 'react-native-get-random-values';
+import { v4 as uuid } from 'uuid';
 
 import AppBar from './src/components/shared/Navigation/AppBar';
 import Cafe from './src/pages/interior/Cafe';
@@ -8,14 +10,18 @@ import Debtors from './src/pages/outside/Debtors';
 import TableView from './src/pages/interior/TableView';
 
 import { TablesContext } from './src/context/TablesContext';
+import { DeptorsContext } from './src/context/DeptorsContext';
 
 import { Table } from './src/util/types/table';
 import { Order } from './src/util/types/order';
+import { Deptor } from './src/util/types/deptor';
 
 import { TABLES } from './src/util/data/tables';
+import { DEPTORS } from './src/util/data/deptors';
 
 const App: React.FC = () => {
   const [tables, setTables] = React.useState<Array<Table>>(TABLES);
+  const [deptors, setDeptors] = React.useState<Array<Deptor>>(DEPTORS);
 
   const addOrder = (id: string, order: Order): void => {
     setTables(
@@ -36,18 +42,41 @@ const App: React.FC = () => {
     );
   };
 
+  const addDeptor = (name: string): void => {
+    const deptor = { id: uuid(), name, orders: [] };
+    setDeptors(deptors.concat(deptor));
+  };
+
+  const removeDeptor = (id: string): void => {
+    setDeptors(deptors.filter((deptor) => deptor.id !== id));
+  };
+
+  const addOrderToDeptor = (id: string, order: Order): void => {
+    setDeptors(
+      deptors.map((deptor) =>
+        deptor.id === id
+          ? { ...deptor, orders: deptor.orders.concat(order) }
+          : deptor
+      )
+    );
+  };
+
   return (
     <TablesContext.Provider value={{ tables, addOrder, removeOrder }}>
-      <View>
-        <NativeRouter>
-          <AppBar />
-          <Routes>
-            <Route path="/" element={<Cafe />} />
-            <Route path="/outside" element={<Debtors />} />
-            <Route path="/tables/:id" element={<TableView />} />
-          </Routes>
-        </NativeRouter>
-      </View>
+      <DeptorsContext.Provider
+        value={{ deptors, addDeptor, removeDeptor, addOrderToDeptor }}
+      >
+        <View>
+          <NativeRouter>
+            <AppBar />
+            <Routes>
+              <Route path="/" element={<Cafe />} />
+              <Route path="/outside" element={<Debtors />} />
+              <Route path="/tables/:id" element={<TableView />} />
+            </Routes>
+          </NativeRouter>
+        </View>
+      </DeptorsContext.Provider>
     </TablesContext.Provider>
   );
 };

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Button } from 'react-native-paper';
 
-import { Order } from '../../util/types/order';
+import ListItem from '../shared/Other/ListItem';
 
 import { TableContext, TablesContext } from '../../context/TablesContext';
+
+import { Order } from '../../util/types/order';
 
 interface OrderItemProps {
   item: Order;
@@ -18,25 +18,7 @@ const OrderItem: React.FC<OrderItemProps> = (props) => {
     removeOrder(props.id);
   };
 
-  return (
-    <View style={styles.item}>
-      <Text style={styles.text}>{props.item.item}</Text>
-      <TouchableOpacity onPress={removeItemHandler}>
-        <Button>Remove</Button>
-      </TouchableOpacity>
-    </View>
-  );
+  return <ListItem onRemove={removeItemHandler} item={props.item} />;
 };
-
-const styles = StyleSheet.create({
-  item: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  text: {
-    fontSize: 18
-  }
-});
 
 export default OrderItem;

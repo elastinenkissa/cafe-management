@@ -9,21 +9,14 @@ import PageView from '../../components/shared/Other/PageView';
 
 import { TableContext, TablesContext } from '../../context/TablesContext';
 
-import { Order } from '../../util/types/order';
-
 const TableView: React.FC = () => {
   const { id } = useParams<string>();
 
   const [modalIsVisible, setModalIsVisible] = React.useState<boolean>(false);
 
   const { tables } = React.useContext<TableContext>(TablesContext);
-  const { addOrder } = React.useContext<TableContext>(TablesContext);
 
   const orders = tables.find((table) => table.id.toString() === id)?.orders;
-
-  const addOrderHandler = (id: string, order: Order) => {
-    addOrder(id!, order);
-  };
 
   return (
     <PageView
@@ -35,16 +28,11 @@ const TableView: React.FC = () => {
           ItemSeparatorComponent={ListSeparator}
         />
       }
-      modal={
-        <NewCafeOrder
-          addOrder={addOrderHandler}
-          closeModal={() => setModalIsVisible(false)}
-        />
-      }
+      modal={<NewCafeOrder closeModal={() => setModalIsVisible(false)} />}
       onAddNew={() => setModalIsVisible(true)}
       entries={orders!}
       modalIsVisible={modalIsVisible}
-      setInvisible={(visibility: boolean) => setModalIsVisible(visibility)}
+      setInvisible={(visibility) => setModalIsVisible(visibility)}
     />
   );
 };

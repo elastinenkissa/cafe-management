@@ -11,7 +11,7 @@ interface PageViewProps {
   modalIsVisible: boolean;
   setInvisible: (visibility: boolean) => void;
   onAddNew: () => void;
-  entries: Array<Order>;
+  entries?: Array<Order>;
 }
 
 const PageView: React.FC<PageViewProps> = (props) => {
