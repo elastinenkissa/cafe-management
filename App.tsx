@@ -8,6 +8,7 @@ import AppBar from './src/components/shared/Navigation/AppBar';
 import Cafe from './src/pages/interior/Cafe';
 import Debtors from './src/pages/outside/Debtors';
 import TableView from './src/pages/interior/TableView';
+import DeptorView from './src/pages/outside/DeptorView';
 
 import { TablesContext } from './src/context/TablesContext';
 import { DeptorsContext } from './src/context/DeptorsContext';
@@ -72,6 +73,7 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<Cafe />} />
               <Route path="/outside" element={<Debtors />} />
+              <Route path="/outside/:id" element={<DeptorView />} />
               <Route path="/tables/:id" element={<TableView />} />
             </Routes>
           </NativeRouter>
