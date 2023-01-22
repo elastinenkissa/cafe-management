@@ -23,8 +23,8 @@ const AppBar: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     height: 100,
-    backgroundColor: '#ffc0cb',
-    // backgroundColor: 'tomato',
+    // backgroundColor: '#ffc0cb',
+    backgroundColor: 'tomato',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',

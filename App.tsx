@@ -1,6 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
-import { NativeRouter, Route, Routes } from 'react-router-native';
+import { BackHandler, View } from 'react-native';
+import { NativeRouter, Route, Routes, useNavigate } from 'react-router-native';
 import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid';
 
@@ -20,9 +20,48 @@ import { Deptor } from './src/util/types/deptor';
 import { TABLES } from './src/util/data/tables';
 import { DEPTORS } from './src/util/data/deptors';
 
+import { getItem } from './src/util/storage/getItem';
+import { saveItem } from './src/util/storage/saveItem';
+import { removeItem } from './src/util/storage/removeItem';
+
+const BackPress = () => {
+  const back = useNavigate();
+
+  React.useEffect(() => {
+    const backAction = (): boolean => {
+      back(-1);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  return <View></View>;
+};
+
 const App: React.FC = () => {
   const [tables, setTables] = React.useState<Array<Table>>(TABLES);
   const [deptors, setDeptors] = React.useState<Array<Deptor>>(DEPTORS);
+
+  const getItems = async () => {
+    const fetchedTables = await getItem('tables');
+    const fetchedDeptors = await getItem('deptors');
+    if (!fetchedTables || !fetchedDeptors) {
+      return;
+    }
+    setTables(fetchedTables);
+    setDeptors(fetchedDeptors);
+  };
+
+  const saveItems = async () => {
+    await saveItem('tables', tables);
+    await saveItem('deptors', deptors);
+  };
 
   const addOrder = (id: string, order: Order): void => {
     setTables(
@@ -75,6 +114,21 @@ const App: React.FC = () => {
     );
   };
 
+  React.useEffect(() => {
+    getItems();
+  }, []);
+
+  React.useEffect(() => {
+    saveItems();
+  }, [
+    addOrder,
+    addDeptor,
+    addOrderToDeptor,
+    removeOrder,
+    removeDeptor,
+    removeOrderFromDeptor
+  ]);
+
   return (
     <TablesContext.Provider value={{ tables, addOrder, removeOrder }}>
       <DeptorsContext.Provider
@@ -88,6 +142,7 @@ const App: React.FC = () => {
       >
         <View>
           <NativeRouter>
+            <BackPress />
             <AppBar />
             <Routes>
               <Route path="/" element={<Cafe />} />
