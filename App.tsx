@@ -62,10 +62,29 @@ const App: React.FC = () => {
     );
   };
 
+  const removeOrderFromDeptor = (deptorId: string, orderId: string): void => {
+    setDeptors(
+      deptors.map((deptor) =>
+        deptor.id === deptorId
+          ? {
+              ...deptor,
+              orders: deptor.orders.filter((order) => order.id !== orderId)
+            }
+          : deptor
+      )
+    );
+  };
+
   return (
     <TablesContext.Provider value={{ tables, addOrder, removeOrder }}>
       <DeptorsContext.Provider
-        value={{ deptors, addDeptor, removeDeptor, addOrderToDeptor }}
+        value={{
+          deptors,
+          addDeptor,
+          removeDeptor,
+          addOrderToDeptor,
+          removeOrderFromDeptor
+        }}
       >
         <View>
           <NativeRouter>

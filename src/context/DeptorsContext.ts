@@ -10,11 +10,13 @@ export interface DeptorContext {
   addDeptor: (name: string) => void;
   removeDeptor: (deptorId: string) => void;
   addOrderToDeptor: (deptorId: string, order: Order) => void;
+  removeOrderFromDeptor: (deptorId: string, orderId: string) => void;
 }
 
 export const DeptorsContext = React.createContext<DeptorContext>({
   deptors: DEPTORS,
-  addDeptor: (_name: string) => {},
-  removeDeptor: (_deptorId: string) => {},
-  addOrderToDeptor: (_deptorId: string, _order: Order) => {}
+  addDeptor: (_name) => {},
+  removeDeptor: (_deptorId) => {},
+  addOrderToDeptor: (_deptorId, _order) => {},
+  removeOrderFromDeptor: (_deptorId, _orderId) => {}
 });
