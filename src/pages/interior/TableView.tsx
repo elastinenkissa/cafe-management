@@ -7,7 +7,7 @@ import NewCafeOrder from '../../components/interior/NewCafeOrder';
 import ListSeparator from '../../components/shared/UI/ListSeparator';
 import PageView from '../../components/shared/Other/PageView';
 
-import { TableContext, TablesContext } from '../../context/TablesContext';
+import { TableContext, TablesContext } from '../../util/context/TablesContext';
 
 const TableView: React.FC = () => {
   const { id } = useParams<string>();

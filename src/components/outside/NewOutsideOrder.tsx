@@ -3,7 +3,7 @@ import 'react-native-get-random-values';
 
 import { Order } from '../../util/types/order';
 import NewOrder from '../shared/Other/NewOrder';
-import { DeptorContext, DeptorsContext } from '../../context/DeptorsContext';
+import { DeptorContext, DeptorsContext } from '../../util/context/DeptorsContext';
 
 interface NewOutsideOrderProps {
   closeModal: () => void;

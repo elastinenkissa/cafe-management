@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { TableContext, TablesContext } from '../../context/TablesContext';
+import { TableContext, TablesContext } from '../../util/context/TablesContext';
 import Link from '../shared/UI/Link';
 
 interface TableProps {
@@ -11,7 +11,7 @@ const Table: React.FC<TableProps> = (props) => {
   const { tables } = React.useContext<TableContext>(TablesContext);
   const table = tables.find((table) => table.id === props.id);
 
-  const tableColor = table?.orders?.length === 0 ? 'grey' : '#93E9BE';
+  const tableColor = table?.orders?.length === 0 ? '#B0C4DE' : '#93E9BE';
 
   const styles = StyleSheet.create({
     table: {

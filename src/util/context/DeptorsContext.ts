@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { DEPTORS } from '../util/data/deptors';
+import { DEPTORS } from '../data/deptors';
 
-import { Order } from '../util/types/order';
-import { Deptor } from '../util/types/deptor';
+import { Order } from '../types/order';
+import { Deptor } from '../types/deptor';
 
 export interface DeptorContext {
   deptors: Array<Deptor>;
@@ -11,6 +11,7 @@ export interface DeptorContext {
   removeDeptor: (deptorId: string) => void;
   addOrderToDeptor: (deptorId: string, order: Order) => void;
   removeOrderFromDeptor: (deptorId: string, orderId: string) => void;
+  changeDeptorToPaid: (deptorId: string) => void
 }
 
 export const DeptorsContext = React.createContext<DeptorContext>({
@@ -18,5 +19,6 @@ export const DeptorsContext = React.createContext<DeptorContext>({
   addDeptor: (_name) => {},
   removeDeptor: (_deptorId) => {},
   addOrderToDeptor: (_deptorId, _order) => {},
-  removeOrderFromDeptor: (_deptorId, _orderId) => {}
+  removeOrderFromDeptor: (_deptorId, _orderId) => {},
+  changeDeptorToPaid: (_deptorId: string) => {}
 });

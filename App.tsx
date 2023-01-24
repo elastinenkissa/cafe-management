@@ -1,5 +1,5 @@
 import React from 'react';
-import { BackHandler, View } from 'react-native';
+import { BackHandler, StyleSheet, View } from 'react-native';
 import { NativeRouter, Route, Routes, useNavigate } from 'react-router-native';
 import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid';
@@ -10,8 +10,8 @@ import Debtors from './src/pages/outside/Debtors';
 import TableView from './src/pages/interior/TableView';
 import DeptorView from './src/pages/outside/DeptorView';
 
-import { TablesContext } from './src/context/TablesContext';
-import { DeptorsContext } from './src/context/DeptorsContext';
+import { TablesContext } from './src/util/context/TablesContext';
+import { DeptorsContext } from './src/util/context/DeptorsContext';
 
 import { Table } from './src/util/types/table';
 import { Order } from './src/util/types/order';
@@ -22,7 +22,6 @@ import { DEPTORS } from './src/util/data/deptors';
 
 import { getItem } from './src/util/storage/getItem';
 import { saveItem } from './src/util/storage/saveItem';
-import { removeItem } from './src/util/storage/removeItem';
 
 const BackPress = () => {
   const back = useNavigate();
@@ -83,7 +82,7 @@ const App: React.FC = () => {
   };
 
   const addDeptor = (name: string): void => {
-    const deptor = { id: uuid(), name, orders: [] };
+    const deptor = { id: uuid(), name, orders: [], paid: false };
     setDeptors(deptors.concat(deptor));
   };
 
@@ -114,6 +113,19 @@ const App: React.FC = () => {
     );
   };
 
+  const changeDeptorToPaid = (deptorId: string): void => {
+    setDeptors(
+      deptors.map((deptor) =>
+        deptor.id === deptorId
+          ? {
+              ...deptor,
+              paid: true
+            }
+          : deptor
+      )
+    );
+  };
+
   React.useEffect(() => {
     getItems();
   }, []);
@@ -137,10 +149,11 @@ const App: React.FC = () => {
           addDeptor,
           removeDeptor,
           addOrderToDeptor,
-          removeOrderFromDeptor
+          removeOrderFromDeptor,
+          changeDeptorToPaid
         }}
       >
-        <View>
+        <View style={styles.container}>
           <NativeRouter>
             <BackPress />
             <AppBar />
@@ -156,5 +169,9 @@ const App: React.FC = () => {
     </TablesContext.Provider>
   );
 };
+
+const styles = StyleSheet.create({
+  container: { backgroundColor: '#272a31', height: '100%' }
+});
 
 export default App;

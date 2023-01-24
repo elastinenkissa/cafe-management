@@ -7,7 +7,7 @@ import Link from '../UI/Link';
 const AppBar: React.FC = () => {
   return (
     <>
-      <StatusBar backgroundColor="#ADD8E6" style="light" />
+      <StatusBar backgroundColor='transparent' style="light" />
       <View style={styles.container}>
         <Link to="/" background="black">
           <Text style={styles.link}>Cafe</Text>
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   container: {
     height: 100,
     // backgroundColor: '#ffc0cb',
-    backgroundColor: 'tomato',
+    backgroundColor: '#20232a',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',

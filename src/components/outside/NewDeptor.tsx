@@ -3,7 +3,7 @@ import { StyleSheet, View, TextInput } from 'react-native';
 
 import AddFinalButton from '../shared/UI/AddFinalButton';
 
-import { DeptorContext, DeptorsContext } from '../../context/DeptorsContext';
+import { DeptorContext, DeptorsContext } from '../../util/context/DeptorsContext';
 
 interface NewDeptorProps {
   closeModal: () => void;

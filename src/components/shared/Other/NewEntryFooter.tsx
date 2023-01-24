@@ -21,7 +21,8 @@ const NewEntryFooter: React.FC<NewEntryFooterProps> = (props) => {
     },
     total: {
       fontSize: 18,
-      opacity: pathname === '/outside' ? 0 : 1
+      opacity: pathname === '/outside' ? 0 : 1,
+      color: 'white'
     }
   });
 

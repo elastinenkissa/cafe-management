@@ -9,40 +9,51 @@ interface ListItemProps {
   onRemove: () => void;
   onChangeToPaid: () => void;
   item: Order | Deptor;
+  pressed?: boolean;
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
   const { pathname } = useLocation();
 
+  const styles = StyleSheet.create({
+    item: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    },
+    text: {
+      fontSize: 18,
+      color: props.pressed === true ? 'black' : 'white'
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'flex-end'
+    },
+    paid: {
+      color: '#8FBC8F',
+      fontWeight: '100',
+      paddingLeft: 15
+    }
+  });
+
   return (
     <View style={styles.item}>
-      <Text style={styles.text}>{props.item.name}</Text>
-      <View style={styles.buttons}>
+      <View style={styles.row}>
+        <Text style={styles.text}>{props.item.name}</Text>
+        {props.item.paid === true && <Text style={styles.paid}>PAID</Text>}
+      </View>
+      <View style={styles.row}>
         {pathname === '/outside' && (
           <TouchableOpacity onPress={props.onChangeToPaid}>
-            <Button>Paid</Button>
+            <Button textColor="grey">Paid</Button>
           </TouchableOpacity>
         )}
         <TouchableOpacity onPress={props.onRemove}>
-          <Button>Remove</Button>
+          <Button textColor="grey">Remove</Button>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  item: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  text: {
-    fontSize: 18
-  },
-  buttons: {
-    flexDirection: 'row'
-  }
-});
 
 export default ListItem;

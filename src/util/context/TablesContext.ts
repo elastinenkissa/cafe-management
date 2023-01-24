@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { TABLES } from '../util/data/tables';
+import { TABLES } from '../data/tables';
 
-import { Table } from '../util/types/table';
-import { Order } from '../util/types/order';
+import { Table } from '../types/table';
+import { Order } from '../types/order';
 
 export interface TableContext {
   tables: Array<Table>;

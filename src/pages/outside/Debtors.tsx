@@ -6,7 +6,7 @@ import Deptor from '../../components/outside/Deptor';
 import NewDeptor from '../../components/outside/NewDeptor';
 import ListSeparator from '../../components/shared/UI/ListSeparator';
 
-import { DeptorContext, DeptorsContext } from '../../context/DeptorsContext';
+import { DeptorContext, DeptorsContext } from '../../util/context/DeptorsContext';
 
 const Debtors: React.FC = () => {
   const { deptors } = React.useContext<DeptorContext>(DeptorsContext);

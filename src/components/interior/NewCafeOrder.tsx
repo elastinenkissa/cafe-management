@@ -3,7 +3,7 @@ import 'react-native-get-random-values';
 
 import { Order } from '../../util/types/order';
 import NewOrder from '../shared/Other/NewOrder';
-import { TableContext, TablesContext } from '../../context/TablesContext';
+import { TableContext, TablesContext } from '../../util/context/TablesContext';
 
 interface NewCafeOrderProps {
   closeModal: () => void;

@@ -6,7 +6,7 @@ import PageView from '../../components/shared/Other/PageView';
 import OrderItem from '../../components/shared/Other/OrderItem';
 import ListSeparator from '../../components/shared/UI/ListSeparator';
 
-import { DeptorContext, DeptorsContext } from '../../context/DeptorsContext';
+import { DeptorContext, DeptorsContext } from '../../util/context/DeptorsContext';
 import NewOutsideOrder from '../../components/outside/NewOutsideOrder';
 
 const DeptorView: React.FC = () => {
