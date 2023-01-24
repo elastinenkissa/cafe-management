@@ -15,6 +15,10 @@ interface ListItemProps {
 const ListItem: React.FC<ListItemProps> = (props) => {
   const { pathname } = useLocation();
 
+  const isDeptor = (item: Deptor | Order): item is Deptor => {
+    return (item as Deptor).paid !== undefined;
+  };
+
   const styles = StyleSheet.create({
     item: {
       flexDirection: 'row',
@@ -40,7 +44,9 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     <View style={styles.item}>
       <View style={styles.row}>
         <Text style={styles.text}>{props.item.name}</Text>
-        {props.item.paid === true && <Text style={styles.paid}>PAID</Text>}
+        {isDeptor(props.item) && props.item.paid === true && (
+          <Text style={styles.paid}>PAID</Text>
+        )}
       </View>
       <View style={styles.row}>
         {pathname === '/outside' && (
