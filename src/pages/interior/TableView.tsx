@@ -12,8 +12,6 @@ import { TableContext, TablesContext } from '../../util/context/TablesContext';
 const TableView: React.FC = () => {
   const { id } = useParams<string>();
 
-  const [modalIsVisible, setModalIsVisible] = React.useState<boolean>(false);
-
   const { tables, removeOrder } = React.useContext<TableContext>(TablesContext);
 
   const orders = tables.find((table) => table.id.toString() === id)?.orders;
@@ -30,11 +28,7 @@ const TableView: React.FC = () => {
           ItemSeparatorComponent={ListSeparator}
         />
       }
-      modal={<NewCafeOrder closeModal={() => setModalIsVisible(false)} />}
-      onAddNew={() => setModalIsVisible(true)}
       entries={orders!}
-      modalIsVisible={modalIsVisible}
-      setInvisible={(visibility) => setModalIsVisible(visibility)}
     />
   );
 };

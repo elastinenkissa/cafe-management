@@ -6,13 +6,13 @@ import PageView from '../../components/shared/Other/PageView';
 import OrderItem from '../../components/shared/Other/OrderItem';
 import ListSeparator from '../../components/shared/UI/ListSeparator';
 
-import { DeptorContext, DeptorsContext } from '../../util/context/DeptorsContext';
-import NewOutsideOrder from '../../components/outside/NewOutsideOrder';
+import {
+  DeptorContext,
+  DeptorsContext
+} from '../../util/context/DeptorsContext';
 
 const DeptorView: React.FC = () => {
   const { id } = useParams();
-
-  const [modalIsVisible, setModalIsVisible] = React.useState<boolean>(false);
 
   const { deptors, removeOrderFromDeptor } =
     React.useContext<DeptorContext>(DeptorsContext);
@@ -35,10 +35,6 @@ const DeptorView: React.FC = () => {
           keyExtractor={(item) => item.id!}
         />
       }
-      modal={<NewOutsideOrder closeModal={() => setModalIsVisible(false)} />}
-      modalIsVisible={modalIsVisible}
-      onAddNew={() => setModalIsVisible(true)}
-      setInvisible={(visibility) => setModalIsVisible(visibility)}
       entries={orders!}
     />
   );

@@ -1,27 +1,43 @@
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useLocation } from 'react-router-native';
 
-import Modal from '../UI/Modal';
+import Modal, { ModalRef } from '../UI/Modal';
 import NewEntryFooter from './NewEntryFooter';
 
 import { Order } from '../../../util/types/order';
+import NewCafeOrder from '../../interior/NewCafeOrder';
+import NewOutsideOrder from '../../outside/NewOutsideOrder';
 
 interface PageViewProps {
   list: JSX.Element;
-  modal: JSX.Element;
-  modalIsVisible: boolean;
-  setInvisible: (visibility: boolean) => void;
-  onAddNew: () => void;
   entries?: Array<Order>;
 }
 
 const PageView: React.FC<PageViewProps> = (props) => {
+  const modalRef = React.useRef<ModalRef>();
+
+  const { pathname } = useLocation();
+
+  const newEntryHandler = () => {
+    modalRef.current!.setVisible();
+  };
+
+  const closeModalHandler = () => {
+    modalRef.current!.setInvisible();
+  };
+
   return (
     <View style={styles.container}>
       <View>{props.list}</View>
-      <Modal visible={props.modalIsVisible} setInvisible={props.setInvisible}>
-        {props.modal}
+      <Modal ref={modalRef}>
+        {pathname.startsWith('/outside') ? (
+          <NewOutsideOrder closeModal={closeModalHandler} />
+        ) : (
+          <NewCafeOrder closeModal={closeModalHandler} />
+        )}
       </Modal>
-      <NewEntryFooter onPress={props.onAddNew} entries={props.entries} />
+      <NewEntryFooter onPress={newEntryHandler} entries={props.entries} />
     </View>
   );
 };

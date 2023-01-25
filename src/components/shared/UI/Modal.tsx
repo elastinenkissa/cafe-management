@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Modal as NativeModal,
   Pressable,
@@ -6,24 +7,46 @@ import {
 } from 'react-native';
 
 interface ModalProps {
-  visible: boolean;
-  setInvisible: (value: boolean) => void;
-  children?: JSX.Element | Array<JSX.Element>;
+  children?: JSX.Element | Array<JSX.Element> | boolean;
 }
 
-const Modal: React.FC<ModalProps> = (props) => {
-  return (
-    <NativeModal
-      visible={props.visible}
-      onRequestClose={() => props.setInvisible(false)}
-      transparent
-    >
-      <Pressable onPress={() => props.setInvisible(false)}>
-        <View style={styles.backdrop}>{props.children}</View>
-      </Pressable>
-    </NativeModal>
-  );
-};
+export interface ModalRef {
+  setVisible: () => void;
+  setInvisible: () => void;
+}
+
+const Modal = React.forwardRef<ModalRef | undefined, ModalProps>(
+  (props, ref) => {
+    const [modalIsVisible, setModalIsVisible] = React.useState<boolean>(false);
+
+    const setInvisible = (): void => {
+      setModalIsVisible(false);
+    };
+
+    const setVisible = (): void => {
+      setModalIsVisible(true);
+    };
+
+    React.useImperativeHandle(ref, () => {
+      return {
+        setInvisible,
+        setVisible
+      };
+    });
+
+    return (
+      <NativeModal
+        visible={modalIsVisible}
+        onRequestClose={setInvisible}
+        transparent
+      >
+        <Pressable onPress={setInvisible}>
+          <View style={styles.backdrop}>{props.children}</View>
+        </Pressable>
+      </NativeModal>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   backdrop: {

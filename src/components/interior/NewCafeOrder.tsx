@@ -1,5 +1,4 @@
 import React from 'react';
-import 'react-native-get-random-values';
 
 import { Order } from '../../util/types/order';
 import NewOrder from '../shared/Other/NewOrder';
@@ -16,7 +15,7 @@ const NewCafeOrder: React.FC<NewCafeOrderProps> = (props) => {
     addOrder(id!, order);
   };
 
-  return <NewOrder addOrder={addOrderHandler} closeModal={props.closeModal} />;
+  return <NewOrder addOrder={addOrderHandler} closeModal={props.closeModal} />
 };
 
 export default NewCafeOrder;
