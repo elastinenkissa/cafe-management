@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { useLocation } from 'react-router-native';
 
@@ -17,6 +17,20 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
   const isDeptor = (item: Deptor | Order): item is Deptor => {
     return (item as Deptor).paid === true;
+  };
+
+  const removeHandler = () => {
+    Alert.alert('Remove', '', [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel'
+      },
+      {
+        text: 'OK',
+        onPress: () => props.onRemove()
+      }
+    ]);
   };
 
   const styles = StyleSheet.create({
@@ -52,7 +66,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
             <Button textColor="grey">Paid</Button>
           </TouchableOpacity>
         )}
-        <TouchableOpacity onPress={props.onRemove}>
+        <TouchableOpacity onPress={removeHandler}>
           <Button textColor="grey">Remove</Button>
         </TouchableOpacity>
       </View>
