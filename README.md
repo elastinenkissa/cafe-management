@@ -4,9 +4,9 @@ Autoheadache is a mobile application created using React Native. It is a standal
 
 The application was made from scratch. It utilizes React context for global state managment. Most UI components used are custom created by me.
 
-You can view and use the app by scanning the QR code or entering the link from <a href="https://expo.dev/@nusretwazowski/autoheadache">this page</a> on your Expo Go application.
+You can view and use the app by scanning the QR code or entering the link from <a target="_blank" href="https://expo.dev/@nusretwazowski/autoheadache">this page</a> on your Expo Go application.
 
-Alternatively, you can download the APK from <a href="https://drive.google.com/file/d/1jgOulxOZI_8KpP519vMenmzwWxSyNELc/view?usp=share_link">here</a> and install the app on your Android device
+Alternatively, you can download the APK from <a target="_blank" href="https://drive.google.com/file/d/1jgOulxOZI_8KpP519vMenmzwWxSyNELc/view?usp=share_link">here</a> and install the app on your Android device
 
 # Usage
 
