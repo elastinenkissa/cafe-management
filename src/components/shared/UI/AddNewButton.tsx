@@ -1,5 +1,6 @@
-import React from 'react';
-import { Text, StyleSheet, Pressable } from 'react-native';
+import { StyleSheet } from 'react-native';
+
+import Button from './Button';
 
 interface AddNewProps {
   onPress: () => void;
@@ -7,9 +8,13 @@ interface AddNewProps {
 
 const AddNewButton: React.FC<AddNewProps> = (props) => {
   return (
-    <Pressable style={styles.new} onPress={props.onPress}>
-      <Text style={styles.plus}>＋</Text>
-    </Pressable>
+    <Button
+      containerStyle={styles.new}
+      textStyle={styles.plus}
+      onPress={props.onPress}
+    >
+      ＋
+    </Button>
   );
 };
 
