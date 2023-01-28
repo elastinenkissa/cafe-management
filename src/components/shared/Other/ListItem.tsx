@@ -20,7 +20,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   };
 
   const removeHandler = () => {
-    if (pathname !== '/outside') {
+    if (!isDeptor) {
       return props.onRemove();
     }
     Alert.alert('Remove', '', [
