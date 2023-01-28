@@ -18,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nusretwazowski.autoheadache"
     },
     "android": {
       "adaptiveIcon": {
@@ -32,8 +33,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "eb20552d-b980-4c40-87e4-0a50055014ca"
+        "projectId": "84c78c06-e80b-4b9a-9b56-81d69c300d7a"
       }
-    }
+    },
+    "owner": "nusretwazowski"
   }
 }
