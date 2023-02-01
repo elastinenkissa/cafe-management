@@ -14,5 +14,5 @@ The application was made for personal use at my sunday job as a waiter-barista a
 
 # Todo
 
-1. Make marking deptor as paid possible on each deptor's page.
-2. Add possibility to transfer order from table to deptor from each table's page.
+1. Make marking deptor as paid possible on each deptor's page
+2. Add possibility to transfer order from table to deptor from each table's page
