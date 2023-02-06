@@ -5,4 +5,4 @@ export interface Deptor {
   name: string;
   orders: Array<Order>;
   paid: boolean;
-}  
+}
