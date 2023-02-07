@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
 
@@ -7,14 +7,11 @@ import Link from '../UI/Link';
 const AppBar: React.FC = () => {
   return (
     <>
-      <StatusBar backgroundColor='transparent' style="light" />
+      <StatusBar backgroundColor="transparent" style="light" />
       <View style={styles.container}>
-        <Link to="/" background="black">
-          <Text style={styles.link}>Cafe</Text>
-        </Link>
-        <Link to="/outside" background="black">
-          <Text style={styles.link}>Outside</Text>
-        </Link>
+        <Link to="/" background="black" text="Cafe" />
+        <Link to="/outside" background="black" text="Outside"  />
+        <Link to="/options" background="black" text="Options" />
       </View>
     </>
   );
@@ -31,10 +28,6 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     elevation: 10
     // #ffa0b0
-  },
-  link: {
-    color: 'white',
-    fontSize: 20
   }
 });
 
