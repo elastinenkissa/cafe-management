@@ -13,6 +13,7 @@ import { DeptorsContext } from './src/util/context/DeptorsContext';
 
 import { useBack } from './src/util/hooks/useBack';
 import { useContextData } from './src/util/hooks/useContextData';
+import Options from './src/pages/settings/Options';
 
 const BackPress = () => {
   useBack();
@@ -50,6 +51,7 @@ const App: React.FC = () => {
               <Route path="/outside" element={<Debtors />} />
               <Route path="/outside/:id" element={<DeptorView />} />
               <Route path="/tables/:id" element={<TableView />} />
+              <Route path="/options" element={<Options />} />
             </Routes>
           </NativeRouter>
         </View>

@@ -1,6 +1,5 @@
 import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
-import { useLocation } from 'react-router-native';
 
 import { Order } from '../../../util/types/order';
 import { Deptor } from '../../../util/types/deptor';
@@ -13,17 +12,15 @@ interface ListItemProps {
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
-  const { pathname } = useLocation();
-
-  const isDeptor = (item: Deptor | Order): item is Deptor => {
-    return (item as Deptor).paid === true;
+  const isDeptor = () => {
+    return (props.item as Deptor).paid !== undefined;
   };
 
   const removeHandler = () => {
-    if (!isDeptor) {
+    if (!isDeptor()) {
       return props.onRemove();
     }
-    Alert.alert('Remove', '', [
+    Alert.alert(`Remove ${props.item.name}?`, '', [
       {
         text: 'Cancel',
         onPress: () => {},
@@ -61,10 +58,12 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     <View style={styles.item}>
       <View style={styles.row}>
         <Text style={styles.text}>{props.item.name}</Text>
-        {isDeptor(props.item) && <Text style={styles.paid}>PAID</Text>}
+        {isDeptor() && (props.item as Deptor).paid && (
+          <Text style={styles.paid}>PAID</Text>
+        )}
       </View>
       <View style={styles.row}>
-        {pathname === '/outside' && (
+        {isDeptor() && (
           <TouchableOpacity onPress={props.onChangeToPaid}>
             <Button textColor="grey">Paid</Button>
           </TouchableOpacity>
