@@ -1,6 +1,7 @@
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Employee } from '../../util/types/employee';
+import Link from '../../components/shared/UI/Link';
 
 const Options: React.FC = () => {
   const employee: Employee = {
@@ -14,8 +15,12 @@ const Options: React.FC = () => {
       <Button>Logout</Button>
       {employee.owner && (
         <View>
-          <Button>Logs</Button>
-          <Button>Manage employees</Button>
+          <Link text="Logs" to="/options/logs" background="black" />
+          <Link
+            text="Manage employees"
+            to="/options/employees"
+            background="black"
+          />
         </View>
       )}
     </View>

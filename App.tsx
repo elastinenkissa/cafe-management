@@ -7,13 +7,15 @@ import Cafe from './src/pages/interior/Cafe';
 import Debtors from './src/pages/outside/Debtors';
 import TableView from './src/pages/interior/TableView';
 import DeptorView from './src/pages/outside/DeptorView';
+import Options from './src/pages/settings/Options';
+import Logs from './src/pages/settings/Logs';
+import Employees from './src/pages/settings/Employees';
 
 import { TablesContext } from './src/util/context/TablesContext';
 import { DeptorsContext } from './src/util/context/DeptorsContext';
 
 import { useBack } from './src/util/hooks/useBack';
 import { useContextData } from './src/util/hooks/useContextData';
-import Options from './src/pages/settings/Options';
 
 const BackPress = () => {
   useBack();
@@ -52,6 +54,8 @@ const App: React.FC = () => {
               <Route path="/outside/:id" element={<DeptorView />} />
               <Route path="/tables/:id" element={<TableView />} />
               <Route path="/options" element={<Options />} />
+              <Route path="/options/logs" element={<Logs />} />
+              <Route path="/options/employees" element={<Employees />} />
             </Routes>
           </NativeRouter>
         </View>
