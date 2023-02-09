@@ -9,9 +9,24 @@ const AppBar: React.FC = () => {
     <>
       <StatusBar backgroundColor="transparent" style="light" />
       <View style={styles.container}>
-        <Link to="/" background="black" text="Cafe" />
-        <Link to="/outside" background="black" text="Outside"  />
-        <Link to="/options" background="black" text="Options" />
+        <Link
+          to="/"
+          background="transparent"
+          text="Cafe"
+          pressDetectionDistance={30}
+        />
+        <Link
+          to="/outside"
+          background="transparent"
+          text="Outside"
+          pressDetectionDistance={30}
+        />
+        <Link
+          to="/options"
+          background="transparent"
+          text="Options"
+          pressDetectionDistance={30}
+        />
       </View>
     </>
   );

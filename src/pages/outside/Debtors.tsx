@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList } from 'react-native';
 
-import PageView from '../../components/shared/Other/PageView';
+import PageView from '../../components/shared/General/PageView';
 import Deptor from '../../components/outside/Deptor';
 import ListSeparator from '../../components/shared/UI/ListSeparator';
 

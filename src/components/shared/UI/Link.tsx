@@ -1,4 +1,9 @@
-import { NavigateFunction, useNavigate } from 'react-router-native';
+import React from 'react';
+import {
+  NavigateFunction,
+  useLocation,
+  useNavigate
+} from 'react-router-native';
 import {
   Pressable,
   StyleProp,
@@ -14,10 +19,16 @@ interface LinkProps {
   style?: StyleProp<ViewStyle>;
   text?: string;
   children?: React.ReactNode;
+  pressDetectionDistance?: number;
 }
 
 const Link: React.FC<LinkProps> = (props) => {
   const redirect: NavigateFunction = useNavigate();
+  const { pathname } = useLocation();
+
+  const isActiveLink = (): boolean => {
+    return props.to === pathname;
+  };
 
   const redirectHandler = () => {
     redirect(props.to);
@@ -25,17 +36,19 @@ const Link: React.FC<LinkProps> = (props) => {
 
   return (
     <Pressable
+    hitSlop={props.pressDetectionDistance || 0}
       onPress={redirectHandler}
       onPressIn={() => props.setPressed && props.setPressed(true)}
       onPressOut={() => props.setPressed && props.setPressed!(false)}
       style={({ pressed }) => {
         return [
-          props.style,
           {
             backgroundColor: pressed ? props.background : 'transparent',
-            padding: 11,
-            borderRadius: 15
-          }
+            borderRadius: 10,
+            padding: 11
+          },
+          isActiveLink() && styles.activeLink,
+          props.style
         ];
       }}
     >
@@ -49,6 +62,14 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: 20
+  },
+  activeLink: {
+    height: '100%',
+    borderBottomColor: 'white',
+    borderBottomWidth: 5,
+    borderRadius: 0,
+    justifyContent: 'center',
+    paddingBottom: 20
   }
 });
 

@@ -6,7 +6,7 @@ import { Deptor } from '../../../util/types/deptor';
 
 interface ListItemProps {
   onRemove: () => void;
-  onChangeToPaid: () => void;
+  onChangeToPaid?: () => void;
   item: Order | Deptor;
   pressed?: boolean;
 }

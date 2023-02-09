@@ -1,7 +1,7 @@
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 const Employees: React.FC = () => {
-  return <View>This is employees</View>;
+  return <Text>This is employees</Text>;
 };
 
 export default Employees;

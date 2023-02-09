@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 interface ModalProps {
-  children?: JSX.Element | Array<JSX.Element> | boolean;
+  children?: React.ReactNode;
 }
 
 export interface ModalRef {

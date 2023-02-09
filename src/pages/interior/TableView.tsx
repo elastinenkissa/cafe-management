@@ -2,9 +2,9 @@ import React from 'react';
 import { FlatList } from 'react-native';
 import { useParams } from 'react-router-native';
 
-import OrderItem from '../../components/shared/Other/OrderItem';
+import OrderItem from '../../components/shared/General/OrderItem';
 import ListSeparator from '../../components/shared/UI/ListSeparator';
-import PageView from '../../components/shared/Other/PageView';
+import PageView from '../../components/shared/General/PageView';
 
 import { TableContext, TablesContext } from '../../util/context/TablesContext';
 

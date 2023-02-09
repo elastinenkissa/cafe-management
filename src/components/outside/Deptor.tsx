@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ListItem from '../shared/Other/ListItem';
+import ListItem from '../shared/General/ListItem';
 
 import {
   DeptorContext,

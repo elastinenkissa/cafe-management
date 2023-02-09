@@ -5,10 +5,11 @@ import { useParams } from 'react-router-native';
 import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid';
 
+import AddFinalButton from '../UI/AddFinalButton';
+
 import { ITEMS } from '../../../util/data/items';
 
 import { Order } from '../../../util/types/order';
-import AddFinalButton from '../UI/AddFinalButton';
 
 interface NewOrderProps {
   closeModal: () => void;
