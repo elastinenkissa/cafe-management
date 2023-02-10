@@ -5,7 +5,7 @@ import Button from './Button';
 interface AddFinalButton {
   onAdd: () => void;
 }
-
+ 
 const AddFinalButton: React.FC<AddFinalButton> = (props) => {
   return (
     <Button

@@ -14,6 +14,7 @@ const Debtors: React.FC = () => {
   const { deptors } = React.useContext<DeptorContext>(DeptorsContext);
   return (
     <PageView
+      outside
       list={
         <FlatList
           data={deptors}
@@ -25,5 +26,5 @@ const Debtors: React.FC = () => {
     />
   );
 };
-
+ 
 export default Debtors;

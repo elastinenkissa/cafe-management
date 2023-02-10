@@ -17,5 +17,5 @@ const NewCafeOrder: React.FC<NewCafeOrderProps> = (props) => {
 
   return <NewOrder addOrder={addOrderHandler} closeModal={props.closeModal} />
 };
-
+ 
 export default NewCafeOrder;

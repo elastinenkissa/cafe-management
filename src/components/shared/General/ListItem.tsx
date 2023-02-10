@@ -53,7 +53,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
       paddingLeft: 15
     }
   });
-
+ 
   return (
     <View style={styles.item}>
       <View style={styles.row}>

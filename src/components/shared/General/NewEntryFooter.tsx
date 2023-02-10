@@ -1,18 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { useLocation } from 'react-router-native';
 
 import AddNewButton from '../UI/AddNewButton';
 
-import { Order } from '../../../util/types/order';
+import { EntryType } from './PageView';
 
-interface NewEntryFooterProps {
-  entries?: Array<Order>;
+interface NewEntryFooterProps extends EntryType {
   onPress: () => void;
 }
-
+ 
 const NewEntryFooter: React.FC<NewEntryFooterProps> = (props) => {
-  const { pathname } = useLocation();
-
   const styles = StyleSheet.create({
     footer: {
       flexDirection: 'row',
@@ -21,7 +17,7 @@ const NewEntryFooter: React.FC<NewEntryFooterProps> = (props) => {
     },
     total: {
       fontSize: 18,
-      opacity: pathname === '/outside' ? 0 : 1,
+      opacity: props.outside ? 0 : 1,
       color: 'white'
     }
   });

@@ -6,3 +6,4 @@ export interface Log {
   employee: Employee;
   table: Table;
 }
+ 

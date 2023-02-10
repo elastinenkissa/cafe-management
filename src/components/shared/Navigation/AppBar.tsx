@@ -3,14 +3,14 @@ import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
 
 import Link from '../UI/Link';
-
+ 
 const AppBar: React.FC = () => {
   return (
     <>
       <StatusBar backgroundColor="transparent" style="light" />
       <View style={styles.container}>
         <Link
-          to="/"
+          to="/cafe"
           background="transparent"
           text="Cafe"
           pressDetectionDistance={30}

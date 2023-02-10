@@ -1,11 +1,11 @@
+import 'react-native-get-random-values';
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { useParams } from 'react-router-native';
-import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid';
 
-import AddFinalButton from '../UI/AddFinalButton';
+import NewItem from './NewItem';
 
 import { ITEMS } from '../../../util/data/items';
 
@@ -18,7 +18,7 @@ interface NewOrderProps {
 
 const NewOrder: React.FC<NewOrderProps> = (props) => {
   const { id } = useParams<string>();
-
+ 
   const [orderItem, setOrderItem] = React.useState<string>('');
 
   const addOrderHandler = (): void => {
@@ -35,7 +35,7 @@ const NewOrder: React.FC<NewOrderProps> = (props) => {
   };
 
   return (
-    <View style={styles.buttons}>
+    <NewItem onAddItem={addOrderHandler}>
       <RadioButton.Group
         value={orderItem}
         onValueChange={(value) => setOrderItem(value)}
@@ -47,18 +47,9 @@ const NewOrder: React.FC<NewOrderProps> = (props) => {
           )}
           keyExtractor={(item) => item.name}
         />
-        <AddFinalButton onAdd={addOrderHandler} />
       </RadioButton.Group>
-    </View>
+    </NewItem>
   );
 };
-
-const styles = StyleSheet.create({
-  buttons: {
-    margin: 40,
-    marginTop: '40%',
-    backgroundColor: 'white'
-  }
-});
 
 export default NewOrder;

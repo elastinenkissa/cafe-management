@@ -32,7 +32,7 @@ const Modal = React.forwardRef<ModalRef | undefined, ModalProps>(
         setInvisible,
         setVisible
       };
-    });
+    }); 
 
     return (
       <NativeModal

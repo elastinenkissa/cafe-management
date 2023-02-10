@@ -4,3 +4,4 @@ export interface Employee {
   token: string;
   owner?: boolean;
 }
+ 

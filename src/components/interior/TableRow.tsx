@@ -1,7 +1,8 @@
 import { FlatList, StyleSheet } from 'react-native';
 
-import { Table as TableType } from '../../util/types/table';
 import Table from './Table';
+
+import { Table as TableType } from '../../util/types/table';
 
 interface TableRowProps {
   tables: Array<TableType>;
@@ -17,7 +18,7 @@ const TableRow: React.FC<TableRowProps> = (props) => {
     />
   );
 };
-
+ 
 const styles = StyleSheet.create({
   tables: {
     justifyContent: 'space-around',

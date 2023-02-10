@@ -27,16 +27,16 @@ const Link: React.FC<LinkProps> = (props) => {
   const { pathname } = useLocation();
 
   const isActiveLink = (): boolean => {
-    return props.to === pathname;
+    return pathname.startsWith(props.to)
   };
 
   const redirectHandler = () => {
     redirect(props.to);
   };
-
+ 
   return (
     <Pressable
-    hitSlop={props.pressDetectionDistance || 0}
+      hitSlop={props.pressDetectionDistance || 0}
       onPress={redirectHandler}
       onPressIn={() => props.setPressed && props.setPressed(true)}
       onPressOut={() => props.setPressed && props.setPressed!(false)}

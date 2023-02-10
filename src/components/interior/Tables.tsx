@@ -17,5 +17,5 @@ const Tables: React.FC = () => {
     </>
   );
 };
-
+ 
 export default Tables;

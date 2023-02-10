@@ -10,9 +10,13 @@ import NewCafeOrder from '../../interior/NewCafeOrder';
 import NewOutsideOrder from '../../outside/NewOutsideOrder';
 import NewDeptor from '../../outside/NewDeptor';
 
-interface PageViewProps {
-  list: JSX.Element;
+export interface EntryType {
   entries?: Array<Order>;
+  outside?: boolean;
+}
+
+interface PageViewProps extends EntryType {
+  list: JSX.Element;
 }
 
 const PageView: React.FC<PageViewProps> = (props) => {
@@ -27,9 +31,9 @@ const PageView: React.FC<PageViewProps> = (props) => {
   const closeModalHandler = () => {
     modalRef.current!.setInvisible();
   };
-
+ 
   const checkPathname = () => {
-    if (pathname.startsWith('/tables')) {
+    if (pathname.startsWith('/cafe')) {
       return <NewCafeOrder closeModal={closeModalHandler} />;
     }
     if (pathname === '/outside') {
@@ -43,7 +47,11 @@ const PageView: React.FC<PageViewProps> = (props) => {
     <View style={styles.container}>
       <View>{props.list}</View>
       <Modal ref={modalRef}>{checkPathname()}</Modal>
-      <NewEntryFooter onPress={newEntryHandler} entries={props.entries} />
+      <NewEntryFooter
+        onPress={newEntryHandler}
+        entries={props.entries}
+        outside={props.outside}
+      />
     </View>
   );
 };

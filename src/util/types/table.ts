@@ -1,6 +1,9 @@
 import { Order } from './order';
 
 export interface Table {
-  id: number;
-  orders: Array<Order> | undefined;
+  id: string;
+  name: string;
+  orders: Array<Order>;
+  paid: boolean;
 }
+ 

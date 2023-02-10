@@ -5,14 +5,14 @@ import {
   useLocation,
   useNavigate
 } from 'react-router-native';
-
+ 
 export const useBack = (): void => {
   const redirect: NavigateFunction = useNavigate();
   const { pathname } = useLocation();
 
   React.useEffect(() => {
     const backAction = (): boolean => {
-      if (pathname === '/') {
+      if (pathname === '/cafe') {
         return false;
       }
       redirect(-1);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { NativeRouter, Route, Routes } from 'react-router-native';
+import { NativeRouter, Navigate, Route, Routes } from 'react-router-native';
 
 import AppBar from './src/components/shared/Navigation/AppBar';
 import Cafe from './src/pages/interior/Cafe';
@@ -49,13 +49,14 @@ const App: React.FC = () => {
             <BackPress />
             <AppBar />
             <Routes>
-              <Route path="/" element={<Cafe />} />
+              <Route path="/cafe/:id" element={<TableView />} />
+              <Route path="/cafe" element={<Cafe />} />
               <Route path="/outside" element={<Debtors />} />
               <Route path="/outside/:id" element={<DeptorView />} />
-              <Route path="/tables/:id" element={<TableView />} />
               <Route path="/options" element={<Options />} />
               <Route path="/options/logs" element={<Logs />} />
               <Route path="/options/employees" element={<Employees />} />
+              <Route path="*" element={<Navigate to="/cafe" replace />} />
             </Routes>
           </NativeRouter>
         </View>
@@ -63,7 +64,7 @@ const App: React.FC = () => {
     </TablesContext.Provider>
   );
 };
-
+ 
 const styles = StyleSheet.create({
   container: { backgroundColor: '#272a31', height: '100%' }
 });

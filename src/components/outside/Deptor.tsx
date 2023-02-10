@@ -9,6 +9,7 @@ import {
 
 import { Deptor as DeptorType } from '../../util/types/deptor';
 import Link from '../shared/UI/Link';
+import AccessibleListItem from '../shared/General/AccessibleListItem';
 
 interface DeptorProps {
   item: DeptorType;
@@ -16,8 +17,6 @@ interface DeptorProps {
 }
 
 const Deptor: React.FC<DeptorProps> = (props) => {
-  const [pressed, setPressed] = React.useState<boolean>(false);
-
   const { removeDeptor, changeDeptorToPaid } =
     React.useContext<DeptorContext>(DeptorsContext);
 
@@ -28,20 +27,11 @@ const Deptor: React.FC<DeptorProps> = (props) => {
   const changeToPaidHandler = (): void => {
     changeDeptorToPaid(props.id);
   };
-
+ 
   return (
-    <Link
-      to={props.id}
-      background={'white'}
-      setPressed={(isPressed) => setPressed(isPressed)}
-    >
-      <ListItem
-        item={props.item}
-        onRemove={removeDeptorHandler}
-        onChangeToPaid={changeToPaidHandler}
-        pressed={pressed}
-      />
-    </Link>
+    <AccessibleListItem>
+      
+    </AccessibleListItem>
   );
 };
 

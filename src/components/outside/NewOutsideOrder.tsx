@@ -8,7 +8,7 @@ import { DeptorContext, DeptorsContext } from '../../util/context/DeptorsContext
 interface NewOutsideOrderProps {
   closeModal: () => void;
 }
-
+ 
 const NewOutsideOrder: React.FC<NewOutsideOrderProps> = (props) => {
   const { addOrderToDeptor } = React.useContext<DeptorContext>(DeptorsContext);
 

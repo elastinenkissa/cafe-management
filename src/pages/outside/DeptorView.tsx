@@ -36,7 +36,7 @@ const DeptorView: React.FC = () => {
         />
       }
       entries={orders!}
-    />
+    /> 
   );
 };
 

@@ -22,3 +22,4 @@ export const DeptorsContext = React.createContext<DeptorContext>({
   removeOrderFromDeptor: (_deptorId, _orderId) => {},
   changeDeptorToPaid: (_deptorId: string) => {}
 });
+ 

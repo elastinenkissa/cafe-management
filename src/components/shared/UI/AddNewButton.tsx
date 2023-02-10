@@ -17,7 +17,7 @@ const AddNewButton: React.FC<AddNewProps> = (props) => {
     </Button>
   );
 };
-
+ 
 const styles = StyleSheet.create({
   new: {
     backgroundColor: '#ffa0b0',

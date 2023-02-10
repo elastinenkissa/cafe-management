@@ -6,3 +6,4 @@ export interface Deptor {
   orders: Array<Order>;
   paid: boolean;
 }
+ 

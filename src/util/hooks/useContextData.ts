@@ -49,7 +49,7 @@ export const useContextData = () => {
       }))
     );
   };
-
+ 
   const addDeptor = (name: string): void => {
     const deptor = { id: uuid(), name, orders: [], paid: false };
     setDeptors(deptors.concat(deptor));

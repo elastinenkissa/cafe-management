@@ -1,14 +1,17 @@
 import React from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 
-import AddFinalButton from '../shared/UI/AddFinalButton';
+import NewItem from '../shared/General/NewItem';
 
-import { DeptorContext, DeptorsContext } from '../../util/context/DeptorsContext';
+import {
+  DeptorContext,
+  DeptorsContext
+} from '../../util/context/DeptorsContext';
 
 interface NewDeptorProps {
   closeModal: () => void;
 }
-
+ 
 const NewDeptor: React.FC<NewDeptorProps> = (props) => {
   const [name, setName] = React.useState<string>('');
 
@@ -23,10 +26,9 @@ const NewDeptor: React.FC<NewDeptorProps> = (props) => {
   };
 
   return (
-    <View style={styles.buttons}>
+    <NewItem onAddItem={addDeptorHandler}>
       <TextInput style={styles.input} value={name} onChangeText={setName} />
-      <AddFinalButton onAdd={addDeptorHandler} />
-    </View>
+    </NewItem>
   );
 };
 

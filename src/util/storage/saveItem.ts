@@ -9,3 +9,4 @@ export const saveItem = async (
 ) => {
   await AsyncStorage.setItem(name, JSON.stringify(array));
 };
+ 

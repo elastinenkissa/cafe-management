@@ -29,7 +29,7 @@ const TableView: React.FC = () => {
       }
       entries={orders!}
     />
-  );
+  ); 
 };
 
 export default TableView;

@@ -4,3 +4,4 @@ export interface Change {
   by: Employee;
   timestamp: Date;
 }
+ 

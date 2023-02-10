@@ -16,3 +16,4 @@ export const TablesContext = React.createContext<TableContext>({
   addOrder: (_tableId: string, _order: Order) => {},
   removeOrder: (_orderId: string) => {}
 });
+ 
