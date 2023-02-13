@@ -26,5 +26,5 @@ const Debtors: React.FC = () => {
     />
   );
 };
- 
+
 export default Debtors;
