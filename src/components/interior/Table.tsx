@@ -1,36 +1,31 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 
-import Link from '../shared/UI/Link';
+import AccessibleListItem from '../shared/General/AccessibleListItem';
 
 import { TableContext, TablesContext } from '../../util/context/TablesContext';
+import { Table as TableType } from '../../util/types/table';
 
 interface TableProps {
+  item: TableType;
   id: string;
 }
 
 const Table: React.FC<TableProps> = (props) => {
-  const { tables } = React.useContext<TableContext>(TablesContext);
+  const { tables, removeOrder } = React.useContext<TableContext>(TablesContext);
+  const currentTable = tables.find((table) => table.id === props.id)!;
+  const orders = currentTable.orders;
 
-  const table = tables.find((table) => table.id === props.id);
+  const changeTableToPaidHandler = (): void => {
+    orders.map((order) => {
+      removeOrder(order.id!);
+    });
+  };
 
-  const tableColor = table?.orders?.length === 0 ? '#B0C4DE' : '#93E9BE';
-
-  const styles = StyleSheet.create({
-    table: {
-      borderWidth: 3,
-      borderColor: tableColor,
-      height: 50,
-      width: 50,
-      borderRadius: 25
-    }
-  });
- 
   return (
-    <Link
-      to={`/cafe/${props.id}`}
-      style={styles.table}
-      background={tableColor}
+    <AccessibleListItem
+      item={props.item}
+      link={`/cafe/${props.id}`}
+      onChangeToPaid={changeTableToPaidHandler}
     />
   );
 };

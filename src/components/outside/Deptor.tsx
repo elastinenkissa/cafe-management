@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ListItem from '../shared/General/ListItem';
+import AccessibleListItem from '../shared/General/AccessibleListItem';
 
 import {
   DeptorContext,
@@ -8,8 +8,6 @@ import {
 } from '../../util/context/DeptorsContext';
 
 import { Deptor as DeptorType } from '../../util/types/deptor';
-import Link from '../shared/UI/Link';
-import AccessibleListItem from '../shared/General/AccessibleListItem';
 
 interface DeptorProps {
   item: DeptorType;
@@ -24,14 +22,17 @@ const Deptor: React.FC<DeptorProps> = (props) => {
     removeDeptor(props.id);
   };
 
-  const changeToPaidHandler = (): void => {
+  const changeDeptorToPaidHandler = (): void => {
     changeDeptorToPaid(props.id);
   };
- 
+
   return (
-    <AccessibleListItem>
-      
-    </AccessibleListItem>
+    <AccessibleListItem
+      onChangeToPaid={changeDeptorToPaidHandler}
+      onRemoveItem={removeDeptorHandler}
+      link={props.id}
+      item={props.item}
+    />
   );
 };
 

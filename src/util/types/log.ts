@@ -1,9 +1,13 @@
 import { Employee } from './employee';
 import { Table } from './table';
 
+export interface Change {
+  by: Employee;
+  timestamp: Date;
+}
+
 export interface Log {
   message: string;
-  employee: Employee;
+  change: Change;
   table: Table;
 }
- 

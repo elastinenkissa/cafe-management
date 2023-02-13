@@ -6,23 +6,25 @@ import { Deptor } from '../../../util/types/deptor';
 import { Table } from '../../../util/types/table';
 
 interface AccessibleListItemProps {
-  id: string;
-  item: Deptor | Table
+  link: string;
+  item: Deptor | Table;
+  onChangeToPaid: () => void;
+  onRemoveItem?: () => void;
 }
- 
+
 const AccessibleListItem: React.FC<AccessibleListItemProps> = (props) => {
   const [pressed, setPressed] = React.useState<boolean>(false);
 
   return (
     <Link
-      to={props.id}
+      to={props.link}
       background={'white'}
       setPressed={(isPressed) => setPressed(isPressed)}
     >
       <ListItem
         item={props.item}
-        onRemove={removeDeptorHandler}
-        onChangeToPaid={changeToPaidHandler}
+        onRemove={props.onRemoveItem!}
+        onChangeToPaid={props.onChangeToPaid}
         pressed={pressed}
       />
     </Link>

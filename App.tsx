@@ -31,7 +31,7 @@ const App: React.FC = () => {
       value={{
         tables: tables.items,
         addOrder: tables.addOrder,
-        removeOrder: tables.removeOrder
+        removeOrder: tables.removeOrder,
       }}
     >
       <DeptorsContext.Provider
@@ -64,7 +64,7 @@ const App: React.FC = () => {
     </TablesContext.Provider>
   );
 };
- 
+
 const styles = StyleSheet.create({
   container: { backgroundColor: '#272a31', height: '100%' }
 });

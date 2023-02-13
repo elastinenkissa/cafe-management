@@ -3,34 +3,43 @@ import { Button, Text } from 'react-native-paper';
 
 import { Order } from '../../../util/types/order';
 import { Deptor } from '../../../util/types/deptor';
+import { Table } from '../../../util/types/table';
 
 interface ListItemProps {
   onRemove: () => void;
   onChangeToPaid?: () => void;
-  item: Order | Deptor;
+  item: Order | Deptor | Table;
   pressed?: boolean;
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
-  const isDeptor = () => {
-    return (props.item as Deptor).paid !== undefined;
+  const isDeptor = (item: Deptor | Order | Table): item is Deptor => {
+    return (item as Deptor).paid !== undefined;
+  };
+
+  const isTable = () => {
+    return props.item.name.startsWith('Table');
   };
 
   const removeHandler = () => {
-    if (!isDeptor()) {
+    if (!isDeptor(props.item)) {
       return props.onRemove();
     }
-    Alert.alert(`Remove ${props.item.name}?`, '', [
-      {
-        text: 'Cancel',
-        onPress: () => {},
-        style: 'cancel'
-      },
-      {
-        text: 'OK',
-        onPress: () => props.onRemove()
-      }
-    ]);
+    Alert.alert(
+      `Remove ${props.item.name}?`,
+      'This will irreversibly clear out the content',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel'
+        },
+        {
+          text: 'OK',
+          onPress: () => props.onRemove()
+        }
+      ]
+    );
   };
 
   const styles = StyleSheet.create({
@@ -53,24 +62,26 @@ const ListItem: React.FC<ListItemProps> = (props) => {
       paddingLeft: 15
     }
   });
- 
+
   return (
     <View style={styles.item}>
       <View style={styles.row}>
         <Text style={styles.text}>{props.item.name}</Text>
-        {isDeptor() && (props.item as Deptor).paid && (
+        {isDeptor(props.item) && (props.item as Deptor).paid && (
           <Text style={styles.paid}>PAID</Text>
         )}
       </View>
       <View style={styles.row}>
-        {isDeptor() && (
+        {(isDeptor(props.item) || isTable()) && (
           <TouchableOpacity onPress={props.onChangeToPaid}>
             <Button textColor="grey">Paid</Button>
           </TouchableOpacity>
         )}
-        <TouchableOpacity onPress={removeHandler}>
-          <Button textColor="grey">Remove</Button>
-        </TouchableOpacity>
+        {!isTable() && (
+          <TouchableOpacity onPress={removeHandler}>
+            <Button textColor="grey">Remove</Button>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

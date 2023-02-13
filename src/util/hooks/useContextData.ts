@@ -49,7 +49,7 @@ export const useContextData = () => {
       }))
     );
   };
- 
+
   const addDeptor = (name: string): void => {
     const deptor = { id: uuid(), name, orders: [], paid: false };
     setDeptors(deptors.concat(deptor));
@@ -108,14 +108,14 @@ export const useContextData = () => {
     removeOrder,
     removeDeptor,
     removeOrderFromDeptor,
-    changeDeptorToPaid
+    changeDeptorToPaid,
   ]);
 
   return {
     tables: {
       items: tables,
       addOrder,
-      removeOrder
+      removeOrder,
     },
     deptors: {
       items: deptors,

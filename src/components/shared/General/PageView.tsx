@@ -45,7 +45,7 @@ const PageView: React.FC<PageViewProps> = (props) => {
 
   return (
     <View style={styles.container}>
-      <View>{props.list}</View>
+      <View style={styles.list}>{props.list}</View>
       <Modal ref={modalRef}>{checkPathname()}</Modal>
       <NewEntryFooter
         onPress={newEntryHandler}
@@ -61,6 +61,9 @@ const styles = StyleSheet.create({
     padding: 20,
     height: '85%',
     justifyContent: 'space-between'
+  },
+  list: {
+    height: '90%'
   }
 });
 
