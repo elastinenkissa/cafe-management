@@ -8,7 +8,9 @@ The application was originally made for personal use at my sunday job as a waite
 
 # Todo
 
-1. Make marking deptor as paid possible on each deptor's page
-2. Add possibility to transfer order from table to deptor from each table's page
-3. Create a server and transform the app into a customizable cafe app (add user system, owner-only dashboard - add or remove tables, add or remove menu items and their prices, create accounts for employees, have logs of what each employee has done and at what time, etc.)
+1. Come up with what marking a table or deptor as paid will do
+2. Replace context with redux due to need of high frequency changes in global state
+3. Add dashboard for cafe owner
+4. Add login system
+5. Create a server
  
