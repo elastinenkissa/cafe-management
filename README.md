@@ -13,4 +13,4 @@ The application was originally made for personal use at my sunday job as a waite
 3. Add dashboard for cafe owner
 4. Add login system
 5. Create a server
-  
+   
