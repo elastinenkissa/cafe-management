@@ -1,4 +1,5 @@
 import { Employee } from './employee';
+import { Order } from './order';
 import { Table } from './table';
 
 export interface Change {
@@ -10,4 +11,5 @@ export interface Log {
   message: string;
   change: Change;
   table: Table;
+  orders: Order | Array<Order>;
 }

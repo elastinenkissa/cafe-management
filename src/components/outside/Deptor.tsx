@@ -15,21 +15,15 @@ interface DeptorProps {
 }
 
 const Deptor: React.FC<DeptorProps> = (props) => {
-  const { removeDeptor, changeDeptorToPaid } =
-    React.useContext<DeptorContext>(DeptorsContext);
+  const { removeDeptor } = React.useContext<DeptorContext>(DeptorsContext);
 
   const removeDeptorHandler = (): void => {
     removeDeptor(props.id);
   };
 
-  const changeDeptorToPaidHandler = (): void => {
-    changeDeptorToPaid(props.id);
-  };
-
   return (
     <AccessibleListItem
-      onChangeToPaid={changeDeptorToPaidHandler}
-      onRemoveItem={removeDeptorHandler}
+      onMarkAsPaid={removeDeptorHandler}
       link={props.id}
       item={props.item}
     />

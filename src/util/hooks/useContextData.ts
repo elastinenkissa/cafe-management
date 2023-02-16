@@ -50,6 +50,14 @@ export const useContextData = () => {
     );
   };
 
+  const changeTableToPaid = (id: string): void => {
+    setTables(
+      tables.map((table) =>
+        table.id === id ? { ...table, orders: [] } : table
+      )
+    );
+  };
+
   const addDeptor = (name: string): void => {
     const deptor = { id: uuid(), name, orders: [], paid: false };
     setDeptors(deptors.concat(deptor));
@@ -104,11 +112,12 @@ export const useContextData = () => {
   }, [
     addOrder,
     addDeptor,
+    changeTableToPaid,
     addOrderToDeptor,
     removeOrder,
     removeDeptor,
     removeOrderFromDeptor,
-    changeDeptorToPaid,
+    changeDeptorToPaid
   ]);
 
   return {
@@ -116,6 +125,7 @@ export const useContextData = () => {
       items: tables,
       addOrder,
       removeOrder,
+      changeTableToPaid
     },
     deptors: {
       items: deptors,

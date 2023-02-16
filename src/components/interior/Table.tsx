@@ -11,21 +11,24 @@ interface TableProps {
 }
 
 const Table: React.FC<TableProps> = (props) => {
-  const { tables, removeOrder } = React.useContext<TableContext>(TablesContext);
+  const { tables, changeTableToPaid } =
+    React.useContext<TableContext>(TablesContext);
+
   const currentTable = tables.find((table) => table.id === props.id)!;
   const orders = currentTable.orders;
 
   const changeTableToPaidHandler = (): void => {
-    orders.map((order) => {
-      removeOrder(order.id!);
-    });
+    changeTableToPaid(props.id);
+    for (let order of orders) {
+      //remove order request
+    }
   };
 
   return (
     <AccessibleListItem
       item={props.item}
       link={`/cafe/${props.id}`}
-      onChangeToPaid={changeTableToPaidHandler}
+      onMarkAsPaid={changeTableToPaidHandler}
     />
   );
 };

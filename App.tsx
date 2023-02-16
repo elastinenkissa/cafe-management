@@ -32,6 +32,7 @@ const App: React.FC = () => {
         tables: tables.items,
         addOrder: tables.addOrder,
         removeOrder: tables.removeOrder,
+        changeTableToPaid: tables.changeTableToPaid
       }}
     >
       <DeptorsContext.Provider

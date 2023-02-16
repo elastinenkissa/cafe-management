@@ -8,8 +8,7 @@ import { Table } from '../../../util/types/table';
 interface AccessibleListItemProps {
   link: string;
   item: Deptor | Table;
-  onChangeToPaid: () => void;
-  onRemoveItem?: () => void;
+  onMarkAsPaid?: () => void;
 }
 
 const AccessibleListItem: React.FC<AccessibleListItemProps> = (props) => {
@@ -23,8 +22,7 @@ const AccessibleListItem: React.FC<AccessibleListItemProps> = (props) => {
     >
       <ListItem
         item={props.item}
-        onRemove={props.onRemoveItem!}
-        onChangeToPaid={props.onChangeToPaid}
+        onRemove={props.onMarkAsPaid!}
         pressed={pressed}
       />
     </Link>
