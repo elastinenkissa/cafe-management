@@ -1,7 +1,7 @@
-{ 
+{
   "expo": {
-    "name": "autoheadache",
-    "slug": "autoheadache",
+    "name": "Cafeache",
+    "slug": "Cafeache",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,21 +19,21 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.nusretwazowski.autoheadache"
+      "bundleIdentifier": "com.nusretwazowski.cafeache"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.nusretwazowski.autoheadache"
+      "package": "com.nusretwazowski.cafeache"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "84c78c06-e80b-4b9a-9b56-81d69c300d7a"
+        "projectId": "1b58c98f-4d17-4990-8179-07484dbd62e9"
       }
     },
     "owner": "nusretwazowski"
