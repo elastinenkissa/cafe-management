@@ -55,8 +55,8 @@ const App: React.FC = () => {
               <Route path="/outside" element={<Debtors />} />
               <Route path="/outside/:id" element={<DeptorView />} />
               <Route path="/options" element={<Options />} />
-              <Route path="/options/logs" element={<Logs />} />
-              <Route path="/options/employees" element={<Employees />} />
+              {/* <Route path="/options/logs" element={<Logs />} />
+              <Route path="/options/employees" element={<Employees />} /> */}
               <Route path="*" element={<Navigate to="/cafe" replace />} />
             </Routes>
           </NativeRouter>
