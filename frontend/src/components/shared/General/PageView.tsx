@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useLocation } from 'react-router-native';
 
 import Modal, { ModalRef } from '../UI/Modal';
@@ -8,7 +8,7 @@ import NewEntryFooter from './NewEntryFooter';
 import { Order } from '../../../util/types/order';
 import NewCafeOrder from '../../interior/NewCafeOrder';
 import NewOutsideOrder from '../../outside/NewOutsideOrder';
-import NewDeptor from '../../outside/NewDeptor';
+import NewDeptor from '../../outside/NewDeptor'; 
 
 export interface EntryType {
   entries?: Array<Order>;
@@ -24,6 +24,10 @@ const PageView: React.FC<PageViewProps> = (props) => {
 
   const { pathname } = useLocation();
 
+  const transferHandler = () => {
+    //remove entries from table and add them to deptor
+  }
+
   const newEntryHandler = () => {
     modalRef.current!.setVisible();
   };
@@ -31,7 +35,7 @@ const PageView: React.FC<PageViewProps> = (props) => {
   const closeModalHandler = () => {
     modalRef.current!.setInvisible();
   };
- 
+
   const checkPathname = () => {
     if (pathname.startsWith('/cafe')) {
       return <NewCafeOrder closeModal={closeModalHandler} />;
@@ -52,6 +56,11 @@ const PageView: React.FC<PageViewProps> = (props) => {
         entries={props.entries}
         outside={props.outside}
       />
+      {!(pathname === '/outside') && (
+        <TouchableOpacity onPress={transferHandler}>
+          <Text style={styles.transfer}>Transfer to deptor</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -64,6 +73,9 @@ const styles = StyleSheet.create({
   },
   list: {
     height: '90%'
+  },
+  transfer: {
+    color: 'white'
   }
 });
 

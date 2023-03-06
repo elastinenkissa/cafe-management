@@ -1,15 +1,18 @@
+import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
 import Table from '../../components/interior/Table';
-
-import { TABLES } from '../../util/data/tables';
 import ListSeparator from '../../components/shared/UI/ListSeparator';
 
+import { TableContext, TablesContext } from '../../util/context/TablesContext';
+
 const Cafe: React.FC = () => {
+  const { tables } = React.useContext<TableContext>(TablesContext);
+
   return (
     <View style={styles.tables}>
       <FlatList
-        data={TABLES}
+        data={tables}
         renderItem={({ item }) => <Table id={item.id} item={item} />}
         ItemSeparatorComponent={ListSeparator}
       />
@@ -19,7 +22,7 @@ const Cafe: React.FC = () => {
 
 const styles = StyleSheet.create({
   tables: {
-    padding: 20,
+    padding: 20
   }
 });
 

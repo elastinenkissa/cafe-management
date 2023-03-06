@@ -68,6 +68,9 @@ const ListItem: React.FC<ListItemProps> = (props) => {
       color: '#8FBC8F',
       fontWeight: '100',
       paddingLeft: 15
+    },
+    vacant: {
+      color: 'cyan'
     }
   });
 
@@ -77,6 +80,11 @@ const ListItem: React.FC<ListItemProps> = (props) => {
         <Text style={styles.text}>{props.item.name}</Text>
         {paid && <Text style={styles.paid}>PAID</Text>}
       </View>
+      {!isOrder() && (props.item as Table).orders.length > 0 && (
+        <View>
+          <Text style={styles.vacant}>VACANT</Text>
+        </View>
+      )}
       <View style={styles.row}>
         <TouchableOpacity onPress={statusHandler}>
           <Button textColor="grey">{isOrder() ? 'Cancel' : 'Paid'}</Button>
