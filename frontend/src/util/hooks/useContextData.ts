@@ -50,7 +50,7 @@ export const useContextData = () => {
     );
   };
 
-  const changeTableToPaid = (id: string): void => {
+  const removeOrders = (id: string): void => {
     setTables(
       tables.map((table) =>
         table.id === id ? { ...table, orders: [] } : table
@@ -103,6 +103,16 @@ export const useContextData = () => {
     );
   };
 
+  const transferOrders = (deptorId: string, orders: Array<Order>): void => {
+    setDeptors(
+      deptors.map((deptor) =>
+        deptor.id === deptorId
+          ? { ...deptor, orders: deptor.orders.concat(orders) }
+          : deptor
+      )
+    );
+  };
+
   React.useEffect(() => {
     getItems();
   }, []);
@@ -112,12 +122,13 @@ export const useContextData = () => {
   }, [
     addOrder,
     addDeptor,
-    changeTableToPaid,
+    removeOrders,
     addOrderToDeptor,
     removeOrder,
     removeDeptor,
     removeOrderFromDeptor,
-    changeDeptorToPaid
+    changeDeptorToPaid,
+    transferOrders
   ]);
 
   return {
@@ -125,7 +136,7 @@ export const useContextData = () => {
       items: tables,
       addOrder,
       removeOrder,
-      changeTableToPaid
+      removeOrders
     },
     deptors: {
       items: deptors,
@@ -133,7 +144,8 @@ export const useContextData = () => {
       removeDeptor,
       addOrderToDeptor,
       removeOrderFromDeptor,
-      changeDeptorToPaid
+      changeDeptorToPaid,
+      transferOrders
     }
   };
 };

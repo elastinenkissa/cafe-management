@@ -8,7 +8,7 @@ import NewEntryFooter from './NewEntryFooter';
 import { Order } from '../../../util/types/order';
 import NewCafeOrder from '../../interior/NewCafeOrder';
 import NewOutsideOrder from '../../outside/NewOutsideOrder';
-import NewDeptor from '../../outside/NewDeptor'; 
+import NewDeptor from '../../outside/NewDeptor';
 
 export interface EntryType {
   entries?: Array<Order>;
@@ -22,13 +22,17 @@ interface PageViewProps extends EntryType {
 const PageView: React.FC<PageViewProps> = (props) => {
   const modalRef = React.useRef<ModalRef>();
 
+  const [transferMode, setTransferMode] = React.useState<boolean>(false);
+
   const { pathname } = useLocation();
 
   const transferHandler = () => {
-    //remove entries from table and add them to deptor
-  }
+    setTransferMode(true);
+    modalRef.current!.setVisible();
+  };
 
   const newEntryHandler = () => {
+    setTransferMode(false);
     modalRef.current!.setVisible();
   };
 
@@ -37,11 +41,11 @@ const PageView: React.FC<PageViewProps> = (props) => {
   };
 
   const checkPathname = () => {
+    if (pathname === '/outside' || transferMode === true) {
+      return <NewDeptor closeModal={closeModalHandler} />;
+    }
     if (pathname.startsWith('/cafe')) {
       return <NewCafeOrder closeModal={closeModalHandler} />;
-    }
-    if (pathname === '/outside') {
-      return <NewDeptor closeModal={closeModalHandler} />;
     } else {
       return <NewOutsideOrder closeModal={closeModalHandler} />;
     }

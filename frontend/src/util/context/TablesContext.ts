@@ -9,12 +9,12 @@ export interface TableContext {
   tables: Array<Table>;
   addOrder: (tableId: string, order: Order) => void;
   removeOrder: (orderId: string) => void;
-  changeTableToPaid: (tableId: string) => void;
+  removeOrders: (tableId: string) => void;
 }
 
 export const TablesContext = React.createContext<TableContext>({
   tables: TABLES,
   addOrder: (_tableId: string, _order: Order) => {},
   removeOrder: (_orderId: string) => {},
-  changeTableToPaid: (_tableId: string) => {}
+  removeOrders: (_tableId: string) => {}
 });

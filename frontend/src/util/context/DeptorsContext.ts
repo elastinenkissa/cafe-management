@@ -11,7 +11,8 @@ export interface DeptorContext {
   removeDeptor: (deptorId: string) => void;
   addOrderToDeptor: (deptorId: string, order: Order) => void;
   removeOrderFromDeptor: (deptorId: string, orderId: string) => void;
-  changeDeptorToPaid: (deptorId: string) => void
+  changeDeptorToPaid: (deptorId: string) => void;
+  transferOrders: (_deptorId: string, orders: Array<Order>) => void;
 }
 
 export const DeptorsContext = React.createContext<DeptorContext>({
@@ -20,6 +21,6 @@ export const DeptorsContext = React.createContext<DeptorContext>({
   removeDeptor: (_deptorId) => {},
   addOrderToDeptor: (_deptorId, _order) => {},
   removeOrderFromDeptor: (_deptorId, _orderId) => {},
-  changeDeptorToPaid: (_deptorId: string) => {}
+  changeDeptorToPaid: (_deptorId: string) => {},
+  transferOrders: (_deptorId: string, _orders: Array<Order>) => {}
 });
- 

@@ -11,17 +11,11 @@ interface TableProps {
 }
 
 const Table: React.FC<TableProps> = (props) => {
-  const { tables, changeTableToPaid } =
+  const { removeOrders } =
     React.useContext<TableContext>(TablesContext);
 
-  const currentTable = tables.find((table) => table.id === props.id)!;
-  const orders = currentTable.orders;
-
   const changeTableToPaidHandler = (): void => {
-    changeTableToPaid(props.id);
-    for (let order of orders) {
-      //remove order request
-    }
+    removeOrders(props.id);
   };
 
   return (

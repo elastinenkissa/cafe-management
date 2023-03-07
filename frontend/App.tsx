@@ -8,8 +8,6 @@ import Debtors from './src/pages/outside/Debtors';
 import TableView from './src/pages/interior/TableView';
 import DeptorView from './src/pages/outside/DeptorView';
 import Options from './src/pages/settings/Options';
-import Logs from './src/pages/settings/Logs';
-import Employees from './src/pages/settings/Employees';
 
 import { TablesContext } from './src/util/context/TablesContext';
 import { DeptorsContext } from './src/util/context/DeptorsContext';
@@ -32,7 +30,7 @@ const App: React.FC = () => {
         tables: tables.items,
         addOrder: tables.addOrder,
         removeOrder: tables.removeOrder,
-        changeTableToPaid: tables.changeTableToPaid
+        removeOrders: tables.removeOrders
       }}
     >
       <DeptorsContext.Provider
@@ -42,7 +40,8 @@ const App: React.FC = () => {
           removeDeptor: deptors.removeDeptor,
           addOrderToDeptor: deptors.addOrderToDeptor,
           removeOrderFromDeptor: deptors.removeOrderFromDeptor,
-          changeDeptorToPaid: deptors.changeDeptorToPaid
+          changeDeptorToPaid: deptors.changeDeptorToPaid,
+          transferOrders: deptors.transferOrders
         }}
       >
         <View style={styles.container}>
