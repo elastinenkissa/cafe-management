@@ -7,7 +7,7 @@ import { Deptor } from '../types/deptor';
 
 export interface DeptorContext {
   deptors: Array<Deptor>;
-  addDeptor: (name: string) => void;
+  addDeptor: (name: string) => string;
   removeDeptor: (deptorId: string) => void;
   addOrderToDeptor: (deptorId: string, order: Order) => void;
   removeOrderFromDeptor: (deptorId: string, orderId: string) => void;

@@ -58,9 +58,10 @@ export const useContextData = () => {
     );
   };
 
-  const addDeptor = (name: string): void => {
+  const addDeptor = (name: string): string => {
     const deptor = { id: uuid(), name, orders: [], paid: false };
     setDeptors(deptors.concat(deptor));
+    return deptor.id;
   };
 
   const removeDeptor = (id: string): void => {
@@ -103,11 +104,14 @@ export const useContextData = () => {
     );
   };
 
-  const transferOrders = (deptorId: string, orders: Array<Order>): void => {
+  const transferOrders = (
+    deptorId: string,
+    transferingOrders: Array<Order>
+  ): void => {
     setDeptors(
       deptors.map((deptor) =>
         deptor.id === deptorId
-          ? { ...deptor, orders: deptor.orders.concat(orders) }
+          ? { ...deptor, orders: transferingOrders }
           : deptor
       )
     );

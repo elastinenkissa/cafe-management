@@ -42,7 +42,7 @@ const PageView: React.FC<PageViewProps> = (props) => {
 
   const checkPathname = () => {
     if (pathname === '/outside' || transferMode === true) {
-      return <NewDeptor closeModal={closeModalHandler} />;
+      return <NewDeptor closeModal={closeModalHandler} transferMode={transferMode} />;
     }
     if (pathname.startsWith('/cafe')) {
       return <NewCafeOrder closeModal={closeModalHandler} />;
