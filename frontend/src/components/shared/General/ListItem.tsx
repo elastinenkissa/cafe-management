@@ -22,10 +22,10 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
   const statusFunction = () => {
     setPaid(true);
-
+    props.onRemove();
+    
     setTimeout(() => {
       setPaid(false);
-      props.onRemove();
     }, 3000);
   };
 

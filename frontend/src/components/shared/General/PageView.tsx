@@ -27,6 +27,9 @@ const PageView: React.FC<PageViewProps> = (props) => {
   const { pathname } = useLocation();
 
   const transferHandler = () => {
+    if (props.entries?.length === 0) {
+      return;
+    }
     setTransferMode(true);
     modalRef.current!.setVisible();
   };
@@ -42,7 +45,9 @@ const PageView: React.FC<PageViewProps> = (props) => {
 
   const checkPathname = () => {
     if (pathname === '/outside' || transferMode === true) {
-      return <NewDeptor closeModal={closeModalHandler} transferMode={transferMode} />;
+      return (
+        <NewDeptor closeModal={closeModalHandler} transferMode={transferMode} />
+      );
     }
     if (pathname.startsWith('/cafe')) {
       return <NewCafeOrder closeModal={closeModalHandler} />;

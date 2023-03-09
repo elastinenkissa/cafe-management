@@ -104,15 +104,29 @@ export const useContextData = () => {
     );
   };
 
-  const transferOrders = (
-    deptorId: string,
-    transferingOrders: Array<Order>
-  ): void => {
-    setDeptors(
-      deptors.map((deptor) =>
-        deptor.id === deptorId
-          ? { ...deptor, orders: transferingOrders }
-          : deptor
+  const transferOrders = async (
+    name: string,
+    tableId: string
+  ): Promise<void> => {
+    const deptorId = addDeptor(name);
+    removeOrders(tableId);
+    return await addOrdersToDeptor(
+      deptorId,
+      tables.find((table) => table.id === tableId)?.orders!
+    );
+  };
+
+  const addOrdersToDeptor = async (
+    id: string,
+    orders: Array<Order>
+  ): Promise<void> => {
+    await new Promise<void>(() =>
+      setDeptors((prevDeptors) =>
+        prevDeptors.map((deptor) =>
+          deptor.id === id
+            ? { ...deptor, orders: deptor.orders.concat(orders) }
+            : deptor
+        )
       )
     );
   };
