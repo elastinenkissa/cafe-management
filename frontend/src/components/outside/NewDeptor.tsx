@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
-import { useParams } from 'react-router-native';
+import { useNavigate, useParams } from 'react-router-native';
 
 import NewItem from '../shared/General/NewItem';
 
@@ -17,6 +17,8 @@ interface NewDeptorProps {
 const NewDeptor: React.FC<NewDeptorProps> = (props) => {
   const [name, setName] = React.useState<string>('');
 
+  const navigate = useNavigate();
+
   const tableId = useParams().id;
 
   const { addDeptor, transferOrders } =
@@ -30,7 +32,8 @@ const NewDeptor: React.FC<NewDeptorProps> = (props) => {
     props.closeModal();
 
     if (props.transferMode) {
-      return transferOrders(name, tableId!);
+      transferOrders(name, tableId!);
+      return navigate(`/outside`);
     }
 
     addDeptor(name);
