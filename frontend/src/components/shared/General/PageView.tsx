@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useLocation } from 'react-router-native';
 
 import Modal, { ModalRef } from '../UI/Modal';
@@ -9,6 +9,7 @@ import { Order } from '../../../util/types/order';
 import NewCafeOrder from '../../interior/NewCafeOrder';
 import NewOutsideOrder from '../../outside/NewOutsideOrder';
 import NewDeptor from '../../outside/NewDeptor';
+import { Button } from 'react-native-paper';
 
 export interface EntryType {
   entries?: Array<Order>;
@@ -60,16 +61,18 @@ const PageView: React.FC<PageViewProps> = (props) => {
     <View style={styles.container}>
       <View style={styles.list}>{props.list}</View>
       <Modal ref={modalRef}>{checkPathname()}</Modal>
-      <NewEntryFooter
-        onPress={newEntryHandler}
-        entries={props.entries}
-        outside={props.outside}
-      />
-      {!(pathname === '/outside') && (
-        <TouchableOpacity onPress={transferHandler}>
-          <Text style={styles.transfer}>Transfer to deptor</Text>
-        </TouchableOpacity>
-      )}
+      <View style={styles.bottomContainer}>
+        {pathname !== '/outside' && (
+          <TouchableOpacity onPress={transferHandler}>
+            <Button textColor="grey">Transfer to deptor</Button>
+          </TouchableOpacity>
+        )}
+        <NewEntryFooter
+          onPress={newEntryHandler}
+          entries={props.entries}
+          outside={props.outside}
+        />
+      </View>
     </View>
   );
 };
@@ -78,13 +81,13 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     height: '85%',
-    justifyContent: 'space-between'
+    justifyContent: 'space-around'
   },
   list: {
     height: '90%'
   },
-  transfer: {
-    color: 'white'
+  bottomContainer: {
+    justifyContent: 'space-evenly'
   }
 });
 

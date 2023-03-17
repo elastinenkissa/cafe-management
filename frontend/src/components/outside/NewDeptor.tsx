@@ -19,7 +19,7 @@ const NewDeptor: React.FC<NewDeptorProps> = (props) => {
 
   const navigate = useNavigate();
 
-  const tableId = useParams().id;
+  const id = useParams().id;
 
   const { addDeptor, transferOrders } =
     React.useContext<DeptorContext>(DeptorsContext);
@@ -32,7 +32,7 @@ const NewDeptor: React.FC<NewDeptorProps> = (props) => {
     props.closeModal();
 
     if (props.transferMode) {
-      transferOrders(name, tableId!);
+      transferOrders(name, id!);
       return navigate(`/outside`);
     }
 

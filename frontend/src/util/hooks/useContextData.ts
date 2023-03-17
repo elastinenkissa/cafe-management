@@ -65,7 +65,9 @@ export const useContextData = () => {
   };
 
   const removeDeptor = (id: string): void => {
-    setDeptors(deptors.filter((deptor) => deptor.id !== id));
+    setDeptors((prevDeptors) =>
+      prevDeptors.filter((deptor) => deptor.id !== id)
+    );
   };
 
   const addOrderToDeptor = (id: string, order: Order): void => {
@@ -106,28 +108,44 @@ export const useContextData = () => {
 
   const transferOrders = async (
     name: string,
-    tableId: string
+    tableOrDeptorId: string
   ): Promise<void> => {
     const deptorId = addDeptor(name);
-    removeOrders(tableId);
-    return await addOrdersToDeptor(
+
+    const tableOrders = tables.find(
+      (table) => table.id === tableOrDeptorId
+    )?.orders;
+    const deptorOrders = deptors.find(
+      (deptor) => deptor.id === tableOrDeptorId
+    )?.orders;
+
+    await addOrdersToDeptor(
       deptorId,
-      tables.find((table) => table.id === tableId)?.orders!
+      tableOrders ? tableOrders : deptorOrders!
     );
+
+    if (tableOrders) {
+      removeOrders(tableOrDeptorId);
+    }
+    if (deptorOrders) {
+      removeDeptor(tableOrDeptorId);
+    }
   };
 
   const addOrdersToDeptor = async (
     id: string,
     orders: Array<Order>
   ): Promise<void> => {
-    await new Promise<void>(() =>
-      setDeptors((prevDeptors) =>
-        prevDeptors.map((deptor) =>
+    await new Promise<void>((resolve) =>
+      setDeptors((prevDeptors) => {
+        const newDeptors = prevDeptors.map((deptor) =>
           deptor.id === id
             ? { ...deptor, orders: deptor.orders.concat(orders) }
             : deptor
-        )
-      )
+        );
+        resolve();
+        return newDeptors;
+      })
     );
   };
 
