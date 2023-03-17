@@ -8,9 +8,7 @@ The application was originally made for personal use at my sunday job as a waite
 
 # Todo
 
-1. Come up with what marking a table or deptor as paid will do
-2. Replace context with redux due to need of high frequency changes in global state
-3. Add dashboard for cafe owner
-4. Add login system
-5. Create a server
+1. Create REST API
+2. Make and implement login and create cafe functionalities
+3. Upload the app for sale on Google Play (after finding a way to pay $25 developer fee)
    
