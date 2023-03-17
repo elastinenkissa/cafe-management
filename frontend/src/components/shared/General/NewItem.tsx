@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 
 import AddFinalButton from '../UI/AddFinalButton';
- 
+
 interface NewItemProps {
   children: React.ReactNode;
   onAddItem: () => void;
@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
   buttons: {
     margin: 40,
     marginTop: '40%',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    borderRadius: 17,
   }
 });
 

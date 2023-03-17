@@ -5,13 +5,14 @@ import Button from './Button';
 interface AddFinalButton {
   onAdd: () => void;
 }
- 
+
 const AddFinalButton: React.FC<AddFinalButton> = (props) => {
   return (
     <Button
       containerStyle={styles.button}
       textStyle={styles.buttonText}
       onPress={props.onAdd}
+      touchOpacity={0.93}
     >
       ADD
     </Button>
@@ -21,10 +22,11 @@ const AddFinalButton: React.FC<AddFinalButton> = (props) => {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: '#27292c',
-    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 35
+    height: 40,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   buttonText: {
     color: 'white',

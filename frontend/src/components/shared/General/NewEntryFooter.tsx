@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button } from 'react-native-paper';
 
 import AddNewButton from '../UI/AddNewButton';
 
@@ -6,14 +7,16 @@ import { EntryType } from './PageView';
 
 interface NewEntryFooterProps extends EntryType {
   onPress: () => void;
+  onTransfer: () => void;
+  pathname: string;
 }
- 
+
 const NewEntryFooter: React.FC<NewEntryFooterProps> = (props) => {
   const styles = StyleSheet.create({
     footer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     total: {
       fontSize: 18,
@@ -23,16 +26,23 @@ const NewEntryFooter: React.FC<NewEntryFooterProps> = (props) => {
   });
 
   return (
-    <View style={styles.footer}>
-      <Text style={styles.total}>
-        Total:{' '}
-        {props.entries?.reduce(
-          (accumulator, current) => accumulator + current.price,
-          0
-        )}{' '}
-        KM
-      </Text>
-      <AddNewButton onPress={props.onPress} />
+    <View>
+      {props.pathname !== '/outside' && (
+        <TouchableOpacity onPress={props.onTransfer}>
+          <Button textColor="grey">Transfer to deptor</Button>
+        </TouchableOpacity>
+      )}
+      <View style={styles.footer}>
+        <Text style={styles.total}>
+          Total:{' '}
+          {props.entries?.reduce(
+            (accumulator, current) => accumulator + current.price,
+            0
+          )}{' '}
+          KM
+        </Text>
+        <AddNewButton onPress={props.onPress} />
+      </View>
     </View>
   );
 };

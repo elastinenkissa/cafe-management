@@ -2,6 +2,7 @@ import { Text, TouchableOpacity } from 'react-native';
 
 interface ButtonProps {
   children: string;
+  touchOpacity: number;
   containerStyle: any;
   textStyle: any;
   onPress: () => void;
@@ -10,7 +11,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = (props) => {
   return (
     <TouchableOpacity
-      activeOpacity={0.85}
+      activeOpacity={props.touchOpacity}
       style={props.containerStyle}
       onPress={props.onPress}
     >

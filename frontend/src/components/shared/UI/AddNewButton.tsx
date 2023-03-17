@@ -12,20 +12,20 @@ const AddNewButton: React.FC<AddNewProps> = (props) => {
       containerStyle={styles.new}
       textStyle={styles.plus}
       onPress={props.onPress}
+      touchOpacity={0.4}
     >
       ＋
-    </Button>
+    </Button> 
   );
 };
  
 const styles = StyleSheet.create({
   new: {
-    backgroundColor: '#ffa0b0',
-    width: 50,
+    backgroundColor: 'transparent',
     height: 50,
-    borderRadius: 100,
     textAlign: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginRight: 15
   },
   plus: {
     fontSize: 45,
