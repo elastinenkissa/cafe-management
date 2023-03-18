@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
   },
   list: {
     height: '90%',
+    paddingBottom: 25
   }
 });
 

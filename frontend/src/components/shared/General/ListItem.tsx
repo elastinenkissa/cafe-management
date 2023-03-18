@@ -11,6 +11,7 @@ interface ListItemProps {
   item: Order | Deptor | Table;
   pressed?: boolean;
   paid?: boolean;
+  style?: any;
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
@@ -23,7 +24,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   const statusFunction = () => {
     setPaid(true);
     props.onRemove();
-    
+
     setTimeout(() => {
       setPaid(false);
     }, 3000);
@@ -75,7 +76,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   });
 
   return (
-    <View style={styles.item}>
+    <View style={[styles.item, props.style]}>
       <View style={styles.row}>
         <Text style={styles.text}>{props.item.name}</Text>
         {paid && <Text style={styles.paid}>PAID</Text>}
