@@ -1,5 +1,6 @@
 import React from 'react';
 import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useLocation } from 'react-router-native';
 import { Button, Text } from 'react-native-paper';
 
 import { Order } from '../../../util/types/order';
@@ -16,6 +17,8 @@ interface ListItemProps {
 
 const ListItem: React.FC<ListItemProps> = (props) => {
   const [paid, setPaid] = React.useState<boolean>(false);
+
+  const { pathname } = useLocation();
 
   const isOrder = (): boolean => {
     return (props.item as Order).price !== undefined;
@@ -81,11 +84,13 @@ const ListItem: React.FC<ListItemProps> = (props) => {
         <Text style={styles.text}>{props.item.name}</Text>
         {paid && <Text style={styles.paid}>PAID</Text>}
       </View>
-      {!isOrder() && (props.item as Table).orders.length > 0 && (
-        <View>
-          <Text style={styles.vacant}>VACANT</Text>
-        </View>
-      )}
+      {!isOrder() &&
+        (props.item as Table).orders.length > 0 &&
+        pathname !== '/outside' && (
+          <View>
+            <Text style={styles.vacant}>VACANT</Text>
+          </View>
+        )}
       <View style={styles.row}>
         <TouchableOpacity onPress={statusHandler}>
           <Button textColor="grey">{isOrder() ? 'Cancel' : 'Paid'}</Button>

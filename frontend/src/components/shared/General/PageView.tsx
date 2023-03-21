@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import { useLocation } from 'react-router-native';
 
 import Modal, { ModalRef } from '../UI/Modal';
@@ -57,7 +57,11 @@ const PageView: React.FC<PageViewProps> = (props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      enabled={false}
+      behavior={'height'}
+      style={styles.container}
+    >
       <View style={styles.list}>{props.list}</View>
       <Modal ref={modalRef}>{checkPathname()}</Modal>
       <NewEntryFooter
@@ -67,7 +71,7 @@ const PageView: React.FC<PageViewProps> = (props) => {
         onTransfer={transferHandler}
         pathname={pathname}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

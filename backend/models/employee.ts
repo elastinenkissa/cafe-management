@@ -2,20 +2,27 @@ import mongoose from 'mongoose';
 
 export interface EmployeeType {
   id: string;
+  login: string;
+  password: string;
   name: string;
   token: string;
-  isOwner?: boolean;
 }
 
 const employeeSchema = new mongoose.Schema<EmployeeType>({
-  name: {
+  login: {
     type: String,
     required: true,
     unique: true
   },
-
-  token: String,
-  isOwner: Boolean
+  password: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  token: String
 });
 
 employeeSchema.set('toJSON', {
