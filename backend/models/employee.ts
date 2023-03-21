@@ -33,4 +33,4 @@ employeeSchema.set('toJSON', {
   }
 });
 
-export const Table = mongoose.model('Employee', employeeSchema);
+export const Employee = mongoose.model('Employee', employeeSchema);

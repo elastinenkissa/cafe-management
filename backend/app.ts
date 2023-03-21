@@ -5,6 +5,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import deptorRouter from './controllers/deptor';
+import tableRouter from './controllers/table';
 
 import { MONGODB_URI } from './util/config';
 
@@ -13,6 +14,8 @@ const app = express();
 app.use(express.json());
 
 app.use('/deptors', deptorRouter);
+
+app.use('/tables', tableRouter)
 
 const PORT = 3000;
 
