@@ -1,11 +1,11 @@
 require('dotenv').config();
-import 'express-async-errors';
 
 import express from 'express';
 import mongoose from 'mongoose';
 
 import deptorRouter from './controllers/deptor';
 import tableRouter from './controllers/table';
+import cafeRouter from './controllers/cafe';
 
 import { MONGODB_URI } from './util/config';
 
@@ -13,9 +13,11 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/deptors', deptorRouter);
+app.use('/api', cafeRouter);
 
-app.use('/tables', tableRouter)
+app.use('/api/deptors', deptorRouter);
+
+app.use('/api/tables', tableRouter);
 
 const PORT = 3000;
 

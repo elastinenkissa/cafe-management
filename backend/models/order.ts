@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 export interface OrderType {
-  id: string;
   name: string;
   price: number;
 }

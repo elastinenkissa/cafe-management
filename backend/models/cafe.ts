@@ -4,7 +4,6 @@ import { EmployeeType } from './employee';
 import { TableType } from './table';
 
 export interface CafeType {
-  id: string;
   name: string;
   currency: string;
   owner: EmployeeType;

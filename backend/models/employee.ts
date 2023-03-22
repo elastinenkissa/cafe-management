@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 export interface EmployeeType {
-  id: string;
   login: string;
   password: string;
   name: string;
