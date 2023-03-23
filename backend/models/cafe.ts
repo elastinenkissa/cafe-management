@@ -2,12 +2,15 @@ import mongoose from 'mongoose';
 
 import { EmployeeType } from './employee';
 import { TableType } from './table';
+import { MenuType } from './menuItem';
 
 export interface CafeType {
+  id: string;
   name: string;
   currency: string;
   owner: EmployeeType;
   tables: Array<TableType>;
+  menu: Array<MenuType>;
 }
 
 const cafeSchema = new mongoose.Schema<CafeType>({
@@ -21,12 +24,19 @@ const cafeSchema = new mongoose.Schema<CafeType>({
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Employee'
+    ref: 'Employee',
+    required: true
   },
   tables: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Table'
+    }
+  ],
+  menu: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'MenuItem'
     }
   ]
 });

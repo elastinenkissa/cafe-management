@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { OrderType } from './order';
 
 export interface TableType {
+  id: string;
   name: string;
   orders: Array<OrderType>;
 }

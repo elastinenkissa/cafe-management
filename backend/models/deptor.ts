@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { OrderType } from './order';
 
 export interface DeptorType {
+  id: string;
   name: string;
   orders: Array<OrderType>;
 }

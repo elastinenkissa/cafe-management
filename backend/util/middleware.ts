@@ -18,21 +18,6 @@ declare module 'express-serve-static-core' {
   }
 }
 
-export const getCurrentCafe = async (
-  req: Request,
-  _res: Response,
-  next: NextFunction
-) => {
-  const currentCafe = await Cafe.findById(req.params.id);
-
-  if (!currentCafe) {
-    throw new Error('Cafe does not exist.');
-  }
-
-  req.cafe = currentCafe;
-  next();
-};
-
 export const getEmployee = async (
   req: Request,
   _res: Response,
@@ -63,6 +48,18 @@ export const getEmployee = async (
   next();
 };
 
+export const getCurrentCafe = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
+  const currentCafe = await Cafe.findById(req.query.cafe);
+
+  req.cafe = currentCafe;
+
+  next();
+};
+
 export const errorHandler = (
   error: Error,
   _req: Request,
@@ -70,9 +67,7 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   if (error.name === 'ValidationError') {
-    res.status(400).json({ message: error.message });
-  } else {
-    res.status(404).json({ message: error.message });
+    return res.status(400).json({ error: error.message });
   }
 
   next(error);

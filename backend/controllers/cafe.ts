@@ -4,6 +4,9 @@ import jwt from 'jsonwebtoken';
 
 import { Cafe } from '../models/cafe';
 import { Employee } from '../models/employee';
+import { MenuItem } from '../models/menuItem';
+
+import { getCurrentCafe, getEmployee } from '../util/middleware';
 
 const router = Router();
 
@@ -12,7 +15,7 @@ router.post('/signup', async (req: Request, res: Response) => {
 
   const newOwner = await Employee.create({
     name: req.body.name,
-    login: req.body.username,
+    username: req.body.username,
     password: passwordHash,
     token: ''
   });
@@ -21,10 +24,10 @@ router.post('/signup', async (req: Request, res: Response) => {
 });
 
 router.post('/login', async (req: Request, res: Response) => {
-  const employee = await Employee.findOne({ login: req.body.username });
+  const employee = await Employee.findOne({ username: req.body.username });
 
   if (!employee) {
-    throw new Error('Employee not found.');
+    return res.status(404).json({ message: 'Employee not found.' });
   }
 
   const passwordIsCorrect = bcrypt.compare(
@@ -33,7 +36,7 @@ router.post('/login', async (req: Request, res: Response) => {
   );
 
   if (!passwordIsCorrect) {
-    throw new Error('Incorrect password.');
+    return res.status(401).json({ message: 'Incorrect password.' });
   }
 
   const token = jwt.sign({ id: employee._id }, 'blehh');
@@ -48,20 +51,70 @@ router.post('/', async (req: Request, res: Response) => {
   const newCafe = await Cafe.create({
     name: req.body.name,
     currency: req.body.currency,
-    tables: [],
-    owner: req.body.employeeId
+    owner: req.body.owner
   });
 
   res.status(201).json(newCafe);
 });
 
-router.get('/', async (_req: Request, res: Response) => {
-  const cafes = await Cafe.find({}).populate(
+router.get('/:id', async (req: Request, res: Response) => {
+  const cafe = await Cafe.findById(req.params.id).populate(
     'owner',
     '-login -password -token'
   );
 
-  res.status(200).json(cafes);
+  res.status(200).json(cafe);
+});
+
+router.post(
+  '/menu',
+  [getCurrentCafe, getEmployee],
+  async (req: Request, res: Response) => {
+    const currentEmployee = req.employee!;
+    const currentCafe = req.cafe!;
+
+    if (currentCafe.owner.id !== currentEmployee.id) {
+      return res.status(401).json({ message: 'Unauthorized.' });
+    }
+
+    const newMenuItem = await MenuItem.create({
+      item: req.body.item,
+      price: req.body.price
+    });
+
+    currentCafe.menu.concat(newMenuItem.id);
+    await currentCafe?.save();
+
+    res.status(201).json(newMenuItem);
+  }
+);
+
+router.delete(
+  '/menu/:id',
+  [getCurrentCafe, getEmployee],
+  async (req: Request, res: Response) => {
+    const currentEmployee = req.employee!;
+    const currentCafe = req.cafe!;
+
+    if (currentCafe.owner.id !== currentEmployee.id) {
+      return res.status(401).json({ message: 'Unauthorized.' });
+    }
+
+    await MenuItem.findByIdAndDelete(req.params.id);
+
+    currentCafe.menu = currentCafe.menu.filter(
+      (item) => item.id !== req.params.id
+    );
+    await currentCafe.save();
+
+    res.status(202).json({ message: 'Remove successfully.' });
+  }
+);
+
+router.get('/menu', async (_req: Request, res: Response) => {
+  const menu = await MenuItem.find({});
+
+  res.status(200).json(menu);
 });
 
 export default router;

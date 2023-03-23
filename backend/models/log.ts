@@ -10,6 +10,7 @@ export interface Change {
 }
 
 export interface LogType {
+  id: string;
   message: string;
   change: Change;
   table: TableType;
