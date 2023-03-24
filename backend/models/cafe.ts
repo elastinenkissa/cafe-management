@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { EmployeeType } from './employee';
 import { TableType } from './table';
 import { MenuType } from './menuItem';
+import { DeptorType } from './deptor';
 
 export interface CafeType {
   id: string;
@@ -10,6 +11,7 @@ export interface CafeType {
   currency: string;
   owner: EmployeeType;
   tables: Array<TableType>;
+  deptors: Array<DeptorType>;
   menu: Array<MenuType>;
 }
 
@@ -31,6 +33,12 @@ const cafeSchema = new mongoose.Schema<CafeType>({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Table'
+    }
+  ],
+  deptors: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Deptor'
     }
   ],
   menu: [

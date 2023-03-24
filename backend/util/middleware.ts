@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 
 import { Cafe, CafeType } from '../models/cafe';
 import { Employee, EmployeeType } from '../models/employee';
+import { JWT_SECRET } from './config';
 
 declare module 'express-serve-static-core' {
   interface Request {
@@ -20,27 +21,32 @@ declare module 'express-serve-static-core' {
 
 export const getEmployee = async (
   req: Request,
-  _res: Response,
+  res: Response,
   next: NextFunction
 ) => {
+  const authorization = req.get('authorization');
+
   const token =
-    req.get('authorization')?.startsWith('bearer') &&
-    req.get('authorization')?.split(' ')[1];
+    authorization?.startsWith('bearer') && authorization?.split(' ')[1];
 
   if (!token) {
-    throw new Error('Unauthorized.');
+    return res.status(401).json({ message: 'Unauthorized.' });
   }
 
   interface Employee {
     id: string;
   }
 
-  const verifiedToken = jwt.verify(token, 'blehh') as Employee;
+  if (!JWT_SECRET) {
+    return res.status(401).json({ message: 'Invalid secret.' });
+  }
+
+  const verifiedToken = jwt.verify(token, JWT_SECRET) as Employee;
 
   const verifiedEmployee = await Employee.findById(verifiedToken.id);
 
   if (!verifiedEmployee) {
-    throw new Error('Unauthorized.');
+    return res.status(401).json({ message: 'Unauthorized.' });
   }
 
   req.employee = verifiedEmployee;
@@ -50,10 +56,14 @@ export const getEmployee = async (
 
 export const getCurrentCafe = async (
   req: Request,
-  _res: Response,
+  res: Response,
   next: NextFunction
 ) => {
   const currentCafe = await Cafe.findById(req.query.cafe);
+
+  if (!currentCafe) {
+    return res.status(404).json({ message: 'Cafe not found.' });
+  }
 
   req.cafe = currentCafe;
 

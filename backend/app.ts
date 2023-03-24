@@ -7,6 +7,7 @@ import cors from 'cors';
 import deptorRouter from './controllers/deptor';
 import tableRouter from './controllers/table';
 import cafeRouter from './controllers/cafe';
+import employeeRouter from './controllers/employee';
 
 import { MONGODB_URI } from './util/config';
 import { errorHandler } from './util/middleware';
@@ -15,6 +16,8 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+app.use('/api/employees', employeeRouter);
 
 app.use('/api/cafe', cafeRouter);
 

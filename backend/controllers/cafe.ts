@@ -1,63 +1,41 @@
 import { Request, Response, Router } from 'express';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
 import { Cafe } from '../models/cafe';
-import { Employee } from '../models/employee';
 import { MenuItem } from '../models/menuItem';
 
 import { getCurrentCafe, getEmployee } from '../util/middleware';
 
 const router = Router();
 
-router.post('/signup', async (req: Request, res: Response) => {
-  const passwordHash = await bcrypt.hash(req.body.password, 10);
+router.get('/', async (_req: Request, res: Response) => {
+  const cafes = await Cafe.find({});
 
-  const newOwner = await Employee.create({
-    name: req.body.name,
-    username: req.body.username,
-    password: passwordHash,
-    token: ''
-  });
-
-  res.status(201).json(newOwner);
+  res.status(200).json(cafes);
 });
 
-router.post('/login', async (req: Request, res: Response) => {
-  const employee = await Employee.findOne({ username: req.body.username });
+router.post(
+  '/',
+  getEmployee,
+  async (
+    req: Request<{}, {}, { name: string; currency: number }>,
+    res: Response
+  ) => {
+    const owner = req.employee!;
 
-  if (!employee) {
-    return res.status(404).json({ message: 'Employee not found.' });
+    const newCafe = await Cafe.create({
+      name: req.body.name,
+      currency: req.body.currency,
+      owner: owner.id
+    });
+
+    owner.cafe = newCafe.id;
+    await owner.save();
+
+    res.status(201).json(newCafe);
   }
+);
 
-  const passwordIsCorrect = bcrypt.compare(
-    req.body.password,
-    employee.password
-  );
-
-  if (!passwordIsCorrect) {
-    return res.status(401).json({ message: 'Incorrect password.' });
-  }
-
-  const token = jwt.sign({ id: employee._id }, 'blehh');
-
-  employee.token = token;
-  await employee.save();
-
-  res.status(200).json(employee);
-});
-
-router.post('/', async (req: Request, res: Response) => {
-  const newCafe = await Cafe.create({
-    name: req.body.name,
-    currency: req.body.currency,
-    owner: req.body.owner
-  });
-
-  res.status(201).json(newCafe);
-});
-
-router.get('/:id', async (req: Request, res: Response) => {
+router.get('/:id', async (req: Request<{ id: string }>, res: Response) => {
   const cafe = await Cafe.findById(req.params.id).populate(
     'owner',
     '-login -password -token'
@@ -69,7 +47,10 @@ router.get('/:id', async (req: Request, res: Response) => {
 router.post(
   '/menu',
   [getCurrentCafe, getEmployee],
-  async (req: Request, res: Response) => {
+  async (
+    req: Request<{}, {}, { item: string; price: number }>,
+    res: Response
+  ) => {
     const currentEmployee = req.employee!;
     const currentCafe = req.cafe!;
 
@@ -92,7 +73,7 @@ router.post(
 router.delete(
   '/menu/:id',
   [getCurrentCafe, getEmployee],
-  async (req: Request, res: Response) => {
+  async (req: Request<{ id: string }>, res: Response) => {
     const currentEmployee = req.employee!;
     const currentCafe = req.cafe!;
 

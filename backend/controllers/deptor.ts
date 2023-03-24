@@ -1,11 +1,14 @@
 import { Request, Response, Router } from 'express';
 
-import { Deptor, DeptorType } from '../models/deptor';
+import { Deptor } from '../models/deptor';
+import { getCurrentCafe, getEmployee } from '../util/middleware';
 
 const router = Router();
 
-router.get('/', async (_req: Request, res: Response) => {
-  const deptors = await Deptor.find({});
+router.get('/', getCurrentCafe, async (req: Request, res: Response) => {
+  const cafe = await req.cafe!.populate('deptors');
+
+  const deptors = cafe.deptors;
 
   if (!deptors) {
     return res.status(404).json({ message: 'No deptors found.' });
@@ -14,15 +17,19 @@ router.get('/', async (_req: Request, res: Response) => {
   res.status(200).json(deptors);
 });
 
-router.get('/', async (req: Request<DeptorType>, res: Response) => {
-  const newDeptor = new Deptor({
-    name: req.body.name,
-    orders: []
-  });
+router.post(
+  '/',
+  getEmployee,
+  async (req: Request<{}, {}, { name: string }>, res: Response) => {
+    const newDeptor = new Deptor({
+      name: req.body.name,
+      orders: []
+    });
 
-  await newDeptor.save();
+    await newDeptor.save();
 
-  res.status(201).json(newDeptor);
-});
+    res.status(201).json(newDeptor);
+  }
+);
 
 export default router;
