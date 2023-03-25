@@ -1,19 +1,19 @@
 import mongoose from 'mongoose';
 
 import { EmployeeType } from './employee';
-import { TableType } from './table';
 import { OrderType } from './order';
+import { CafeType } from './cafe';
 
 export interface Change {
   by: EmployeeType;
-  timestamp: Date;
+  timestamp: string;
 }
 
 export interface LogType {
   id: string;
-  message: string;
+  cafe: CafeType;
   change: Change;
-  table: TableType;
+  from: string;
   orders: Array<OrderType>;
 }
 
@@ -23,19 +23,23 @@ const changeSchema = new mongoose.Schema<Change>({
     ref: 'Employee'
   },
   timestamp: {
-    type: Date,
+    type: String,
     required: true
   }
 });
 
 const logSchema = new mongoose.Schema<LogType>({
-  message: {
-    type: String,
-    required: true
-  },
   change: {
     type: changeSchema,
     required: true
+  },
+  from: {
+    type: String,
+    required: true
+  },
+  cafe: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Cafe'
   },
   orders: [
     {
