@@ -8,6 +8,7 @@ import deptorRouter from './controllers/deptor';
 import tableRouter from './controllers/table';
 import cafeRouter from './controllers/cafe';
 import employeeRouter from './controllers/employee';
+import logRouter from './controllers/log';
 
 import { MONGODB_URI } from './util/config';
 import { errorHandler } from './util/middleware';
@@ -24,6 +25,8 @@ app.use('/api/cafe', cafeRouter);
 app.use('/api/deptors', deptorRouter);
 
 app.use('/api/tables', tableRouter);
+
+app.use('/api/logs', logRouter);
 
 app.use(errorHandler);
 
