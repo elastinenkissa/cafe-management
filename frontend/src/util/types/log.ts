@@ -1,15 +1,15 @@
 import { Employee } from './employee';
 import { Order } from './order';
-import { Table } from './table';
 
 export interface Change {
   by: Employee;
-  timestamp: Date;
+  timestamp: string;
 }
 
 export interface Log {
-  message: string;
+  id: string;
+  cafeId: string;
   change: Change;
-  table: Table;
-  orders: Order | Array<Order>;
+  from: string;
+  orders: Array<Order>;
 }

@@ -7,7 +7,7 @@ interface ButtonProps {
   textStyle: any;
   onPress: () => void;
 }
- 
+
 const Button: React.FC<ButtonProps> = (props) => {
   return (
     <TouchableOpacity

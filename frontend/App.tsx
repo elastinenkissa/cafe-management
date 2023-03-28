@@ -8,12 +8,14 @@ import Debtors from './src/pages/outside/Debtors';
 import TableView from './src/pages/interior/TableView';
 import DeptorView from './src/pages/outside/DeptorView';
 import Options from './src/pages/settings/Options';
+import Welcome from './src/pages/settings/Welcome';
 
 import { TablesContext } from './src/util/context/TablesContext';
 import { DeptorsContext } from './src/util/context/DeptorsContext';
 
 import { useBack } from './src/util/hooks/useBack';
 import { useContextData } from './src/util/hooks/useContextData';
+import Login from './src/pages/settings/Login';
 
 const BackPress = () => {
   useBack();
@@ -49,6 +51,7 @@ const App: React.FC = () => {
             <BackPress />
             <AppBar />
             <Routes>
+              <Route path="/" element={<Welcome />} />
               <Route path="/cafe/:id" element={<TableView />} />
               <Route path="/cafe" element={<Cafe />} />
               <Route path="/outside" element={<Debtors />} />

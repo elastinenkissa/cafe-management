@@ -29,7 +29,7 @@ router.post(
 
     const date = new Date();
 
-    const timestamp = `${date.toLocaleDateString()} at ${date.getHours()}:${
+    const timestamp = `on ${date.toLocaleDateString()} at ${date.getHours()}:${
       date.getMinutes
     }:${date.getSeconds()}`;
 

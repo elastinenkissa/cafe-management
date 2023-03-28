@@ -3,8 +3,25 @@ import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
 
 import Link from '../UI/Link';
- 
+import { useLocation } from 'react-router-native';
+
 const AppBar: React.FC = () => {
+  const { pathname } = useLocation();
+
+  const styles = StyleSheet.create({
+    container: {
+      height: 100,
+      display: pathname === '/' ? 'none' : 'flex',
+      backgroundColor: '#20232a',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      paddingTop: Constants.statusBarHeight,
+      elevation: 10
+      // #ffa0b0
+    }
+  });
+
   return (
     <>
       <StatusBar backgroundColor="transparent" style="light" />
@@ -31,19 +48,5 @@ const AppBar: React.FC = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    height: 100,
-    // backgroundColor: '#ffc0cb',
-    backgroundColor: '#20232a',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingTop: Constants.statusBarHeight,
-    elevation: 10
-    // #ffa0b0
-  }
-});
 
 export default AppBar;
