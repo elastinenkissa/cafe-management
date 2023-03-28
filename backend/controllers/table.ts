@@ -42,36 +42,58 @@ router.delete('/:id', async (req: Request, res: Response) => {
   res.status(200).json({ message: 'Removed successfully.' });
 });
 
-router.patch('/:id', async (req: Request, res: Response) => {
-  const table = await Table.findById(req.params.id);
+router.patch(
+  '/:id/addOrder',
+  async (req: Request<{ id: string }>, res: Response) => {
+    const table = await Table.findById(req.params.id);
 
-  if (!table) {
-    return res.status(404).json({ message: 'Table not found.' });
+    if (!table) {
+      return res.status(404).json({ message: 'Table not found.' });
+    }
+
+    const newOrder = await Order.create({
+      name: req.body.orderName,
+      price: req.body.orderPrice,
+      table: req.params.id
+    });
+
+    table.orders = table.orders.concat(newOrder.id);
+    await table.save();
+
+    res.status(201).json(newOrder);
   }
+);
 
-  const newOrder = await Order.create({
-    name: req.body.orderName,
-    price: req.body.orderPrice,
-    table: req.params.id
-  });
+router.patch(
+  '/:id/removeOrders',
+  async (req: Request<{ id: string }>, res: Response) => {
+    const table = await Table.findById(req.params.id);
 
-  table.orders = table.orders.concat(newOrder.id);
-  await table.save();
+    if (!table) {
+      return res.status(404).json({ message: 'Table not found.' });
+    }
 
-  res.status(201).json(newOrder);
-});
+    table.orders = [];
+    await table.save();
 
-router.delete('/:id/:orderId', async (req: Request, res: Response) => {
-  await Table.updateOne(
-    {
-      _id: req.params.id
-    },
-    { $pull: { orders: req.params.orderId } }
-  );
+    res.status(201).json({ message: 'Orders removed succesfully.' });
+  }
+);
 
-  await Order.findByIdAndDelete(req.params.orderId);
+router.delete(
+  '/:id/:orderId',
+  async (req: Request<{ tableId: string; orderId: string }>, res: Response) => {
+    await Table.updateOne(
+      {
+        _id: req.params.tableId
+      },
+      { $pull: { orders: req.params.orderId } }
+    );
 
-  res.status(200).json({ message: 'Order cancelled successfully.' });
-});
+    await Order.findByIdAndDelete(req.params.orderId);
+
+    res.status(200).json({ message: 'Order cancelled successfully.' });
+  }
+);
 
 export default router;
