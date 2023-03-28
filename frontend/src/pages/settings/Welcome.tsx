@@ -13,7 +13,9 @@ const Welcome: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {loginType && <Login loginType={loginType} />}
+      {loginType && (
+        <Login onExit={() => setLoginType(undefined)} loginType={loginType} />
+      )}
       <Image
         source={require('../../../assets/icon.png')}
         style={styles.image}

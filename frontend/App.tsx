@@ -15,7 +15,11 @@ import { DeptorsContext } from './src/util/context/DeptorsContext';
 
 import { useBack } from './src/util/hooks/useBack';
 import { useContextData } from './src/util/hooks/useContextData';
+
 import Login from './src/pages/settings/Login';
+
+import { UserContext } from './src/util/context/UserContext';
+import { Employee } from './src/util/types/employee';
 
 const BackPress = () => {
   useBack();
@@ -26,45 +30,53 @@ const BackPress = () => {
 const App: React.FC = () => {
   const { tables, deptors } = useContextData();
 
+  const [user, setUser] = React.useState<Employee | undefined>();
+
+  const setUserHandler = (userParam: Employee) => {
+    setUser(userParam);
+  };
+
   return (
-    <TablesContext.Provider
-      value={{
-        tables: tables.items,
-        addOrder: tables.addOrder,
-        removeOrder: tables.removeOrder,
-        removeOrders: tables.removeOrders
-      }}
-    >
-      <DeptorsContext.Provider
+    <UserContext.Provider value={{ user, setUser: setUserHandler }}>
+      <TablesContext.Provider
         value={{
-          deptors: deptors.items,
-          addDeptor: deptors.addDeptor,
-          removeDeptor: deptors.removeDeptor,
-          addOrderToDeptor: deptors.addOrderToDeptor,
-          removeOrderFromDeptor: deptors.removeOrderFromDeptor,
-          changeDeptorToPaid: deptors.changeDeptorToPaid,
-          transferOrders: deptors.transferOrders
+          tables: tables.items,
+          addOrder: tables.addOrder,
+          removeOrder: tables.removeOrder,
+          removeOrders: tables.removeOrders
         }}
       >
-        <View style={styles.container}>
-          <NativeRouter>
-            <BackPress />
-            <AppBar />
-            <Routes>
-              <Route path="/" element={<Welcome />} />
-              <Route path="/cafe/:id" element={<TableView />} />
-              <Route path="/cafe" element={<Cafe />} />
-              <Route path="/outside" element={<Debtors />} />
-              <Route path="/outside/:id" element={<DeptorView />} />
-              <Route path="/options" element={<Options />} />
-              {/* <Route path="/options/logs" element={<Logs />} />
+        <DeptorsContext.Provider
+          value={{
+            deptors: deptors.items,
+            addDeptor: deptors.addDeptor,
+            removeDeptor: deptors.removeDeptor,
+            addOrderToDeptor: deptors.addOrderToDeptor,
+            removeOrderFromDeptor: deptors.removeOrderFromDeptor,
+            changeDeptorToPaid: deptors.changeDeptorToPaid,
+            transferOrders: deptors.transferOrders
+          }}
+        >
+          <View style={styles.container}>
+            <NativeRouter>
+              <BackPress />
+              <AppBar />
+              <Routes>
+                <Route path="/" element={<Welcome />} />
+                <Route path="/cafe/:id" element={<TableView />} />
+                <Route path="/cafe" element={<Cafe />} />
+                <Route path="/outside" element={<Debtors />} />
+                <Route path="/outside/:id" element={<DeptorView />} />
+                <Route path="/options" element={<Options />} />
+                {/* <Route path="/options/logs" element={<Logs />} />
               <Route path="/options/employees" element={<Employees />} /> */}
-              <Route path="*" element={<Navigate to="/cafe" replace />} />
-            </Routes>
-          </NativeRouter>
-        </View>
-      </DeptorsContext.Provider>
-    </TablesContext.Provider>
+                <Route path="*" element={<Navigate to="/cafe" replace />} />
+              </Routes>
+            </NativeRouter>
+          </View>
+        </DeptorsContext.Provider>
+      </TablesContext.Provider>
+    </UserContext.Provider>
   );
 };
 

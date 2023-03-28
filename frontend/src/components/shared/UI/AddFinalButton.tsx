@@ -25,8 +25,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 40,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
   },
   buttonText: {
     color: 'white',

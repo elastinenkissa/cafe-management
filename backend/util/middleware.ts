@@ -43,7 +43,9 @@ export const getEmployee = async (
 
   const verifiedToken = jwt.verify(token, JWT_SECRET) as Employee;
 
-  const verifiedEmployee = await Employee.findById(verifiedToken.id);
+  const verifiedEmployee = await Employee.findById(verifiedToken.id).populate(
+    'cafe'
+  );
 
   if (!verifiedEmployee) {
     return res.status(401).json({ message: 'Unauthorized.' });

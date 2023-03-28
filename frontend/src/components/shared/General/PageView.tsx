@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     height: '85%',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
   list: {
     height: '90%',

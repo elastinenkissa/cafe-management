@@ -16,22 +16,26 @@ const NewEntryFooter: React.FC<NewEntryFooterProps> = (props) => {
     footer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center',
+      alignItems: 'center'
     },
     total: {
       fontSize: 18,
       opacity: props.outside ? 0 : 1,
       color: 'white'
+    },
+    transferButton: {
+      opacity: props.pathname !== '/outside' ? 1 : 0
     }
   });
 
   return (
     <View>
-      {props.pathname !== '/outside' && (
+      <View style={styles.transferButton}>
         <TouchableOpacity onPress={props.onTransfer}>
           <Button textColor="grey">Transfer to deptor</Button>
         </TouchableOpacity>
-      )}
+      </View>
+
       <View style={styles.footer}>
         <Text style={styles.total}>
           Total:{' '}

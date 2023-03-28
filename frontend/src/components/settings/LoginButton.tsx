@@ -12,13 +12,12 @@ const LoginButton: React.FC<LoginButtonProps> = (props) => {
     text: {
       color: 'white',
       backgroundColor:
-        props.loginType.toLowerCase() === 'register' ? '#20232a' : 'dimgray',
+        props.loginType.toLowerCase() === 'register' ? '#20232a' : '#454850',
       padding: 12,
       width: 300,
       height: 55,
       textAlignVertical: 'center',
       textAlign: 'center',
-      borderRadius: 200
     }
   });
 

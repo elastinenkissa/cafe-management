@@ -34,7 +34,7 @@ const Options: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 30,
+    margin: 20,
     height: '80%',
     justifyContent: 'space-between'
   },

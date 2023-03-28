@@ -41,7 +41,7 @@ const NewDeptor: React.FC<NewDeptorProps> = (props) => {
 
   return (
     <NewItem onAddItem={addDeptorHandler}>
-      <TextInput style={styles.input} value={name} onChangeText={setName} />
+      <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Deptor name" />
     </NewItem>
   );
 };
