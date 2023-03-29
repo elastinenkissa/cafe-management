@@ -22,12 +22,16 @@ const Login: React.FC<LoginProps> = (props) => {
 
   const loginHandler = async () => {
     if (props.loginType === 'Login') {
-      const user = await employeeService.login(formData);
-      setUser(user);
+      try {
+        const user = await employeeService.login(formData);
+        setUser(user);
 
-      setTimeout(() => {
-        redirect('/cafe');
-      }, 1000);
+        setTimeout(() => {
+          redirect('/cafe');
+        }, 1000);
+      } catch (error: any) {
+        console.log(error.response.data.message);
+      }
     }
 
     if (props.loginType === 'Register') {
@@ -43,7 +47,7 @@ const Login: React.FC<LoginProps> = (props) => {
           redirect('/cafe');
         }, 1000);
       } catch (error: any) {
-        console.log(error.message);
+        console.log(error.response.data.message);
       }
     }
   };

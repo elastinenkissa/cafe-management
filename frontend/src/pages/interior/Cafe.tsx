@@ -6,21 +6,10 @@ import ListSeparator from '../../components/shared/UI/ListSeparator';
 
 import { Table as TableType } from '../../util/types/table';
 import tableService from '../../util/services/tableService';
-import { UserContext, UserContextType } from '../../util/context/UserContext';
+import { useTablesOrDeptors } from '../../util/hooks/useTablesOrDeptors';
 
 const Cafe: React.FC = () => {
-  const [tables, setTables] = React.useState<Array<TableType>>();
-
-  const { user } = React.useContext<UserContextType>(UserContext);
-
-  const fetchTables = async () => {
-    const fetchedTables = await tableService.getTables(user?.cafe.id!);
-    setTables(fetchedTables);
-  };
-
-  React.useEffect(() => {
-    fetchTables();
-  }, []);
+  const tables = useTablesOrDeptors<TableType>(tableService);
 
   return (
     <View style={styles.tables}>

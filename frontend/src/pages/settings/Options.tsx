@@ -1,24 +1,19 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button } from 'react-native-paper';
-import { Employee } from '../../util/types/employee';
+
 import Link from '../../components/shared/UI/Link';
+
 import { UserContext, UserContextType } from '../../util/context/UserContext';
 
 const Options: React.FC = () => {
-  const employee: Employee = {
-    id: Math.random().toString(),
-    name: 'Max Mustermann',
-    isOwner: true,
-    token: 'bearer blablablablabla'
-  };
-
   const { user } = React.useContext<UserContextType>(UserContext);
   return (
     <View style={styles.container}>
       <View style={styles.links}>
+        <Text style={styles.welcome}>Welcome, {user?.name}</Text>
         <Link text="Logs" to="/options/logs" background="black" />
-        {employee.isOwner && (
+        {user?.id === user?.cafe.owner && (
           <View>
             <Link
               text="Manage employees"
@@ -44,7 +39,12 @@ const styles = StyleSheet.create({
     height: '80%',
     justifyContent: 'space-between'
   },
-  links: {}
+  links: {},
+  welcome: {
+    color: 'white',
+    alignSelf: 'center',
+    marginBottom: 30
+  }
 });
 
 export default Options;

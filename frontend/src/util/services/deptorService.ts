@@ -1,7 +1,7 @@
 import { api } from './api';
 
 const getAll = async (cafeId: string) => {
-  const response = await api.get('/tables', {
+  const response = await api.get('/deptors', {
     params: {
       cafe: cafeId
     }
