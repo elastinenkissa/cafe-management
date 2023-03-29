@@ -1,14 +1,14 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { TextInput, Button as PaperButton } from 'react-native-paper';
+import { useNavigate } from 'react-router-native';
 
 import Button from '../../components/shared/UI/Button';
+
 import { useLogin } from '../../util/hooks/useLogin';
-import axios, { AxiosResponse } from 'axios';
-import { Employee } from '../../util/types/employee';
-import { Cafe } from '../../util/types/cafe';
 import { UserContext, UserContextType } from '../../util/context/UserContext';
-import { useNavigate } from 'react-router-native';
+import employeeService from '../../util/services/employeeService';
+import cafeService from '../../util/services/cafeService';
 
 interface LoginProps {
   loginType: string;
@@ -21,61 +21,30 @@ const Login: React.FC<LoginProps> = (props) => {
   const redirect = useNavigate();
 
   const loginHandler = async () => {
-    interface LoginData {
-      username: string;
-      password: string;
-    }
-
-    interface RegisterData extends LoginData {
-      name: string;
-    }
-
-    interface CafeData {
-      name: string;
-      currency: string;
-    }
-
     if (props.loginType === 'Login') {
-    }
-
-    if (props.loginType === 'Register') {
-      await axios.post<Employee, AxiosResponse<Employee, any>, RegisterData>(
-        'http://localhost:3000/api/employees/signup',
-        {
-          name: formData.name,
-          username: formData.username,
-          password: formData.password
-        }
-      );
-
-      const userResponse = await axios.post<
-        Employee,
-        AxiosResponse<Employee, any>,
-        LoginData
-      >('http://localhost:3000/api/employees/login', {
-        username: formData.username,
-        password: formData.password
-      });
-
-      const user = userResponse.data;
+      const user = await employeeService.login(formData);
       setUser(user);
-
-      await axios.post<Cafe, AxiosResponse<Cafe, any>, CafeData>(
-        'http://localhost:3000/api/cafe',
-        {
-          name: formData.cafeName,
-          currency: formData.cafeCurrency
-        },
-        {
-          headers: {
-            Authorization: `bearer ${user.token}`
-          }
-        }
-      );
 
       setTimeout(() => {
         redirect('/cafe');
-      }, 2000);
+      }, 1000);
+    }
+
+    if (props.loginType === 'Register') {
+      try {
+        await employeeService.signUp(formData);
+
+        const user = await employeeService.login(formData);
+        setUser(user);
+
+        await cafeService.createCafe(formData, user);
+
+        setTimeout(() => {
+          redirect('/cafe');
+        }, 1000);
+      } catch (error: any) {
+        console.log(error.message);
+      }
     }
   };
 
@@ -102,6 +71,7 @@ const Login: React.FC<LoginProps> = (props) => {
             style={styles.input}
             value={formData.password}
             onChangeText={formData.setPassword}
+            secureTextEntry
           />
           {props.loginType === 'Register' && (
             <>

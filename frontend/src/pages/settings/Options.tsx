@@ -1,7 +1,9 @@
+import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Employee } from '../../util/types/employee';
 import Link from '../../components/shared/UI/Link';
+import { UserContext, UserContextType } from '../../util/context/UserContext';
 
 const Options: React.FC = () => {
   const employee: Employee = {
@@ -10,6 +12,8 @@ const Options: React.FC = () => {
     isOwner: true,
     token: 'bearer blablablablabla'
   };
+
+  const { user } = React.useContext<UserContextType>(UserContext);
   return (
     <View style={styles.container}>
       <View style={styles.links}>
@@ -26,7 +30,9 @@ const Options: React.FC = () => {
         )}
       </View>
       <TouchableOpacity>
-        <Button textColor="grey">Logout</Button>
+        <Button textColor="grey" onPress={() => console.log(user)}>
+          Logout
+        </Button>
       </TouchableOpacity>
     </View>
   );

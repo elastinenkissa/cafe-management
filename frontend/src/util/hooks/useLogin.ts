@@ -1,5 +1,13 @@
 import React from 'react';
 
+export interface FormData {
+  name: string;
+  username: string;
+  password: string;
+  cafeName: string;
+  cafeCurrency: string;
+}
+
 export const useLogin = () => {
   const [name, setName] = React.useState<string>('');
   const [username, setUsername] = React.useState<string>('');

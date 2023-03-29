@@ -75,7 +75,9 @@ router.post('/signup', async (req: Request, res: Response) => {
 });
 
 router.post('/login', async (req: Request, res: Response) => {
-  const employee = await Employee.findOne({ username: req.body.username });
+  const employee = await Employee.findOne({
+    username: req.body.username
+  }).populate('cafe');
 
   if (!employee) {
     return res.status(404).json({ message: 'Employee not found.' });

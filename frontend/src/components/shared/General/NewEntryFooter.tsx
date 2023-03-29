@@ -1,9 +1,15 @@
+import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import AddNewButton from '../UI/AddNewButton';
 
 import { EntryType } from './PageView';
+
+import {
+  UserContext,
+  UserContextType
+} from '../../../util/context/UserContext';
 
 interface NewEntryFooterProps extends EntryType {
   onPress: () => void;
@@ -28,6 +34,8 @@ const NewEntryFooter: React.FC<NewEntryFooterProps> = (props) => {
     }
   });
 
+  const { user } = React.useContext<UserContextType>(UserContext);
+
   return (
     <View>
       <View style={styles.transferButton}>
@@ -43,7 +51,7 @@ const NewEntryFooter: React.FC<NewEntryFooterProps> = (props) => {
             (accumulator, current) => accumulator + current.price,
             0
           )}{' '}
-          KM
+          {user?.cafe.currency}
         </Text>
         <AddNewButton onPress={props.onPress} />
       </View>
