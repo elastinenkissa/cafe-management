@@ -6,10 +6,11 @@ import { Button, Text } from 'react-native-paper';
 import { Order } from '../../../util/types/order';
 import { Deptor } from '../../../util/types/deptor';
 import { Table } from '../../../util/types/table';
+import { Employee } from '../../../util/types/employee';
 
 interface ListItemProps {
   onRemove: () => void;
-  item: Order | Deptor | Table;
+  item: Order | Deptor | Table | Employee;
   pressed?: boolean;
   paid?: boolean;
   style?: any;
