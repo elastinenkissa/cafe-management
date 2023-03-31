@@ -61,48 +61,60 @@ router.delete(
   }
 );
 
-router.post('/signup', async (req: Request, res: Response) => {
-  const passwordHash = await bcrypt.hash(req.body.password, 10);
+router.post(
+  '/signup',
+  async (
+    req: Request<{}, {}, { name: string; username: string; password: string }>,
+    res: Response
+  ) => {
+    const passwordHash = await bcrypt.hash(req.body.password, 10);
 
-  const newOwner = await Employee.create({
-    name: req.body.name,
-    username: req.body.username,
-    password: passwordHash,
-    token: ''
-  });
+    const newOwner = await Employee.create({
+      name: req.body.name,
+      username: req.body.username,
+      password: passwordHash,
+      token: ''
+    });
 
-  res.status(201).json(newOwner);
-});
-
-router.post('/login', async (req: Request, res: Response) => {
-  const employee = await Employee.findOne({
-    username: req.body.username
-  }).populate('cafe');
-
-  if (!employee) {
-    return res.status(404).json({ message: 'Employee not found.' });
+    res.status(201).json(newOwner);
   }
+);
 
-  const passwordIsCorrect = bcrypt.compare(
-    req.body.password,
-    employee.password
-  );
+router.post(
+  '/login',
+  async (
+    req: Request<{}, {}, { username: string; password: string }>,
+    res: Response
+  ) => {
+    const employee = await Employee.findOne({
+      username: req.body.username.trim()
+    }).populate('cafe');
 
-  if (!passwordIsCorrect) {
-    return res.status(401).json({ message: 'Incorrect password.' });
+    if (!employee) {
+      return res.status(404).json({ message: 'Employee not found.' });
+    }
+
+    const passwordIsCorrect = bcrypt.compare(
+      req.body.password.trim(),
+      employee.password
+    );
+
+    if (!passwordIsCorrect) {
+      return res.status(401).json({ message: 'Incorrect password.' });
+    }
+
+    if (!JWT_SECRET) {
+      return res.status(401).json({ message: 'Invalid secret.' });
+    }
+
+    const token = jwt.sign({ id: employee._id }, JWT_SECRET);
+
+    employee.token = token;
+    await employee.save();
+
+    res.status(200).json(employee);
   }
-
-  if (!JWT_SECRET) {
-    return res.status(401).json({ message: 'Invalid secret.' });
-  }
-
-  const token = jwt.sign({ id: employee._id }, JWT_SECRET);
-
-  employee.token = token;
-  await employee.save();
-
-  res.status(200).json(employee);
-});
+);
 
 router.patch(
   '/logout/:id',

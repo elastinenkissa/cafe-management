@@ -10,7 +10,8 @@ const menuItemSchema = new mongoose.Schema<MenuType>({
   item: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    trim: true
   },
   price: {
     type: Number,

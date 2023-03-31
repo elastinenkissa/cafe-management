@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
-import LoginButton from '../../components/settings/LoginButton';
+import LoginChoiceButton from '../../components/settings/LoginChoiceButton';
 import Login from './Login';
 
 const Welcome: React.FC = () => {
@@ -21,9 +21,9 @@ const Welcome: React.FC = () => {
         style={styles.image}
       />
       <View style={styles.buttons}>
-        <LoginButton loginType="Login" onPress={loginTypeHandler} />
+        <LoginChoiceButton loginType="Login" onPress={loginTypeHandler} />
         <Text style={{ opacity: 0.5, fontSize: 16 }}>Or</Text>
-        <LoginButton loginType="Register" onPress={loginTypeHandler} />
+        <LoginChoiceButton loginType="Register" onPress={loginTypeHandler} />
       </View>
     </View>
   );

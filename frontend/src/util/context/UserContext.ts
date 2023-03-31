@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Employee } from '../types/employee';
+import { PopulatedEmployee } from '../types/employee';
 
 export interface UserContextType {
-  user: Employee | undefined;
-  setUser: (user: Employee) => void;
+  user: PopulatedEmployee | undefined;
+  setUser: (user: PopulatedEmployee) => void;
 }
 
 export const UserContext = React.createContext<UserContextType>({
@@ -23,5 +23,5 @@ export const UserContext = React.createContext<UserContextType>({
       owner: ''
     }
   },
-  setUser: (_user: Employee) => {}
+  setUser: (_user: PopulatedEmployee) => {}
 });

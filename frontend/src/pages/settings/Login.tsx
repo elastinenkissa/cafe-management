@@ -3,10 +3,11 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { TextInput, Button as PaperButton } from 'react-native-paper';
 import { useNavigate } from 'react-router-native';
 
-import Button from '../../components/shared/UI/Button';
+import LoginButton from '../../components/settings/LoginButton';
 
 import { useLogin } from '../../util/hooks/useLogin';
 import { UserContext, UserContextType } from '../../util/context/UserContext';
+
 import employeeService from '../../util/services/employeeService';
 import cafeService from '../../util/services/cafeService';
 
@@ -58,12 +59,14 @@ const Login: React.FC<LoginProps> = (props) => {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.inputs}>
-          <TextInput
-            placeholder="Name"
-            style={styles.input}
-            value={formData.name}
-            onChangeText={formData.setName}
-          />
+          {props.loginType === 'Register' && (
+            <TextInput
+              placeholder="Name"
+              style={styles.input}
+              value={formData.name}
+              onChangeText={formData.setName}
+            />
+          )}
           <TextInput
             placeholder="Username"
             style={styles.input}
@@ -93,14 +96,7 @@ const Login: React.FC<LoginProps> = (props) => {
               />
             </>
           )}
-          <Button
-            touchOpacity={0.85}
-            containerStyle={undefined}
-            textStyle={styles.buttonText}
-            onPress={loginHandler}
-          >
-            {props.loginType}
-          </Button>
+          <LoginButton loginType={props.loginType} onLogin={loginHandler} />
         </View>
       </ScrollView>
       <View style={styles.cancel}>
@@ -135,15 +131,6 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 20,
     width: 350
-  },
-  buttonText: {
-    backgroundColor: '#272a31',
-    color: 'white',
-    padding: 15,
-    borderRadius: 2,
-    width: 350,
-    textAlign: 'center',
-    fontSize: 15
   },
   cancel: { marginLeft: 15, marginTop: 25 },
   scroll: { justifyContent: 'space-between' }

@@ -11,7 +11,8 @@ export interface DeptorType {
 const deptorSchema = new mongoose.Schema<DeptorType>({
   name: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   orders: [
     {

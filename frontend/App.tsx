@@ -16,10 +16,11 @@ import { DeptorsContext } from './src/util/context/DeptorsContext';
 import { useBack } from './src/util/hooks/useBack';
 import { useContextData } from './src/util/hooks/useContextData';
 
-import Login from './src/pages/settings/Login';
-
 import { UserContext } from './src/util/context/UserContext';
-import { Employee } from './src/util/types/employee';
+import { PopulatedEmployee } from './src/util/types/employee';
+import Logs from './src/pages/settings/Logs';
+import Employees from './src/pages/settings/Employees';
+import ManageCafe from './src/pages/settings/ManageCafe';
 
 const BackPress = () => {
   useBack();
@@ -30,9 +31,9 @@ const BackPress = () => {
 const App: React.FC = () => {
   const { tables, deptors } = useContextData();
 
-  const [user, setUser] = React.useState<Employee | undefined>();
+  const [user, setUser] = React.useState<PopulatedEmployee | undefined>();
 
-  const setUserHandler = (userParam: Employee) => {
+  const setUserHandler = (userParam: PopulatedEmployee) => {
     setUser(userParam);
   };
 
@@ -68,8 +69,9 @@ const App: React.FC = () => {
                 <Route path="/outside" element={<Debtors />} />
                 <Route path="/outside/:id" element={<DeptorView />} />
                 <Route path="/options" element={<Options />} />
-                {/* <Route path="/options/logs" element={<Logs />} />
-              <Route path="/options/employees" element={<Employees />} /> */}
+                <Route path="/options/logs" element={<Logs />} />
+                <Route path="/options/employees" element={<Employees />} />
+                <Route path="/options/manage" element={<ManageCafe />} />
                 <Route path="*" element={<Navigate to="/cafe" replace />} />
               </Routes>
             </NativeRouter>

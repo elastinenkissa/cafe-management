@@ -18,11 +18,13 @@ export interface CafeType {
 const cafeSchema = new mongoose.Schema<CafeType>({
   name: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   currency: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,

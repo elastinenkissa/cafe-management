@@ -15,15 +15,18 @@ const employeeSchema = new mongoose.Schema<EmployeeType>({
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    trim: true
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   name: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   token: String,
   cafe: {

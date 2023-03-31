@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import { Employee } from '../types/employee';
+import { Employee, PopulatedEmployee } from '../types/employee';
 
 import { FormData } from '../hooks/useLogin';
 
@@ -16,20 +16,21 @@ interface RegisterData extends LoginData {
 }
 
 const signUp = async (formData: FormData) => {
-  await api.post<Employee, AxiosResponse<Employee, any>, RegisterData>(
-    '/employees/signup',
-    {
-      name: formData.name,
-      username: formData.username,
-      password: formData.password
-    }
-  );
+  await api.post<
+    PopulatedEmployee,
+    AxiosResponse<PopulatedEmployee, any>,
+    RegisterData
+  >('/employees/signup', {
+    name: formData.name,
+    username: formData.username,
+    password: formData.password
+  });
 };
 
 const login = async (formData: FormData) => {
   const response = await api.post<
-    Employee,
-    AxiosResponse<Employee, any>,
+    PopulatedEmployee,
+    AxiosResponse<PopulatedEmployee, any>,
     LoginData
   >('/employees/login', {
     username: formData.username,
@@ -39,4 +40,14 @@ const login = async (formData: FormData) => {
   return response.data;
 };
 
-export default { signUp, login };
+const getAll = async (cafeId: string) => {
+  const response = await api.get<Array<Employee>>('/employees', {
+    params: {
+      cafe: cafeId
+    }
+  });
+
+  return response.data;
+};
+
+export default { signUp, login, getAll };

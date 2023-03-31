@@ -26,11 +26,11 @@ const NewEntryFooter: React.FC<NewEntryFooterProps> = (props) => {
     },
     total: {
       fontSize: 18,
-      opacity: props.outside ? 0 : 1,
+      opacity: !props.pathname.startsWith('/cafe') ? 0 : 1,
       color: 'white'
     },
     transferButton: {
-      opacity: props.pathname !== '/outside' ? 1 : 0
+      opacity: props.pathname.startsWith('/cafe') ? 1 : 0
     }
   });
 

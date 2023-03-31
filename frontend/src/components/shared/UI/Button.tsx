@@ -1,11 +1,12 @@
 import { Text, TouchableOpacity } from 'react-native';
 
 interface ButtonProps {
-  children: string;
+  children: string | JSX.Element;
   touchOpacity: number;
   containerStyle: any;
   textStyle: any;
   onPress: () => void;
+  disabled?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = (props) => {
@@ -14,6 +15,7 @@ const Button: React.FC<ButtonProps> = (props) => {
       activeOpacity={props.touchOpacity}
       style={props.containerStyle}
       onPress={props.onPress}
+      disabled={props.disabled}
     >
       <Text style={props.textStyle}>{props.children}</Text>
     </TouchableOpacity>

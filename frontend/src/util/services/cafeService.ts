@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 import { Cafe } from '../types/cafe';
-import { Employee } from '../types/employee';
+import { PopulatedEmployee } from '../types/employee';
 
 import { FormData } from '../hooks/useLogin';
 
@@ -12,7 +12,10 @@ interface CafeData {
   currency: string;
 }
 
-export const createCafe = async (formData: FormData, user: Employee) => {
+export const createCafe = async (
+  formData: FormData,
+  user: PopulatedEmployee
+) => {
   await api.post<Cafe, AxiosResponse<Cafe, any>, CafeData>(
     '/cafe',
     {

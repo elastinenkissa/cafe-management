@@ -8,6 +8,7 @@ import { UserContext, UserContextType } from '../../util/context/UserContext';
 
 const Options: React.FC = () => {
   const { user } = React.useContext<UserContextType>(UserContext);
+  
   return (
     <View style={styles.container}>
       <View style={styles.links}>
@@ -20,7 +21,7 @@ const Options: React.FC = () => {
               to="/options/employees"
               background="black"
             />
-            <Link text="Manage cafe" to="/options/cafe" background="black" />
+            <Link text="Manage cafe" to="/options/manage" background="black" />
           </View>
         )}
       </View>
