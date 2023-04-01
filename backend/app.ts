@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 import express from 'express';
-import mongoose from 'mongoose';
 import cors from 'cors';
 
 import deptorRouter from './controllers/deptor';
@@ -12,6 +11,7 @@ import logRouter from './controllers/log';
 
 import { MONGODB_URI } from './util/config';
 import { errorHandler } from './util/middleware';
+import mongoose from 'mongoose';
 
 const app = express();
 
@@ -35,6 +35,6 @@ const PORT = 3000;
 mongoose.connect(MONGODB_URI!).then((db) => {
   app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
-    console.log(`Connected to ${db.connections[0].name} database`);
+    console.log(`Connected to the ${db.connections[0].name} database`);
   });
 });

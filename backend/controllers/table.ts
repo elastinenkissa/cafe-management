@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 
 import { Table } from '../models/table';
 import { Order } from '../models/order';
+import { Cafe } from '../models/cafe';
 
 import { getCurrentCafe } from '../util/middleware';
 
@@ -22,11 +23,7 @@ router.get('/', getCurrentCafe, async (req: Request, res: Response) => {
 router.post('/', getCurrentCafe, async (req: Request, res: Response) => {
   const currentCafe = req.cafe!;
 
-  const existingTables = currentCafe?.tables;
-
-  const newTable = await Table.create({
-    name: `Table ${existingTables ? existingTables.length + 1 : 1}`
-  });
+  const newTable = await Table.create({});
 
   currentCafe.tables = currentCafe.tables.concat(newTable.id);
   await currentCafe?.save();
@@ -34,13 +31,23 @@ router.post('/', getCurrentCafe, async (req: Request, res: Response) => {
   res.status(201).json(newTable);
 });
 
-router.delete('/:id', async (req: Request, res: Response) => {
-  await Table.findByIdAndDelete(req.params.id);
+router.delete(
+  '/:id',
+  async (
+    req: Request<{ id: string }, {}, {}, { cafe: string }>,
+    res: Response
+  ) => {
+    await Table.findByIdAndDelete(req.params.id);
 
-  await Order.deleteMany({ table: req.params.id });
+    await Cafe.findByIdAndUpdate(req.query.cafe, {
+      $pull: { tables: req.params.id }
+    });
 
-  res.status(200).json({ message: 'Removed successfully.' });
-});
+    await Order.deleteMany({ table: req.params.id });
+
+    res.status(200).json({ message: 'Removed successfully.' });
+  }
+);
 
 router.patch(
   '/:id/addOrder',

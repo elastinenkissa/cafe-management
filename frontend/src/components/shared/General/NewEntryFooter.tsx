@@ -50,7 +50,7 @@ const NewEntryFooter: React.FC<NewEntryFooterProps> = (props) => {
           {props.entries?.reduce(
             (accumulator, current) => accumulator + current.price,
             0
-          )}{' '}
+          ) || 0}{' '}
           {user?.cafe.currency}
         </Text>
         <AddNewButton onPress={props.onPress} />

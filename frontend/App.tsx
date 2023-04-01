@@ -9,6 +9,11 @@ import TableView from './src/pages/interior/TableView';
 import DeptorView from './src/pages/outside/DeptorView';
 import Options from './src/pages/settings/Options';
 import Welcome from './src/pages/settings/Welcome';
+import Logs from './src/pages/settings/Logs';
+import Employees from './src/pages/settings/Employees';
+import ManageCafe from './src/pages/settings/ManageCafe';
+import TablesManagement from './src/pages/settings/TablesManagement';
+import MenuManagement from './src/pages/settings/MenuManagement';
 
 import { TablesContext } from './src/util/context/TablesContext';
 import { DeptorsContext } from './src/util/context/DeptorsContext';
@@ -18,9 +23,6 @@ import { useContextData } from './src/util/hooks/useContextData';
 
 import { UserContext } from './src/util/context/UserContext';
 import { PopulatedEmployee } from './src/util/types/employee';
-import Logs from './src/pages/settings/Logs';
-import Employees from './src/pages/settings/Employees';
-import ManageCafe from './src/pages/settings/ManageCafe';
 
 const BackPress = () => {
   useBack();
@@ -64,14 +66,24 @@ const App: React.FC = () => {
               <AppBar />
               <Routes>
                 <Route path="/" element={<Welcome />} />
-                <Route path="/cafe/:id" element={<TableView />} />
-                <Route path="/cafe" element={<Cafe />} />
-                <Route path="/outside" element={<Debtors />} />
-                <Route path="/outside/:id" element={<DeptorView />} />
-                <Route path="/options" element={<Options />} />
-                <Route path="/options/logs" element={<Logs />} />
-                <Route path="/options/employees" element={<Employees />} />
-                <Route path="/options/manage" element={<ManageCafe />} />
+                <Route path="/cafe">
+                  <Route path="" element={<Cafe />} />
+                  <Route path=":id" element={<TableView />} />
+                </Route>
+                <Route path="/outside">
+                  <Route path="" element={<Debtors />} />
+                  <Route path=":id" element={<DeptorView />} />
+                </Route>
+                <Route path="/options">
+                  <Route path="" element={<Options />} />
+                  <Route path="logs" element={<Logs />} />
+                  <Route path="employees" element={<Employees />} />
+                  <Route path="manage">
+                    <Route path="" element={<ManageCafe />} />
+                    <Route path="tables" element={<TablesManagement />} />
+                    <Route path="menu" element={<MenuManagement />} />
+                  </Route>
+                </Route>
                 <Route path="*" element={<Navigate to="/cafe" replace />} />
               </Routes>
             </NativeRouter>
