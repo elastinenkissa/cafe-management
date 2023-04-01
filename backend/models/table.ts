@@ -8,11 +8,13 @@ export interface TableType {
   orders: Array<OrderType>;
 }
 
+interface TableModel extends mongoose.Model<TableType> {
+  getNextNumber: () => Promise<number>;
+}
+
 const tableSchema = new mongoose.Schema<TableType>({
   name: {
-    type: String,
-    required: true,
-    unique: true
+    type: String
   },
   orders: [
     {
@@ -20,6 +22,24 @@ const tableSchema = new mongoose.Schema<TableType>({
       ref: 'Order'
     }
   ]
+});
+
+tableSchema.statics.getNextNumber = async function () {
+  const count = await this.countDocuments();
+  return count + 1;
+};
+
+tableSchema.pre('save', async function (next) {
+  if (this.isNew) {
+    let number = await this.constructor.getNextNumber();
+    let existingTable = await this.constructor.findOne({ name: `Table ${number}` });
+    while (existingTable) {
+      number++;
+      existingTable = await this.constructor.findOne({ name: `Table ${number}` });
+    }
+    this.name = `Table ${number}`;
+  }
+  next();
 });
 
 tableSchema.set('toJSON', {
