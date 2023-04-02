@@ -1,36 +1,15 @@
-import { StyleSheet } from 'react-native';
-
-import Button from './Button';
+import ManageButton from './ManageButton';
 
 interface AddNewProps {
-  onPress: () => void;
+  onAdd: () => void;
 }
 
 const AddNewButton: React.FC<AddNewProps> = (props) => {
   return (
-    <Button
-      containerStyle={styles.new}
-      textStyle={styles.plus}
-      onPress={props.onPress}
-      touchOpacity={0.4}
-    >
-      ＋
-    </Button> 
+    <ManageButton onPress={props.onAdd}>
+      <>＋</>
+    </ManageButton>
   );
 };
- 
-const styles = StyleSheet.create({
-  new: {
-    backgroundColor: 'transparent',
-    height: 50,
-    textAlign: 'center',
-    alignItems: 'center',
-    marginRight: 15
-  },
-  plus: {
-    fontSize: 45,
-    color: 'white'
-  }
-});
 
 export default AddNewButton;

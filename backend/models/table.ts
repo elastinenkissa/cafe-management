@@ -10,7 +10,8 @@ export interface TableType {
 
 const tableSchema = new mongoose.Schema<TableType>({
   name: {
-    type: String
+    type: String,
+    required: true
   },
   orders: [
     {

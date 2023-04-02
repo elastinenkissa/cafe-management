@@ -23,7 +23,11 @@ router.get('/', getCurrentCafe, async (req: Request, res: Response) => {
 router.post('/', getCurrentCafe, async (req: Request, res: Response) => {
   const currentCafe = req.cafe!;
 
-  const newTable = await Table.create({});
+  const tablesNumber = currentCafe.tables.length;
+
+  const newTable = await Table.create({
+    name: `Table ${tablesNumber + 1}`
+  });
 
   currentCafe.tables = currentCafe.tables.concat(newTable.id);
   await currentCafe?.save();

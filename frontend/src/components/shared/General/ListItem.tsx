@@ -47,10 +47,8 @@ const ListItem: React.FC<ListItemProps> = (props) => {
       return 'Cancel';
     }
 
-    if (pathname.startsWith('/options')) {
-      {
-        return 'Remove';
-      }
+    if (isEmployee()) {
+      return 'Remove';
     }
 
     return 'Paid';
@@ -95,9 +93,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
     Alert.alert(
       'Are you sure?',
-      pathname.startsWith('/options')
-        ? `This will remove ${props.item.name} from ${user?.cafe.name}`
-        : `This will clear all orders from ${props.item.name}`,
+      `This will clear all orders from ${props.item.name}`,
       [
         {
           text: 'Cancel',
@@ -140,9 +136,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     <View style={[styles.item, props.style]}>
       <View style={styles.row}>
         <Text style={styles.text}>{props.item.name}</Text>
-        {paid && (pathname === '/cafe' || pathname === '/outside') && (
-          <Text style={styles.paid}>PAID</Text>
-        )}
+        {paid && isTableOrDeptor() && <Text style={styles.paid}>PAID</Text>}
       </View>
 
       {isTableOrDeptor() &&

@@ -53,7 +53,7 @@ const NewEntryFooter: React.FC<NewEntryFooterProps> = (props) => {
           ) || 0}{' '}
           {user?.cafe.currency}
         </Text>
-        <AddNewButton onPress={props.onPress} />
+        <AddNewButton onAdd={props.onPress} />
       </View>
     </View>
   );
