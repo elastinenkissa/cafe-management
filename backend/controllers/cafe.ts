@@ -44,6 +44,18 @@ router.get('/:id', async (req: Request<{ id: string }>, res: Response) => {
   res.status(200).json(cafe);
 });
 
+router.get('/menu', getCurrentCafe, async (req: Request, res: Response) => {
+  const currentCafe = req.cafe!;
+
+  const menu = (await currentCafe.populate('menu')).menu;
+
+  if (!menu) {
+    return res.status(404).json({ message: 'Menu is empty.' });
+  }
+
+  res.status(200).json(menu);
+});
+
 router.post(
   '/menu',
   [getCurrentCafe, getEmployee],

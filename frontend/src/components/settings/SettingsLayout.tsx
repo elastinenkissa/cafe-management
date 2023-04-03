@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 
 interface SettingsLayoutProps {
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
 const SettingsLayout: React.FC<SettingsLayoutProps> = (props) => {

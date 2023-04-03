@@ -5,7 +5,9 @@ import Table from '../../components/interior/Table';
 import ListSeparator from '../../components/shared/UI/ListSeparator';
 
 import { Table as TableType } from '../../util/types/table';
+
 import tableService from '../../util/services/tableService';
+
 import { useTablesOrDeptors } from '../../util/hooks/useTablesOrDeptors';
 
 const Cafe: React.FC = () => {

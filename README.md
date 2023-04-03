@@ -8,7 +8,8 @@ The application was originally made for personal use at my sunday job as a waite
 
 # Todo
 
-1. Create REST API
-2. Make and implement login and create cafe functionalities
-3. Upload the app for sale on Google Play (after finding a way to pay $25 developer fee)
+
+1. Finish the app up
+2. Upload the app for sale on Google Play (after finding a way to pay $25 developer fee)
+3. (Optional) Replace the states in NewMenuItem with a reducer
    

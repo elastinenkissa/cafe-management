@@ -15,24 +15,17 @@ import ManageCafe from './src/pages/settings/ManageCafe';
 import TablesManagement from './src/pages/settings/TablesManagement';
 import MenuManagement from './src/pages/settings/MenuManagement';
 
-import { TablesContext } from './src/util/context/TablesContext';
-import { DeptorsContext } from './src/util/context/DeptorsContext';
-
 import { useBack } from './src/util/hooks/useBack';
-import { useContextData } from './src/util/hooks/useContextData';
-
 import { UserContext } from './src/util/context/UserContext';
 import { PopulatedEmployee } from './src/util/types/employee';
 
 const BackPress = () => {
   useBack();
 
-  return <View></View>;
+  return <></>;
 };
 
 const App: React.FC = () => {
-  const { tables, deptors } = useContextData();
-
   const [user, setUser] = React.useState<PopulatedEmployee | undefined>();
 
   const setUserHandler = (userParam: PopulatedEmployee) => {
@@ -41,55 +34,34 @@ const App: React.FC = () => {
 
   return (
     <UserContext.Provider value={{ user, setUser: setUserHandler }}>
-      <TablesContext.Provider
-        value={{
-          tables: tables.items,
-          addOrder: tables.addOrder,
-          removeOrder: tables.removeOrder,
-          removeOrders: tables.removeOrders
-        }}
-      >
-        <DeptorsContext.Provider
-          value={{
-            deptors: deptors.items,
-            addDeptor: deptors.addDeptor,
-            removeDeptor: deptors.removeDeptor,
-            addOrderToDeptor: deptors.addOrderToDeptor,
-            removeOrderFromDeptor: deptors.removeOrderFromDeptor,
-            changeDeptorToPaid: deptors.changeDeptorToPaid,
-            transferOrders: deptors.transferOrders
-          }}
-        >
-          <View style={styles.container}>
-            <NativeRouter>
-              <BackPress />
-              <AppBar />
-              <Routes>
-                <Route path="/" element={<Welcome />} />
-                <Route path="/cafe">
-                  <Route path="" element={<Cafe />} />
-                  <Route path=":id" element={<TableView />} />
-                </Route>
-                <Route path="/outside">
-                  <Route path="" element={<Debtors />} />
-                  <Route path=":id" element={<DeptorView />} />
-                </Route>
-                <Route path="/options">
-                  <Route path="" element={<Options />} />
-                  <Route path="logs" element={<Logs />} />
-                  <Route path="employees" element={<Employees />} />
-                  <Route path="manage">
-                    <Route path="" element={<ManageCafe />} />
-                    <Route path="tables" element={<TablesManagement />} />
-                    <Route path="menu" element={<MenuManagement />} />
-                  </Route>
-                </Route>
-                <Route path="*" element={<Navigate to="/cafe" replace />} />
-              </Routes>
-            </NativeRouter>
-          </View>
-        </DeptorsContext.Provider>
-      </TablesContext.Provider>
+      <View style={styles.container}>
+        <NativeRouter>
+          <BackPress />
+          <AppBar />
+          <Routes>
+            <Route path="/" element={<Welcome />} />
+            <Route path="/cafe">
+              <Route path="" element={<Cafe />} />
+              <Route path=":id" element={<TableView />} />
+            </Route>
+            <Route path="/outside">
+              <Route path="" element={<Debtors />} />
+              <Route path=":id" element={<DeptorView />} />
+            </Route>
+            <Route path="/options">
+              <Route path="" element={<Options />} />
+              <Route path="logs" element={<Logs />} />
+              <Route path="employees" element={<Employees />} />
+              <Route path="manage">
+                <Route path="" element={<ManageCafe />} />
+                <Route path="tables" element={<TablesManagement />} />
+                <Route path="menu" element={<MenuManagement />} />
+              </Route>
+            </Route>
+            <Route path="*" element={<Navigate to="/cafe" replace />} />
+          </Routes>
+        </NativeRouter>
+      </View>
     </UserContext.Provider>
   );
 };

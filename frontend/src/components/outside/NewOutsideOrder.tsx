@@ -1,8 +1,10 @@
 import React from 'react';
 import 'react-native-get-random-values';
 
-import { Order } from '../../util/types/order';
 import NewOrder from '../shared/General/NewOrder';
+
+import { Order } from '../../util/types/order';
+
 import { DeptorContext, DeptorsContext } from '../../util/context/DeptorsContext';
 
 interface NewOutsideOrderProps {

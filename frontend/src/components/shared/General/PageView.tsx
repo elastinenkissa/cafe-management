@@ -4,11 +4,11 @@ import { useLocation } from 'react-router-native';
 
 import Modal, { ModalRef } from '../UI/Modal';
 import NewEntryFooter from './NewEntryFooter';
-
-import { Order } from '../../../util/types/order';
 import NewCafeOrder from '../../interior/NewCafeOrder';
 import NewOutsideOrder from '../../outside/NewOutsideOrder';
 import NewDeptor from '../../outside/NewDeptor';
+
+import { Order } from '../../../util/types/order';
 
 export interface EntryType {
   entries?: Array<Order>;

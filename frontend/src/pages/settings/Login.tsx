@@ -1,15 +1,19 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { TextInput, Button as PaperButton } from 'react-native-paper';
+import { Button as PaperButton } from 'react-native-paper';
 import { useNavigate } from 'react-router-native';
 
 import LoginButton from '../../components/settings/LoginButton';
+import Input from '../../components/shared/UI/Input';
 
 import { useLogin } from '../../util/hooks/useLogin';
+
 import { UserContext, UserContextType } from '../../util/context/UserContext';
 
 import employeeService from '../../util/services/employeeService';
 import cafeService from '../../util/services/cafeService';
+
+import { errorLogger } from '../../util/logger/errorLogger';
 
 interface LoginProps {
   loginType: string;
@@ -31,7 +35,7 @@ const Login: React.FC<LoginProps> = (props) => {
           redirect('/cafe');
         }, 1000);
       } catch (error: any) {
-        console.log(error.response.data.message);
+        errorLogger(error);
       }
     }
 
@@ -48,7 +52,7 @@ const Login: React.FC<LoginProps> = (props) => {
           redirect('/cafe');
         }, 1000);
       } catch (error: any) {
-        console.log(error.response.data.message);
+        errorLogger(error);
       }
     }
   };
@@ -60,39 +64,39 @@ const Login: React.FC<LoginProps> = (props) => {
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.inputs}>
           {props.loginType === 'Register' && (
-            <TextInput
+            <Input
               placeholder="Name"
               style={styles.input}
               value={formData.name}
-              onChangeText={formData.setName}
+              onChange={formData.setName}
             />
           )}
-          <TextInput
+          <Input
             placeholder="Username"
             style={styles.input}
             value={formData.username}
-            onChangeText={formData.setUsername}
+            onChange={formData.setUsername}
           />
-          <TextInput
+          <Input
             placeholder="Password"
             style={styles.input}
             value={formData.password}
-            onChangeText={formData.setPassword}
-            secureTextEntry
+            onChange={formData.setPassword}
+            isPassword
           />
           {props.loginType === 'Register' && (
             <>
-              <TextInput
+              <Input
                 placeholder="Cafe name"
                 style={styles.input}
                 value={formData.cafeName}
-                onChangeText={formData.setCafeName}
+                onChange={formData.setCafeName}
               />
-              <TextInput
+              <Input
                 placeholder="Cafe currency abbreviation/symbol"
                 style={styles.input}
                 value={formData.cafeCurrency}
-                onChangeText={formData.setCafeCurrency}
+                onChange={formData.setCafeCurrency}
               />
             </>
           )}

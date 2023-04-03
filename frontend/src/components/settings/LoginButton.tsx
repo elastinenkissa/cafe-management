@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 
 import Button from '../shared/UI/Button';
-import { ActivityIndicator } from 'react-native-paper';
 
 interface LoginButtonProps {
   loginType: string;

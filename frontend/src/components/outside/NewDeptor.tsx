@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useNavigate, useParams } from 'react-router-native';
 
 import NewItem from '../shared/General/NewItem';
@@ -8,6 +8,7 @@ import {
   DeptorContext,
   DeptorsContext
 } from '../../util/context/DeptorsContext';
+import Input from '../shared/UI/Input';
 
 interface NewDeptorProps {
   closeModal: () => void;
@@ -16,6 +17,7 @@ interface NewDeptorProps {
 
 const NewDeptor: React.FC<NewDeptorProps> = (props) => {
   const [name, setName] = React.useState<string>('');
+  const [error, setError] = React.useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -24,11 +26,18 @@ const NewDeptor: React.FC<NewDeptorProps> = (props) => {
   const { addDeptor, transferOrders } =
     React.useContext<DeptorContext>(DeptorsContext);
 
+  const inputHandler = (value: string) => {
+    setName(value);
+    if (value.length === 0) {
+      return setError(true);
+    }
+    setError(false);
+  };
+
   const addDeptorHandler = () => {
     if (name.length === 0) {
-      return;
+      return setError(true);
     }
-
     props.closeModal();
 
     if (props.transferMode) {
@@ -41,7 +50,13 @@ const NewDeptor: React.FC<NewDeptorProps> = (props) => {
 
   return (
     <NewItem onAddItem={addDeptorHandler}>
-      <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Deptor name" />
+      <Input
+        style={styles.input}
+        value={name}
+        onChange={inputHandler}
+        placeholder="Deptor name"
+        error={error}
+      />
     </NewItem>
   );
 };
@@ -53,9 +68,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   input: {
-    height: 50,
-    padding: 5,
-    fontSize: 20
+    height: 50
   }
 });
 

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { UserContext, UserContextType } from '../context/UserContext';
+import { errorLogger } from '../logger/errorLogger';
 
 export const useTablesOrDeptors = <DataType>(service: {
   getAll: (cafeId: string) => Promise<any>;
@@ -11,8 +12,12 @@ export const useTablesOrDeptors = <DataType>(service: {
   const { user } = React.useContext<UserContextType>(UserContext);
 
   const fetchData = async () => {
-    const fetchedData = await service.getAll(user?.cafe.id!);
-    setTablesOrDeptors(fetchedData);
+    try {
+      const fetchedData = await service.getAll(user?.cafe.id!);
+      setTablesOrDeptors(fetchedData);
+    } catch (error: any) {
+      errorLogger(error);
+    }
   };
 
   React.useEffect(() => {

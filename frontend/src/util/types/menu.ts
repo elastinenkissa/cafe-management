@@ -1,5 +1,7 @@
-export interface Menu {
+export interface MenuItem {
   id: string;
-  item: string;
+  name: string;
   price: number;
 }
+
+export type NewMenuItem = Omit<MenuItem, 'id'>;

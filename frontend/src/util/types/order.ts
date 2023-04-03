@@ -1,7 +1,6 @@
-export interface Order {
-  id?: string;
-  name: string;
-  price: number;
+import { MenuItem } from "./menu";
+
+export interface Order extends MenuItem {
 }
 
 export type OrderSchema = Omit<Order, 'id'>;

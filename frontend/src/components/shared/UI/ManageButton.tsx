@@ -4,7 +4,7 @@ import Button from './Button';
 
 interface ManageButtonProps {
   onPress: () => void;
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
 const ManageButton: React.FC<ManageButtonProps> = (props) => {

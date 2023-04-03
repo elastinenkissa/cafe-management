@@ -3,6 +3,7 @@ import React from 'react';
 import AccessibleListItem from '../shared/General/AccessibleListItem';
 
 import { TableContext, TablesContext } from '../../util/context/TablesContext';
+
 import { Table as TableType } from '../../util/types/table';
 
 interface TableProps {

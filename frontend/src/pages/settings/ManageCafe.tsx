@@ -1,4 +1,5 @@
 import { View } from 'react-native';
+
 import SettingsLayout from '../../components/settings/SettingsLayout';
 import Link from '../../components/shared/UI/Link';
 

@@ -2,6 +2,7 @@ import React from 'react';
 
 import Link from '../UI/Link';
 import ListItem from './ListItem';
+
 import { Deptor } from '../../../util/types/deptor';
 import { Table } from '../../../util/types/table';
 

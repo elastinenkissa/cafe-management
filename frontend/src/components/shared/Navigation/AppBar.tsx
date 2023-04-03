@@ -1,9 +1,9 @@
 import { StyleSheet, View } from 'react-native';
+import { useLocation } from 'react-router-native';
 import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
 
 import Link from '../UI/Link';
-import { useLocation } from 'react-router-native';
 
 const AppBar: React.FC = () => {
   const { pathname } = useLocation();
@@ -18,7 +18,6 @@ const AppBar: React.FC = () => {
       alignItems: 'center',
       paddingTop: Constants.statusBarHeight,
       elevation: 10
-      // #ffa0b0
     }
   });
 

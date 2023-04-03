@@ -2,27 +2,29 @@ import React from 'react';
 import { FlatList } from 'react-native';
 
 import ListItem from '../../components/shared/General/ListItem';
-import AddNewButton from '../../components/shared/UI/AddNewButton';
-import Modal, { ModalRef } from '../../components/shared/UI/Modal';
-import SettingsLayout from '../../components/settings/SettingsLayout';
+import ManagementNew from '../../components/settings/ManagementNew';
 
 import { Employee } from '../../util/types/employee';
+
 import employeeService from '../../util/services/employeeService';
+
 import { UserContext, UserContextType } from '../../util/context/UserContext';
+
+import { errorLogger } from '../../util/logger/errorLogger';
 
 const Employees: React.FC = () => {
   const [employees, setEmployees] = React.useState<Array<Employee>>();
-
-  const modalRef = React.useRef<ModalRef>();
 
   const { user } = React.useContext<UserContextType>(UserContext);
 
   const fetchEmployees = async () => {
     try {
       const fetchedEmployees = await employeeService.getAll(user?.cafe.id!);
-      setEmployees(fetchedEmployees);
+      setEmployees(
+        fetchedEmployees.filter((employee) => employee.id !== user?.id)
+      );
     } catch (error: any) {
-      console.log(error.response.data.message);
+      errorLogger(error);
     }
   };
 
@@ -35,24 +37,18 @@ const Employees: React.FC = () => {
   };
 
   return (
-    <SettingsLayout>
-      <>
-        <FlatList
-          data={employees}
-          renderItem={({ item }) => (
-            <ListItem
-              onRemove={removeEmployeeHandler}
-              item={item}
-              key={item.id}
-            />
-          )}
-        />
-        <Modal ref={modalRef}>
-          <AddNewButton onPress={() => console.log('g')} />
-        </Modal>
-        <AddNewButton onPress={() => modalRef.current?.setVisible()} />
-      </>
-    </SettingsLayout>
+    <ManagementNew modalContent={<></>}>
+      <FlatList
+        data={employees}
+        renderItem={({ item }) => (
+          <ListItem
+            onRemove={removeEmployeeHandler}
+            item={item}
+            key={item.id}
+          />
+        )}
+      />
+    </ManagementNew>
   );
 };
 

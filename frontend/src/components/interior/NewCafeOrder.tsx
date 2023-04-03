@@ -1,7 +1,9 @@
 import React from 'react';
 
-import { Order } from '../../util/types/order';
 import NewOrder from '../shared/General/NewOrder';
+
+import { Order } from '../../util/types/order';
+
 import { TableContext, TablesContext } from '../../util/context/TablesContext';
 
 interface NewCafeOrderProps {

@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 
 export interface MenuType {
   id: string;
-  item: string;
+  name: string;
   price: number;
 }
 
 const menuItemSchema = new mongoose.Schema<MenuType>({
-  item: {
+  name: {
     type: String,
     required: true,
     unique: true,

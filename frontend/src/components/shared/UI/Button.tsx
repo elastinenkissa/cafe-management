@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity } from 'react-native';
 
 interface ButtonProps {
-  children: string | JSX.Element;
+  children: React.ReactNode;
   touchOpacity: number;
   containerStyle: any;
   textStyle: any;

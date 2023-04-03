@@ -5,11 +5,7 @@ interface AddNewProps {
 }
 
 const AddNewButton: React.FC<AddNewProps> = (props) => {
-  return (
-    <ManageButton onPress={props.onAdd}>
-      <>＋</>
-    </ManageButton>
-  );
+  return <ManageButton onPress={props.onAdd}>+</ManageButton>;
 };
 
 export default AddNewButton;
