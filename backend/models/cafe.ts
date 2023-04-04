@@ -5,7 +5,7 @@ import { TableType } from './table';
 import { MenuType } from './menuItem';
 import { DeptorType } from './deptor';
 
-export interface CafeType {
+export interface CafeType extends mongoose.Document {
   id: string;
   name: string;
   currency: string;

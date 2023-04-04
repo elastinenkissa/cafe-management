@@ -2,11 +2,12 @@ import mongoose from 'mongoose';
 
 import { OrderType } from './order';
 
-export interface DeptorType {
+export interface DeptorType extends mongoose.Document {
   id: string;
   name: string;
   orders: Array<OrderType>;
 }
+
 
 const deptorSchema = new mongoose.Schema<DeptorType>({
   name: {

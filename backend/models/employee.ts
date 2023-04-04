@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 import { CafeType } from './cafe';
 
-export interface EmployeeType {
+export interface EmployeeType extends mongoose.Document {
   id: string;
   username: string;
   password: string;

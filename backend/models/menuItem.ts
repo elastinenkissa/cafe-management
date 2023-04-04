@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export interface MenuType {
+export interface MenuType extends mongoose.Document {
   id: string;
   name: string;
   price: number;

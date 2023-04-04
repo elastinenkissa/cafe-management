@@ -1,10 +1,12 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 import ListItem from '../../components/shared/General/ListItem';
 import ManagementNew from '../../components/settings/ManagementNew';
+import NewEmployee from '../../components/settings/NewEmployee';
 
 import { Employee } from '../../util/types/employee';
+import { ModalRef } from '../../components/shared/UI/Modal';
 
 import employeeService from '../../util/services/employeeService';
 
@@ -14,6 +16,8 @@ import { errorLogger } from '../../util/logger/errorLogger';
 
 const Employees: React.FC = () => {
   const [employees, setEmployees] = React.useState<Array<Employee>>();
+
+  const modalRef = React.useRef<ModalRef>();
 
   const { user } = React.useContext<UserContextType>(UserContext);
 
@@ -32,20 +36,37 @@ const Employees: React.FC = () => {
     fetchEmployees();
   }, []);
 
-  const removeEmployeeHandler = () => {
-    return;
+  const removeEmployeeHandler = async (id: string) => {
+    await employeeService.removeOne(id, user!);
+    setEmployees((prevEmployees) =>
+      prevEmployees?.filter((employee) => employee.id !== id)
+    );
+  };
+
+  const addEmployeeHandler = (newEmployee: Employee) => {
+    setEmployees((prevEmployees) => prevEmployees?.concat(newEmployee));
   };
 
   return (
-    <ManagementNew modalContent={<></>}>
+    <ManagementNew
+      ref={modalRef}
+      modalContent={
+        <NewEmployee
+          onCreateEmployee={addEmployeeHandler}
+          closeModal={() => modalRef.current?.setInvisible()}
+        />
+      }
+    >
       <FlatList
         data={employees}
         renderItem={({ item }) => (
-          <ListItem
-            onRemove={removeEmployeeHandler}
-            item={item}
-            key={item.id}
-          />
+          <View style={{ padding: 5 }}>
+            <ListItem
+              onRemove={() => removeEmployeeHandler(item.id)}
+              item={item}
+              key={item.id}
+            />
+          </View>
         )}
       />
     </ManagementNew>

@@ -1,21 +1,22 @@
 import { StyleSheet } from 'react-native';
 
-import Button from './Button';
+// import Button from './Button';
+import ConfirmingButton from './ConfirmingButton';
 
 interface AddFinalButton {
   onAdd: () => void;
+  valid: boolean;
 }
 
 const AddFinalButton: React.FC<AddFinalButton> = (props) => {
   return (
-    <Button
-      containerStyle={styles.button}
-      textStyle={styles.buttonText}
+    <ConfirmingButton
       onPress={props.onAdd}
-      touchOpacity={0.93}
+      style={styles.buttonText}
+      valid={props.valid}
     >
       ADD
-    </Button>
+    </ConfirmingButton>
   );
 };
 
@@ -23,8 +24,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#27292c',
     justifyContent: 'center',
-    alignItems: 'center',
-    height: 40,
+    alignItems: 'center'
   },
   buttonText: {
     color: 'white',

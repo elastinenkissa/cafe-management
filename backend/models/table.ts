@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 import { OrderType } from './order';
 
-export interface TableType {
+export interface TableType extends mongoose.Document {
   id: string;
   name: string;
   orders: Array<OrderType>;

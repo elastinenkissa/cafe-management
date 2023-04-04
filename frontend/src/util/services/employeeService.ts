@@ -50,4 +50,45 @@ const getAll = async (cafeId: string) => {
   return response.data;
 };
 
-export default { signUp, login, getAll };
+interface EmployeeFormData {
+  name: string;
+  username: string;
+  password: string;
+}
+
+const createNew = async (
+  formData: EmployeeFormData,
+  user: PopulatedEmployee
+) => {
+  const response = await api.post<
+    Employee,
+    AxiosResponse<Employee, any>,
+    RegisterData
+  >(
+    '/employees',
+    {
+      name: formData.name,
+      username: formData.username,
+      password: formData.password
+    },
+    {
+      params: { cafe: user.cafe.id },
+      headers: { Authorization: `bearer ${user.token}` }
+    }
+  );
+
+  return response.data;
+};
+
+const removeOne = async (id: string, user: PopulatedEmployee) => {
+  await api.delete(`/employees/${id}`, {
+    params: {
+      cafe: user.cafe.id
+    },
+    headers: {
+      Authorization: `bearer ${user.token}`
+    }
+  });
+};
+
+export default { signUp, login, getAll, createNew, removeOne };

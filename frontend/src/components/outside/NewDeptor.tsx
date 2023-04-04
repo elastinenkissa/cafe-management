@@ -49,7 +49,7 @@ const NewDeptor: React.FC<NewDeptorProps> = (props) => {
   };
 
   return (
-    <NewItem onAddItem={addDeptorHandler}>
+    <NewItem onAddItem={addDeptorHandler} valid={name.length === 0 ? false : true}>
       <Input
         style={styles.input}
         value={name}

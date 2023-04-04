@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { TableType } from './table';
 import { DeptorType } from './deptor';
 
-export interface OrderType {
+export interface OrderType extends mongoose.Document {
   id: string;
   name: string;
   price: number;

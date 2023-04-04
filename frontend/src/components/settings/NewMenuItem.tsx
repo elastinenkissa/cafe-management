@@ -7,6 +7,7 @@ import cafeService from '../../util/services/cafeService';
 
 import { PopulatedEmployee } from '../../util/types/employee';
 import { MenuItem } from '../../util/types/menu';
+import { errorLogger } from '../../util/logger/errorLogger';
 
 interface NewMenuItemProps {
   closeModal: () => void;
@@ -66,14 +67,21 @@ const NewMenuItem: React.FC<NewMenuItemProps> = (props) => {
     if (price.length === 0) {
       return setPriceError(true);
     }
-    await createItem();
     setPriceError(false);
     setNameError(false);
-    props.closeModal();
+    try {
+      await createItem();
+      props.closeModal();
+    } catch (error: any) {
+      errorLogger(error);
+    }
   };
 
   return (
-    <NewItem onAddItem={newMenuItemHandler}>
+    <NewItem
+      onAddItem={newMenuItemHandler}
+      valid={price.length > 0 && name.length > 0}
+    >
       <Input
         placeholder="Item name"
         onChange={nameInputHandler}

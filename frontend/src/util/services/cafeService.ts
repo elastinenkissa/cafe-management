@@ -29,14 +29,11 @@ const createCafe = async (formData: FormData, user: PopulatedEmployee) => {
 };
 
 const getMenu = async (cafeId: string) => {
-  const response = await api.get<MenuItem, AxiosResponse<Array<MenuItem>>>(
-    '/cafe/menu',
-    {
-      params: {
-        cafe: cafeId
-      }
+  const response = await api.get<Array<MenuItem>>('/cafe/menu', {
+    params: {
+      cafe: cafeId
     }
-  );
+  });
 
   return response.data;
 };

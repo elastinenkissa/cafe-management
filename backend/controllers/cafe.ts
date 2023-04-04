@@ -45,9 +45,11 @@ router.get('/:id', async (req: Request<{ id: string }>, res: Response) => {
 });
 
 router.get('/menu', getCurrentCafe, async (req: Request, res: Response) => {
-  const currentCafe = req.cafe!;
+  const currentCafe = await req.cafe?.populate('menu');
 
-  const menu = (await currentCafe.populate('menu')).menu;
+  const menu = currentCafe?.menu;
+
+  console.log(menu);
 
   if (!menu) {
     return res.status(404).json({ message: 'Menu is empty.' });
@@ -60,22 +62,26 @@ router.post(
   '/menu',
   [getCurrentCafe, getEmployee],
   async (
-    req: Request<{}, {}, { item: string; price: number }>,
+    req: Request<{}, {}, { name: string; price: number }>,
     res: Response
   ) => {
     const currentEmployee = req.employee!;
     const currentCafe = req.cafe!;
 
-    if (currentCafe.owner.id !== currentEmployee.id) {
+    if (currentCafe.owner !== currentEmployee.id) {
       return res.status(401).json({ message: 'Unauthorized.' });
     }
 
     const newMenuItem = await MenuItem.create({
-      item: req.body.item,
+      name: req.body.name,
       price: req.body.price
     });
 
-    currentCafe.menu.concat(newMenuItem.id);
+    if (!newMenuItem) {
+      return res.status(400).json({ message: 'Failed to create menu item.' });
+    }
+
+    currentCafe.menu = currentCafe.menu.concat(newMenuItem.id);
     await currentCafe?.save();
 
     res.status(201).json(newMenuItem);
@@ -87,9 +93,9 @@ router.delete(
   [getCurrentCafe, getEmployee],
   async (req: Request<{ id: string }>, res: Response) => {
     const currentEmployee = req.employee!;
-    const currentCafe = req.cafe!;
+    const currentCafe = await req.cafe!.populate('menu');
 
-    if (currentCafe.owner.id !== currentEmployee.id) {
+    if (currentCafe.owner !== currentEmployee.id) {
       return res.status(401).json({ message: 'Unauthorized.' });
     }
 

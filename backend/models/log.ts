@@ -4,12 +4,12 @@ import { EmployeeType } from './employee';
 import { OrderType } from './order';
 import { CafeType } from './cafe';
 
-export interface Change {
+export interface Change  {
   by: EmployeeType;
   timestamp: string;
 }
 
-export interface LogType {
+export interface LogType extends mongoose.Document {
   id: string;
   cafe: CafeType;
   change: Change;

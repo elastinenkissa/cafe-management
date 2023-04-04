@@ -2,6 +2,7 @@ require('dotenv').config();
 
 import express from 'express';
 import cors from 'cors';
+import mongoose from 'mongoose';
 
 import deptorRouter from './controllers/deptor';
 import tableRouter from './controllers/table';
@@ -11,7 +12,6 @@ import logRouter from './controllers/log';
 
 import { MONGODB_URI } from './util/config';
 import { errorHandler } from './util/middleware';
-import mongoose from 'mongoose';
 
 const app = express();
 

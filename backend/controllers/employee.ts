@@ -49,7 +49,7 @@ router.delete(
   [getEmployee, getCurrentCafe],
   async (req: Request<{ id: string }>, res: Response) => {
     const employee = req.employee!;
-    const cafe = req.cafe!;
+    const cafe = await req.cafe?.populate('owner')!;
 
     if (employee.id !== cafe.owner.id) {
       return res.status(401).json({ message: 'Unauthorized.' });

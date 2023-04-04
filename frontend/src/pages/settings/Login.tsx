@@ -21,6 +21,8 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = (props) => {
+  const [formIsValid, setFormIsValid] = React.useState<boolean>(false);
+
   const { setUser } = React.useContext<UserContextType>(UserContext);
 
   const redirect = useNavigate();
@@ -58,6 +60,17 @@ const Login: React.FC<LoginProps> = (props) => {
   };
 
   const formData = useLogin();
+
+  React.useEffect(() => {
+    let valid = true;
+
+    for (let field in formData) {
+      if (field.length === 0) {
+        valid = false;
+      }
+    }
+    setFormIsValid(valid);
+  }, [formData]);
 
   return (
     <View style={styles.container}>
@@ -100,7 +113,11 @@ const Login: React.FC<LoginProps> = (props) => {
               />
             </>
           )}
-          <LoginButton loginType={props.loginType} onLogin={loginHandler} />
+          <LoginButton
+            loginType={props.loginType}
+            onLogin={loginHandler}
+            valid={formIsValid}
+          />
         </View>
       </ScrollView>
       <View style={styles.cancel}>
