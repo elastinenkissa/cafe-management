@@ -9,7 +9,7 @@ const SettingsLayout: React.FC<SettingsLayoutProps> = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: { margin: 20, height: '80%', justifyContent: 'space-between' }
+  container: { margin: 15, height: '80%', justifyContent: 'space-between' }
 });
 
 export default SettingsLayout;

@@ -35,15 +35,6 @@ router.post(
   }
 );
 
-router.get('/:id', async (req: Request<{ id: string }>, res: Response) => {
-  const cafe = await Cafe.findById(req.params.id).populate(
-    'owner',
-    '-login -password -token'
-  );
-
-  res.status(200).json(cafe);
-});
-
 router.get('/menu', getCurrentCafe, async (req: Request, res: Response) => {
   const currentCafe = await req.cafe?.populate('menu');
 
@@ -58,6 +49,15 @@ router.get('/menu', getCurrentCafe, async (req: Request, res: Response) => {
   res.status(200).json(menu);
 });
 
+router.get('/:id', async (req: Request<{ id: string }>, res: Response) => {
+  const cafe = await Cafe.findById(req.params.id).populate(
+    'owner',
+    '-login -password -token'
+  );
+
+  res.status(200).json(cafe);
+});
+
 router.post(
   '/menu',
   [getCurrentCafe, getEmployee],
@@ -66,9 +66,9 @@ router.post(
     res: Response
   ) => {
     const currentEmployee = req.employee!;
-    const currentCafe = req.cafe!;
+    const currentCafe = await req.cafe!.populate('owner');
 
-    if (currentCafe.owner !== currentEmployee.id) {
+    if (currentCafe.owner.id !== currentEmployee.id) {
       return res.status(401).json({ message: 'Unauthorized.' });
     }
 
@@ -109,11 +109,5 @@ router.delete(
     res.status(202).json({ message: 'Remove successfully.' });
   }
 );
-
-router.get('/menu', async (_req: Request, res: Response) => {
-  const menu = await MenuItem.find({});
-
-  res.status(200).json(menu);
-});
 
 export default router;

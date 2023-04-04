@@ -28,12 +28,18 @@ const BackPress = () => {
 const App: React.FC = () => {
   const [user, setUser] = React.useState<PopulatedEmployee | undefined>();
 
-  const setUserHandler = (userParam: PopulatedEmployee) => {
+  const loginHandler = (userParam: PopulatedEmployee) => {
     setUser(userParam);
   };
 
+  const logoutHandler = () => {
+    setUser(undefined);
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser: setUserHandler }}>
+    <UserContext.Provider
+      value={{ user, login: loginHandler, logout: logoutHandler }}
+    >
       <View style={styles.container}>
         <NativeRouter>
           <BackPress />

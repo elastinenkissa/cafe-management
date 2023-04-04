@@ -52,7 +52,6 @@ const TablesManagement: React.FC = () => {
 
   return (
     <SettingsLayout>
-      <>
         <FlatList
           data={tables}
           renderItem={({ item }) => (
@@ -62,11 +61,10 @@ const TablesManagement: React.FC = () => {
           )}
           ItemSeparatorComponent={ListSeparator}
         />
-        <View style={styles.buttons}>
-          <AddNewButton onAdd={addTableHandler} />
-          <RemoveTableButton onRemove={removeTableHandler} />
-        </View>
-      </>
+      <View style={styles.buttons}>
+        <AddNewButton onAdd={addTableHandler} />
+        <RemoveTableButton onRemove={removeTableHandler} />
+      </View>
     </SettingsLayout>
   );
 };
@@ -76,7 +74,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly'
   },
-  tableName: { fontSize: 18, color: 'white', padding: 5 }
+  tableName: { fontSize: 18, color: 'white', padding: 20, paddingLeft: 25 },
 });
 
 export default TablesManagement;

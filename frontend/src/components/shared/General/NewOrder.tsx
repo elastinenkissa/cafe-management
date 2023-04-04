@@ -10,6 +10,7 @@ import NewItem from './NewItem';
 import { ITEMS } from '../../../util/data/items';
 
 import { Order } from '../../../util/types/order';
+import { useMenu } from '../../../util/hooks/useMenu';
 
 interface NewOrderProps {
   closeModal: () => void;
@@ -18,8 +19,10 @@ interface NewOrderProps {
 
 const NewOrder: React.FC<NewOrderProps> = (props) => {
   const { id } = useParams<string>();
- 
+
   const [orderItem, setOrderItem] = React.useState<string>('');
+
+  const { menu } = useMenu();
 
   const addOrderHandler = (): void => {
     if (orderItem === '') {
@@ -35,13 +38,13 @@ const NewOrder: React.FC<NewOrderProps> = (props) => {
   };
 
   return (
-    <NewItem onAddItem={addOrderHandler}>
+    <NewItem onAddItem={addOrderHandler} valid={orderItem.length > 0}>
       <RadioButton.Group
         value={orderItem}
         onValueChange={(value) => setOrderItem(value)}
       >
         <FlatList
-          data={ITEMS}
+          data={menu}
           renderItem={({ item }) => (
             <RadioButton.Item label={item.name} value={item.name} />
           )}

@@ -35,6 +35,13 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     );
   };
 
+  const isMenuItem = (): boolean => {
+    return (
+      (props.item as Order).price !== undefined &&
+      pathname.startsWith('/options')
+    );
+  };
+
   const isEmployee = (): boolean => {
     return (props.item as Employee).username !== undefined;
   };
@@ -44,12 +51,12 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   };
 
   const buttonText = () => {
-    if (isOrder()) {
-      return 'Cancel';
+    if (isMenuItem() || isEmployee()) {
+      return 'Remove';
     }
 
-    if (isEmployee()) {
-      return 'Remove';
+    if (isOrder()) {
+      return 'Cancel';
     }
 
     return 'Paid';
@@ -113,7 +120,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     item: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     text: {
       fontSize: 18,
@@ -130,7 +137,8 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     },
     vacant: {
       color: 'cyan'
-    }
+    },
+    price: { color: 'white' }
   });
 
   return (
@@ -147,6 +155,13 @@ const ListItem: React.FC<ListItemProps> = (props) => {
             <Text style={styles.vacant}>VACANT</Text>
           </View>
         )}
+      {isMenuItem() && (
+        <View>
+          <Text style={styles.price}>
+            {(props.item as Order).price.toPrecision(2)} {user?.cafe.currency}
+          </Text>
+        </View>
+      )}
       <View style={styles.row}>
         <TouchableOpacity onPress={statusHandler}>
           <Button textColor="grey">{buttonText()}</Button>

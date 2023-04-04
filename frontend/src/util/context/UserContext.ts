@@ -4,7 +4,8 @@ import { PopulatedEmployee } from '../types/employee';
 
 export interface UserContextType {
   user: PopulatedEmployee | undefined;
-  setUser: (user: PopulatedEmployee) => void;
+  login: (user: PopulatedEmployee) => void;
+  logout: () => void;
 }
 
 export const UserContext = React.createContext<UserContextType>({
@@ -23,5 +24,6 @@ export const UserContext = React.createContext<UserContextType>({
       owner: ''
     }
   },
-  setUser: (_user: PopulatedEmployee) => {}
+  login: (_user: PopulatedEmployee) => {},
+  logout: () => {}
 });

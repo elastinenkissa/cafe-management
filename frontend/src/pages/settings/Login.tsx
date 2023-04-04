@@ -21,9 +21,7 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = (props) => {
-  const [formIsValid, setFormIsValid] = React.useState<boolean>(false);
-
-  const { setUser } = React.useContext<UserContextType>(UserContext);
+  const { login } = React.useContext<UserContextType>(UserContext);
 
   const redirect = useNavigate();
 
@@ -31,7 +29,7 @@ const Login: React.FC<LoginProps> = (props) => {
     if (props.loginType === 'Login') {
       try {
         const user = await employeeService.login(formData);
-        setUser(user);
+        login(user);
 
         setTimeout(() => {
           redirect('/cafe');
@@ -46,7 +44,7 @@ const Login: React.FC<LoginProps> = (props) => {
         await employeeService.signUp(formData);
 
         const user = await employeeService.login(formData);
-        setUser(user);
+        login(user);
 
         await cafeService.createCafe(formData, user);
 
@@ -61,16 +59,18 @@ const Login: React.FC<LoginProps> = (props) => {
 
   const formData = useLogin();
 
-  React.useEffect(() => {
-    let valid = true;
-
-    for (let field in formData) {
-      if (field.length === 0) {
-        valid = false;
+  const validCheck = () => {
+    if (props.loginType === 'Login') {
+      if (formData.username.length > 0 && formData.password.length > 0) {
+        return true;
       }
+      return false;
     }
-    setFormIsValid(valid);
-  }, [formData]);
+    if (props.loginType === 'Register') {
+      return Object.values(formData).every((value) => value.length > 0);
+    }
+    return false;
+  };
 
   return (
     <View style={styles.container}>
@@ -116,7 +116,7 @@ const Login: React.FC<LoginProps> = (props) => {
           <LoginButton
             loginType={props.loginType}
             onLogin={loginHandler}
-            valid={formIsValid}
+            valid={validCheck()}
           />
         </View>
       </ScrollView>

@@ -10,7 +10,7 @@ interface LoginButtonProps {
 
 const LoginButton: React.FC<LoginButtonProps> = (props) => {
   return (
-    <ConfirmingButton onPress={props.onLogin} valid={props.valid}>
+    <ConfirmingButton onPress={props.onLogin} valid={props.valid} style={{width: 350}}>
       {props.loginType}
     </ConfirmingButton>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button } from 'react-native-paper';
+import { useNavigate } from 'react-router-native';
 
 import Link from '../../components/shared/UI/Link';
 import SettingsLayout from '../../components/settings/SettingsLayout';
@@ -8,7 +9,14 @@ import SettingsLayout from '../../components/settings/SettingsLayout';
 import { UserContext, UserContextType } from '../../util/context/UserContext';
 
 const Options: React.FC = () => {
-  const { user } = React.useContext<UserContextType>(UserContext);
+  const { user, logout } = React.useContext<UserContextType>(UserContext);
+
+  const redirect = useNavigate();
+
+  const logoutHandler = () => {
+    logout();
+    redirect('/');
+  };
 
   return (
     <SettingsLayout>
@@ -32,7 +40,7 @@ const Options: React.FC = () => {
           )}
         </View>
         <TouchableOpacity>
-          <Button textColor="grey" onPress={() => console.log(user)}>
+          <Button textColor="grey" onPress={logoutHandler}>
             Logout
           </Button>
         </TouchableOpacity>
