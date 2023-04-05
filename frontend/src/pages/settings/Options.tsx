@@ -22,7 +22,7 @@ const Options: React.FC = () => {
     <SettingsLayout>
       <>
         <View>
-          <Text style={styles.welcome}>Welcome, {user?.name}</Text>
+          <Text style={styles.welcome}>{user?.name}</Text>
           <Link text="Logs" to="/options/logs" background="black" />
           {user?.id === user?.cafe.owner && (
             <View>
@@ -53,7 +53,9 @@ const styles = StyleSheet.create({
   welcome: {
     color: 'white',
     alignSelf: 'center',
-    marginBottom: 30
+    marginBottom: 20,
+    marginTop: 20,
+    fontSize: 18
   }
 });
 

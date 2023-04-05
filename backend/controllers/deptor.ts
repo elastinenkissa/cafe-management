@@ -3,7 +3,7 @@ import { Request, Response, Router } from 'express';
 import { Deptor } from '../models/deptor';
 import { Order, OrderType } from '../models/order';
 
-import { getCurrentCafe } from '../util/middleware';
+import { getCurrentCafe, getEmployee } from '../util/middleware';
 
 const router = Router();
 
@@ -21,7 +21,7 @@ router.get('/', getCurrentCafe, async (req: Request, res: Response) => {
 
 router.post(
   '/',
-  getCurrentCafe,
+  [getCurrentCafe, getEmployee],
   async (req: Request<{}, {}, { name: string }>, res: Response) => {
     const currentCafe = req.cafe!;
 
@@ -36,16 +36,28 @@ router.post(
   }
 );
 
-router.delete('/:id', async (req: Request, res: Response) => {
-  await Deptor.findByIdAndDelete(req.params.id);
+router.delete(
+  '/:id',
+  [getCurrentCafe, getEmployee],
+  async (req: Request, res: Response) => {
+    const currentCafe = req.cafe!;
 
-  await Order.deleteMany({ table: req.params.id });
+    await Deptor.findByIdAndDelete(req.params.id);
 
-  res.status(200).json({ message: 'Removed successfully.' });
-});
+    await Order.deleteMany({ deptor: req.params.id });
+
+    currentCafe.deptors = currentCafe.deptors.filter(
+      (deptor) => deptor.id !== req.params.id
+    );
+    await currentCafe.save();
+
+    res.status(200).json({ message: 'Removed successfully.' });
+  }
+);
 
 router.patch(
   '/:id/addOrder',
+  getEmployee,
   async (req: Request<{ id: string }>, res: Response) => {
     const deptor = await Deptor.findById(req.params.id);
 
@@ -68,6 +80,7 @@ router.patch(
 
 router.patch(
   '/:id/addOrders',
+  getEmployee,
   async (
     req: Request<{ id: string }, {}, { orders: Array<OrderType> }>,
     res: Response
@@ -87,10 +100,14 @@ router.patch(
 
 router.delete(
   '/:id/:orderId',
+  getEmployee,
   async (
     req: Request<{ deptorId: string; orderId: string }>,
     res: Response
   ) => {
+    //@ts-ignore
+    const owner = req.owner;
+
     await Deptor.updateOne(
       {
         _id: req.params.deptorId

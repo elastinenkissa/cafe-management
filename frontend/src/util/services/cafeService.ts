@@ -43,11 +43,7 @@ interface MenuItemData {
   price: number;
 }
 
-const createMenuItem = async (
-  item: NewMenuItem,
-  cafeId: string,
-  user: PopulatedEmployee
-) => {
+const createMenuItem = async (item: NewMenuItem, user: PopulatedEmployee) => {
   const response = await api.post<
     MenuItem,
     AxiosResponse<MenuItem>,
@@ -56,7 +52,7 @@ const createMenuItem = async (
     '/cafe/menu',
     { name: item.name, price: item.price },
     {
-      params: { cafe: cafeId },
+      params: { cafe: user.cafe.id },
       headers: {
         Authorization: `bearer ${user.token}`
       }
@@ -66,4 +62,15 @@ const createMenuItem = async (
   return response.data;
 };
 
-export default { createCafe, getMenu, createMenuItem };
+const removeMenuItem = async (id: string, user: PopulatedEmployee) => {
+  await api.delete(`/cafe/menu/${id}`, {
+    params: {
+      cafe: user.cafe.id
+    },
+    headers: {
+      Authorization: `bearer ${user.token}`
+    }
+  });
+};
+
+export default { createCafe, getMenu, createMenuItem, removeMenuItem };

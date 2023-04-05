@@ -16,6 +16,10 @@ declare module 'express-serve-static-core' {
       | (Document<unknown, {}, EmployeeType> &
           Omit<EmployeeType & { _id: Types.ObjectId }, never>)
       | null;
+    owner:
+      | (Document<unknown, {}, EmployeeType> &
+          Omit<EmployeeType & { _id: Types.ObjectId }, never>)
+      | null;
   }
 }
 
@@ -28,6 +32,7 @@ export const getEmployee = async (
 
   const token =
     authorization?.startsWith('bearer') && authorization?.split(' ')[1];
+    
 
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized.' });
@@ -68,6 +73,24 @@ export const getCurrentCafe = async (
   }
 
   req.cafe = currentCafe;
+
+  next();
+};
+
+export const userIsOwner = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const cafe = await req.cafe!.populate('owner');
+  const employee = req.employee;
+  
+
+  if (cafe.owner.id !== employee?.id) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  req.owner = employee;
 
   next();
 };

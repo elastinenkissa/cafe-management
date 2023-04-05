@@ -12,6 +12,10 @@ import { UserContext, UserContextType } from '../../util/context/UserContext';
 
 import { useMenu } from '../../util/hooks/useMenu';
 
+import cafeService from '../../util/services/cafeService';
+
+import { errorLogger } from '../../util/logger/errorLogger';
+
 const MenuManagement: React.FC = () => {
   const modalRef = React.useRef<ModalRef>();
 
@@ -23,7 +27,14 @@ const MenuManagement: React.FC = () => {
     setMenu((prevMenu) => prevMenu?.concat(item));
   };
 
-  const removeMenuItemHandler = () => {};
+  const removeMenuItemHandler = async (id: string) => {
+    try {
+      await cafeService.removeMenuItem(id, user!);
+      setMenu((prevMenu) => prevMenu?.filter((menuItem) => menuItem.id !== id));
+    } catch (error: any) {
+      errorLogger(error);
+    }
+  };
 
   return (
     <ManagementNew
@@ -41,7 +52,7 @@ const MenuManagement: React.FC = () => {
         renderItem={({ item }) => (
           <View key={item.id} style={styles.listItem}>
             <ListItem
-              onRemove={removeMenuItemHandler}
+              onRemove={() => removeMenuItemHandler(item.id)}
               item={item}
               key={item.id}
             />

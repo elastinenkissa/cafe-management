@@ -60,7 +60,7 @@ const Employees: React.FC = () => {
       <FlatList
         data={employees}
         renderItem={({ item }) => (
-          <View style={{ padding: 5 }}>
+          <View style={{ padding: 20, paddingLeft: 25 }}>
             <ListItem
               onRemove={() => removeEmployeeHandler(item.id)}
               item={item}

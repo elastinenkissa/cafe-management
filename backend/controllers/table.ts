@@ -4,7 +4,7 @@ import { Table } from '../models/table';
 import { Order } from '../models/order';
 import { Cafe } from '../models/cafe';
 
-import { getCurrentCafe } from '../util/middleware';
+import { getCurrentCafe, getEmployee } from '../util/middleware';
 
 const router = Router();
 
@@ -20,30 +20,55 @@ router.get('/', getCurrentCafe, async (req: Request, res: Response) => {
   res.status(200).json(currentCafeTables);
 });
 
-router.post('/', getCurrentCafe, async (req: Request, res: Response) => {
-  const currentCafe = req.cafe!;
+router.get(
+  '/:id',
+  getCurrentCafe,
+  async (req: Request<{ id: string }>, res: Response) => {
+    const tables = (await req.cafe!.populate('tables')).tables;
 
-  const tablesNumber = currentCafe.tables.length;
+    const table = tables.find((table) => table.id === req.params.id);
 
-  const newTable = await Table.create({
-    name: `Table ${tablesNumber + 1}`
-  });
+    if (!table) {
+      return res.status(404).json({ message: 'Table not found.' });
+    }
 
-  currentCafe.tables = currentCafe.tables.concat(newTable.id);
-  await currentCafe?.save();
+    const orders = await Order.find({ table: table.id });
 
-  res.status(201).json(newTable);
-});
+    res.status(200).json(orders);
+  }
+);
+
+router.post(
+  '/',
+  [getCurrentCafe, getEmployee],
+  async (req: Request, res: Response) => {
+    const currentCafe = req.cafe!;
+
+    const tablesNumber = currentCafe.tables.length;
+
+    const newTable = await Table.create({
+      name: `Table ${tablesNumber + 1}`
+    });
+
+    currentCafe.tables = currentCafe.tables.concat(newTable.id);
+    await currentCafe?.save();
+
+    res.status(201).json(newTable);
+  }
+);
 
 router.delete(
   '/:id',
+  [getCurrentCafe, getEmployee],
   async (
     req: Request<{ id: string }, {}, {}, { cafe: string }>,
     res: Response
   ) => {
+    const currentCafe = req.cafe!;
+
     await Table.findByIdAndDelete(req.params.id);
 
-    await Cafe.findByIdAndUpdate(req.query.cafe, {
+    await Cafe.findByIdAndUpdate(currentCafe.id, {
       $pull: { tables: req.params.id }
     });
 
@@ -55,6 +80,7 @@ router.delete(
 
 router.patch(
   '/:id/addOrder',
+  getEmployee,
   async (req: Request<{ id: string }>, res: Response) => {
     const table = await Table.findById(req.params.id);
 
@@ -77,6 +103,7 @@ router.patch(
 
 router.patch(
   '/:id/removeOrders',
+  getEmployee,
   async (req: Request<{ id: string }>, res: Response) => {
     const table = await Table.findById(req.params.id);
 
@@ -93,6 +120,7 @@ router.patch(
 
 router.delete(
   '/:id/:orderId',
+  getEmployee,
   async (req: Request<{ tableId: string; orderId: string }>, res: Response) => {
     await Table.updateOne(
       {

@@ -3,7 +3,7 @@ import { Request, Response, Router } from 'express';
 import { Cafe } from '../models/cafe';
 import { MenuItem } from '../models/menuItem';
 
-import { getCurrentCafe, getEmployee } from '../util/middleware';
+import { getCurrentCafe, getEmployee, userIsOwner } from '../util/middleware';
 
 const router = Router();
 
@@ -40,8 +40,6 @@ router.get('/menu', getCurrentCafe, async (req: Request, res: Response) => {
 
   const menu = currentCafe?.menu;
 
-  console.log(menu);
-
   if (!menu) {
     return res.status(404).json({ message: 'Menu is empty.' });
   }
@@ -52,7 +50,7 @@ router.get('/menu', getCurrentCafe, async (req: Request, res: Response) => {
 router.get('/:id', async (req: Request<{ id: string }>, res: Response) => {
   const cafe = await Cafe.findById(req.params.id).populate(
     'owner',
-    '-login -password -token'
+    '-username -password -token'
   );
 
   res.status(200).json(cafe);
@@ -60,17 +58,12 @@ router.get('/:id', async (req: Request<{ id: string }>, res: Response) => {
 
 router.post(
   '/menu',
-  [getCurrentCafe, getEmployee],
+  [getCurrentCafe, getEmployee, userIsOwner],
   async (
     req: Request<{}, {}, { name: string; price: number }>,
     res: Response
   ) => {
-    const currentEmployee = req.employee!;
-    const currentCafe = await req.cafe!.populate('owner');
-
-    if (currentCafe.owner.id !== currentEmployee.id) {
-      return res.status(401).json({ message: 'Unauthorized.' });
-    }
+    const currentCafe = req.cafe!;
 
     const newMenuItem = await MenuItem.create({
       name: req.body.name,
@@ -90,14 +83,12 @@ router.post(
 
 router.delete(
   '/menu/:id',
-  [getCurrentCafe, getEmployee],
+  [getCurrentCafe, getEmployee, userIsOwner],
   async (req: Request<{ id: string }>, res: Response) => {
-    const currentEmployee = req.employee!;
     const currentCafe = await req.cafe!.populate('menu');
 
-    if (currentCafe.owner !== currentEmployee.id) {
-      return res.status(401).json({ message: 'Unauthorized.' });
-    }
+    //@ts-ignore
+    const owner = req.owner;
 
     await MenuItem.findByIdAndDelete(req.params.id);
 

@@ -76,6 +76,25 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   };
 
   const statusHandler = () => {
+    if (isOrder() && pathname.startsWith('/options')) {
+      Alert.alert(
+        'Are you sure?',
+        `This will remove ${props.item.name} from ${user?.cafe.name}`,
+        [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel'
+          },
+          {
+            text: 'Yes',
+            onPress: statusFunction
+          }
+        ]
+      );
+      return;
+    }
+
     if (isOrder()) {
       return props.onRemove();
     }
@@ -120,7 +139,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     item: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center',
+      alignItems: 'center'
     },
     text: {
       fontSize: 18,
@@ -145,7 +164,14 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     <View style={[styles.item, props.style]}>
       <View style={styles.row}>
         <Text style={styles.text}>{props.item.name}</Text>
-        {paid && isTableOrDeptor() && <Text style={styles.paid}>PAID</Text>}
+        {(paid && isTableOrDeptor()) ||
+          (isMenuItem() && (
+            <Text style={styles.paid}>
+              {`${(props.item as Order).price.toFixed(2)} ${
+                user?.cafe.currency
+              }` || 'PAID'}
+            </Text>
+          ))}
       </View>
 
       {isTableOrDeptor() &&
@@ -155,13 +181,6 @@ const ListItem: React.FC<ListItemProps> = (props) => {
             <Text style={styles.vacant}>VACANT</Text>
           </View>
         )}
-      {isMenuItem() && (
-        <View>
-          <Text style={styles.price}>
-            {(props.item as Order).price.toPrecision(2)} {user?.cafe.currency}
-          </Text>
-        </View>
-      )}
       <View style={styles.row}>
         <TouchableOpacity onPress={statusHandler}>
           <Button textColor="grey">{buttonText()}</Button>

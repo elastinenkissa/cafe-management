@@ -45,11 +45,7 @@ const NewMenuItem: React.FC<NewMenuItemProps> = (props) => {
 
   const createItem = async () => {
     const itemData = { name: name, price: parseFloat(price) };
-    const item = await cafeService.createMenuItem(
-      itemData,
-      props.user.cafe.id,
-      props.user
-    );
+    const item = await cafeService.createMenuItem(itemData, props.user);
     props.forwardNewItem(item);
   };
 

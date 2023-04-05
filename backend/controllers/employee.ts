@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { Employee } from '../models/employee';
 
 import { JWT_SECRET } from '../util/config';
-import { getCurrentCafe, getEmployee } from '../util/middleware';
+import { getCurrentCafe, getEmployee, userIsOwner } from '../util/middleware';
 
 const router = Router();
 
@@ -19,19 +19,14 @@ router.get('/', getCurrentCafe, async (req: Request, res: Response) => {
 
 router.post(
   '/',
-  [getEmployee, getCurrentCafe],
+  [getEmployee, getCurrentCafe, userIsOwner],
   async (
     req: Request<{}, {}, { name: string; username: string; password: string }>,
     res: Response
   ) => {
     const passwordHash = await bcrypt.hash(req.body.password, 10);
 
-    const employee = req.employee!;
     const cafe = await req.cafe!.populate('owner');
-
-    if (employee.id !== cafe.owner.id) {
-      return res.status(401).json({ message: 'Unauthorized.' });
-    }
 
     const newEmployee = await Employee.create({
       name: req.body.name,
@@ -46,15 +41,8 @@ router.post(
 
 router.delete(
   '/:id',
-  [getEmployee, getCurrentCafe],
+  [getEmployee, getCurrentCafe, userIsOwner],
   async (req: Request<{ id: string }>, res: Response) => {
-    const employee = req.employee!;
-    const cafe = await req.cafe?.populate('owner')!;
-
-    if (employee.id !== cafe.owner.id) {
-      return res.status(401).json({ message: 'Unauthorized.' });
-    }
-
     await Employee.findByIdAndDelete(req.params.id);
 
     res.status(201).json({ message: 'Employee removed.' });

@@ -17,6 +17,7 @@ export interface EntryType {
 
 interface PageViewProps extends EntryType {
   list: JSX.Element;
+  onAddOrder: (order: Order) => void;
 }
 
 const PageView: React.FC<PageViewProps> = (props) => {
@@ -50,7 +51,12 @@ const PageView: React.FC<PageViewProps> = (props) => {
       );
     }
     if (pathname.startsWith('/cafe')) {
-      return <NewCafeOrder closeModal={closeModalHandler} />;
+      return (
+        <NewCafeOrder
+          onAddOrder={(order: Order) => props.onAddOrder(order)}
+          closeModal={closeModalHandler}
+        />
+      );
     } else {
       return <NewOutsideOrder closeModal={closeModalHandler} />;
     }
@@ -79,7 +85,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     height: '85%',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-evenly'
   },
   list: {
     height: '90%',

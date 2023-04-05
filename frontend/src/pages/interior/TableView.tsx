@@ -6,22 +6,46 @@ import OrderItem from '../../components/shared/General/OrderItem';
 import ListSeparator from '../../components/shared/UI/ListSeparator';
 import PageView from '../../components/shared/General/PageView';
 
-import { TableContext, TablesContext } from '../../util/context/TablesContext';
+import { Order } from '../../util/types/order';
+
+import { errorLogger } from '../../util/logger/errorLogger';
+
+import tableService from '../../util/services/tableService';
+
+import { UserContext, UserContextType } from '../../util/context/UserContext';
 
 const TableView: React.FC = () => {
-  const { id } = useParams<string>();
+  const [orders, setOrders] = React.useState<Array<Order>>([]);
 
-  const { tables, removeOrder } = React.useContext<TableContext>(TablesContext);
+  const { id } = useParams();
 
-  const orders = tables.find((table) => table.id.toString() === id)?.orders;
+  const { user } = React.useContext<UserContextType>(UserContext);
+
+  const fetchOrders = async () => {
+    try {
+      const fetchedOrders = await tableService.getOrders(id!, user?.cafe.id!);
+      setOrders(fetchedOrders);
+    } catch (error: any) {
+      errorLogger(error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const addOrderHandler = async (order: Order) => {
+    setOrders((prevOrders) => prevOrders.concat(order));
+  };
 
   return (
     <PageView
+      onAddOrder={addOrderHandler}
       list={
         <FlatList
           data={orders}
           renderItem={({ item }) => (
-            <OrderItem item={item} onRemove={() => removeOrder(item.id!)} />
+            <OrderItem item={item} onRemove={() => console.log(item.id!)} />
           )}
           keyExtractor={(item) => item.id!}
           ItemSeparatorComponent={ListSeparator}
@@ -29,7 +53,7 @@ const TableView: React.FC = () => {
       }
       entries={orders!}
     />
-  ); 
+  );
 };
 
 export default TableView;
