@@ -9,7 +9,7 @@ The application was originally made for personal use at my sunday job as a waite
 # Todo
 
 
-1. Finish the app up (api requests, polish UI - row items same distance at all times, etc.)
+1. Finish the app up (api requests, polish UI, add funcitonality for owner to edit names of employees, names and prices of menu items, etc.)
 2. Upload the app for sale on Google Play (after finding a way to pay $25 developer fee)
 3. (Optional) Replace the states in NewMenuItem with a reducer
    
