@@ -22,7 +22,6 @@ const Options: React.FC = () => {
     <SettingsLayout>
       <>
         <View>
-          <Text style={styles.welcome}>{user?.name}</Text>
           <Link text="Logs" to="/options/logs" background="black" />
           {user?.id === user?.cafe.owner && (
             <View>
@@ -39,11 +38,14 @@ const Options: React.FC = () => {
             </View>
           )}
         </View>
-        <TouchableOpacity>
-          <Button textColor="grey" onPress={logoutHandler}>
-            Logout
-          </Button>
-        </TouchableOpacity>
+        <View>
+          <Text style={styles.welcome}>{user?.name}</Text>
+          <TouchableOpacity>
+            <Button textColor="grey" onPress={logoutHandler}>
+              Logout
+            </Button>
+          </TouchableOpacity>
+        </View>
       </>
     </SettingsLayout>
   );

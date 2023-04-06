@@ -12,15 +12,31 @@ import deptorService from '../../util/services/deptorService';
 import { useTablesOrDeptors } from '../../util/hooks/useTablesOrDeptors';
 
 const Debtors: React.FC = () => {
-  const deptors = useTablesOrDeptors<DeptorType>(deptorService);
-  
+  const { tablesOrDeptors, setTablesOrDeptors } =
+    useTablesOrDeptors<DeptorType>(deptorService);
+
+  const addDeptorHandler = (deptor: DeptorType) => {
+    setTablesOrDeptors((prevDeptors) => prevDeptors?.concat(deptor));
+  };
+
   return (
     <PageView
+      onAddDeptor={addDeptorHandler}
       outside
       list={
         <FlatList
-          data={deptors}
-          renderItem={({ item }) => <Deptor item={item} id={item.id} />}
+          data={tablesOrDeptors}
+          renderItem={({ item }) => (
+            <Deptor
+              onRemove={() =>
+                setTablesOrDeptors((prevDeptors) =>
+                  prevDeptors?.filter((deptor) => deptor.id !== item.id)
+                )
+              }
+              item={item}
+              id={item.id}
+            />
+          )}
           keyExtractor={(item) => item.id}
           ItemSeparatorComponent={ListSeparator}
         />

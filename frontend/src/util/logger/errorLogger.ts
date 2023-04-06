@@ -1,7 +1,7 @@
 export const errorLogger = (error: any) => {
   console.log(
-    error.response.data
+    error.response
       ? error.response.data.message
-      : 'Unknown error occured.'
+      : error.message || 'Unknown error occured'
   );
 };

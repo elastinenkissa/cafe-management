@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 import Table from '../../components/interior/Table';
 import ListSeparator from '../../components/shared/UI/ListSeparator';
@@ -11,23 +11,32 @@ import tableService from '../../util/services/tableService';
 import { useTablesOrDeptors } from '../../util/hooks/useTablesOrDeptors';
 
 const Cafe: React.FC = () => {
-  const tables = useTablesOrDeptors<TableType>(tableService);
+  const { tablesOrDeptors, setTablesOrDeptors } =
+    useTablesOrDeptors<TableType>(tableService);
+
+  const removeOrdersHandler = (id: string) => {
+    setTablesOrDeptors((prevTables) =>
+      prevTables?.map((table) =>
+        table.id === id ? { ...table, orders: [] } : table
+      )
+    );
+  };
 
   return (
-    <View style={styles.tables}>
+    <View style={{ padding: 20 }}>
       <FlatList
-        data={tables}
-        renderItem={({ item }) => <Table id={item.id} item={item} />}
+        data={tablesOrDeptors}
+        renderItem={({ item }) => (
+          <Table
+            onRemoveOrders={() => removeOrdersHandler(item.id)}
+            id={item.id}
+            item={item}
+          />
+        )}
         ItemSeparatorComponent={ListSeparator}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  tables: {
-    padding: 20
-  }
-});
 
 export default Cafe;

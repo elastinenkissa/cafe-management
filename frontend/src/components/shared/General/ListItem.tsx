@@ -62,13 +62,13 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     return 'Paid';
   };
 
-  const statusFunction = () => {
+  const statusFunction = async () => {
     if (isEmployee()) {
       return props.onRemove();
     }
 
+    await props.onRemove();
     setPaid(true);
-    props.onRemove();
 
     setTimeout(() => {
       setPaid(false);
@@ -164,14 +164,15 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     <View style={[styles.item, props.style]}>
       <View style={styles.row}>
         <Text style={styles.text}>{props.item.name}</Text>
-        {(paid && isTableOrDeptor()) ||
-          (isMenuItem() && (
-            <Text style={styles.paid}>
-              {`${(props.item as Order).price.toFixed(2)} ${
-                user?.cafe.currency
-              }` || 'PAID'}
-            </Text>
-          ))}
+        {(paid || isMenuItem()) && (
+          <Text style={styles.paid}>
+            {isTableOrDeptor()
+              ? 'PAID'
+              : `${(props.item as Order).price.toFixed(2)} ${
+                  user?.cafe.currency
+                }`}
+          </Text>
+        )}
       </View>
 
       {isTableOrDeptor() &&

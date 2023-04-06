@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, CancelTokenSource } from 'axios';
 
 import { Cafe } from '../types/cafe';
 import { PopulatedEmployee } from '../types/employee';
@@ -28,11 +28,12 @@ const createCafe = async (formData: FormData, user: PopulatedEmployee) => {
   );
 };
 
-const getMenu = async (cafeId: string) => {
+const getMenu = async (cafeId: string, sourceToken: CancelTokenSource) => {
   const response = await api.get<Array<MenuItem>>('/cafe/menu', {
     params: {
       cafe: cafeId
-    }
+    },
+    cancelToken: sourceToken.token
   });
 
   return response.data;

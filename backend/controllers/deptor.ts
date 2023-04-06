@@ -19,6 +19,27 @@ router.get('/', getCurrentCafe, async (req: Request, res: Response) => {
   res.status(200).json(currentCafeDeptors);
 });
 
+router.get(
+  '/:id',
+  getCurrentCafe,
+  async (req: Request<{ id: string }>, res: Response) => {
+   
+    
+    const deptors = (await req.cafe!.populate('deptors')).deptors;
+
+    const deptor = deptors.find((deptor) => deptor.id === req.params.id);
+
+    if (!deptor) {
+      return res.status(404).json({ message: 'Deptor not found.' });
+    }
+
+    const orders = await Order.find({ deptor: deptor.id });
+
+
+    res.status(200).json(orders);
+  }
+);
+
 router.post(
   '/',
   [getCurrentCafe, getEmployee],
@@ -68,7 +89,7 @@ router.patch(
     const newOrder = await Order.create({
       name: req.body.orderName,
       price: req.body.orderPrice,
-      table: req.params.id
+      deptor: req.params.id
     });
 
     deptor.orders = deptor.orders.concat(newOrder.id);

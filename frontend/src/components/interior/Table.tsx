@@ -2,21 +2,30 @@ import React from 'react';
 
 import AccessibleListItem from '../shared/General/AccessibleListItem';
 
-import { TableContext, TablesContext } from '../../util/context/TablesContext';
+import { UserContext, UserContextType } from '../../util/context/UserContext';
 
 import { Table as TableType } from '../../util/types/table';
+
+import tableService from '../../util/services/tableService';
+
+import { errorLogger } from '../../util/logger/errorLogger';
 
 interface TableProps {
   item: TableType;
   id: string;
+  onRemoveOrders: () => void;
 }
 
 const Table: React.FC<TableProps> = (props) => {
-  const { removeOrders } =
-    React.useContext<TableContext>(TablesContext);
+  const { user } = React.useContext<UserContextType>(UserContext);
 
-  const changeTableToPaidHandler = (): void => {
-    removeOrders(props.id);
+  const changeTableToPaidHandler = async () => {
+    try {
+      await tableService.removeOrders(props.id, user!);
+      props.onRemoveOrders();
+    } catch (error: any) {
+      errorLogger(error);
+    }
   };
 
   return (

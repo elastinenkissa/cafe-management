@@ -1,21 +1,35 @@
 import React from 'react';
 import 'react-native-get-random-values';
 
-import NewOrder from '../shared/General/NewOrder';
+import NewOrder, { NewOrder as NewOrderType } from '../shared/General/NewOrder';
+
+import { UserContext, UserContextType } from '../../util/context/UserContext';
+
+import deptorService from '../../util/services/deptorService';
 
 import { Order } from '../../util/types/order';
 
-import { DeptorContext, DeptorsContext } from '../../util/context/DeptorsContext';
+import { errorLogger } from '../../util/logger/errorLogger';
 
 interface NewOutsideOrderProps {
   closeModal: () => void;
+  onAddOrder: (order: Order) => void;
 }
- 
-const NewOutsideOrder: React.FC<NewOutsideOrderProps> = (props) => {
-  const { addOrderToDeptor } = React.useContext<DeptorContext>(DeptorsContext);
 
-  const addOrderHandler = (id: string, order: Order): void => {
-    addOrderToDeptor(id!, order);
+const NewOutsideOrder: React.FC<NewOutsideOrderProps> = (props) => {
+  const { token } = React.useContext<UserContextType>(UserContext).user!;
+
+  const addOrderHandler = async (order: NewOrderType) => {
+    try {
+      const newOrder = await deptorService.addOrder(
+        order.deptor!,
+        order,
+        token
+      );
+      props.onAddOrder(newOrder);
+    } catch (error: any) {
+      errorLogger(error);
+    }
   };
 
   return <NewOrder addOrder={addOrderHandler} closeModal={props.closeModal} />;

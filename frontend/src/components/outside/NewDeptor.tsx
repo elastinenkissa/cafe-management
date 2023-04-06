@@ -1,17 +1,20 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { useNavigate, useParams } from 'react-router-native';
 
 import NewItem from '../shared/General/NewItem';
-
-import {
-  DeptorContext,
-  DeptorsContext
-} from '../../util/context/DeptorsContext';
 import Input from '../shared/UI/Input';
+
+import { Deptor } from '../../util/types/deptor';
+
+import deptorService from '../../util/services/deptorService';
+
+import { UserContext, UserContextType } from '../../util/context/UserContext';
+
+import { errorLogger } from '../../util/logger/errorLogger';
 
 interface NewDeptorProps {
   closeModal: () => void;
+  onAddDeptor: (newDeptor: Deptor) => void;
   transferMode: boolean;
 }
 
@@ -19,12 +22,7 @@ const NewDeptor: React.FC<NewDeptorProps> = (props) => {
   const [name, setName] = React.useState<string>('');
   const [error, setError] = React.useState<boolean>(false);
 
-  const navigate = useNavigate();
-
-  const id = useParams().id;
-
-  const { addDeptor, transferOrders } =
-    React.useContext<DeptorContext>(DeptorsContext);
+  const { user } = React.useContext<UserContextType>(UserContext);
 
   const inputHandler = (value: string) => {
     setName(value);
@@ -34,22 +32,30 @@ const NewDeptor: React.FC<NewDeptorProps> = (props) => {
     setError(false);
   };
 
-  const addDeptorHandler = () => {
+  const addDeptorHandler = async () => {
     if (name.length === 0) {
-      return setError(true);
+      setError(true);
+      return;
     }
-    props.closeModal();
 
     if (props.transferMode) {
-      transferOrders(name, id!);
-      return navigate(`/outside`);
+      //transfer code
     }
 
-    addDeptor(name);
+    try {
+      const newDeptor = await deptorService.addNew(user?.cafe.id!, name, user!);
+      props.onAddDeptor(newDeptor);
+      props.closeModal();
+    } catch (error: any) {
+      errorLogger(error);
+    }
   };
 
   return (
-    <NewItem onAddItem={addDeptorHandler} valid={name.length === 0 ? false : true}>
+    <NewItem
+      onAddItem={addDeptorHandler}
+      valid={name.length === 0 ? false : true}
+    >
       <Input
         style={styles.input}
         value={name}

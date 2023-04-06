@@ -9,6 +9,7 @@ import NewOutsideOrder from '../../outside/NewOutsideOrder';
 import NewDeptor from '../../outside/NewDeptor';
 
 import { Order } from '../../../util/types/order';
+import { Deptor } from '../../../util/types/deptor';
 
 export interface EntryType {
   entries?: Array<Order>;
@@ -17,7 +18,8 @@ export interface EntryType {
 
 interface PageViewProps extends EntryType {
   list: JSX.Element;
-  onAddOrder: (order: Order) => void;
+  onAddOrder?: (order: Order) => void;
+  onAddDeptor?: (deptor: Deptor) => void;
 }
 
 const PageView: React.FC<PageViewProps> = (props) => {
@@ -47,18 +49,27 @@ const PageView: React.FC<PageViewProps> = (props) => {
   const checkPathname = () => {
     if (pathname === '/outside' || transferMode === true) {
       return (
-        <NewDeptor closeModal={closeModalHandler} transferMode={transferMode} />
+        <NewDeptor
+          onAddDeptor={(deptor: Deptor) => props.onAddDeptor!(deptor)}
+          closeModal={closeModalHandler}
+          transferMode={transferMode}
+        />
       );
     }
     if (pathname.startsWith('/cafe')) {
       return (
         <NewCafeOrder
-          onAddOrder={(order: Order) => props.onAddOrder(order)}
+          onAddOrder={(order: Order) => props.onAddOrder!(order)}
           closeModal={closeModalHandler}
         />
       );
     } else {
-      return <NewOutsideOrder closeModal={closeModalHandler} />;
+      return (
+        <NewOutsideOrder
+          closeModal={closeModalHandler}
+          onAddOrder={(order: Order) => props.onAddOrder!(order)}
+        />
+      );
     }
   };
 
@@ -84,6 +95,7 @@ const PageView: React.FC<PageViewProps> = (props) => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
+    paddingTop: 29,
     height: '85%',
     justifyContent: 'space-evenly'
   },

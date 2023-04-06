@@ -1,4 +1,5 @@
 import React from 'react';
+import axios, { CancelTokenSource } from 'axios';
 
 import { MenuItem } from '../types/menu';
 
@@ -13,9 +14,12 @@ export const useMenu = () => {
 
   const { user } = React.useContext<UserContextType>(UserContext);
 
-  const fetchMenu = async () => {
+  const fetchMenu = async (cancelToken: CancelTokenSource) => {
     try {
-      const fetchedMenu = await cafeService.getMenu(user?.cafe.id!);
+      const fetchedMenu = await cafeService.getMenu(
+        user?.cafe.id!,
+        cancelToken
+      );
       setMenu(fetchedMenu);
     } catch (error: any) {
       errorLogger(error);
@@ -23,7 +27,13 @@ export const useMenu = () => {
   };
 
   React.useEffect(() => {
-    fetchMenu();
+    const source = axios.CancelToken.source();
+
+    fetchMenu(source);
+
+    return () => {
+      source.cancel();
+    };
   }, []);
 
   return { menu, setMenu };

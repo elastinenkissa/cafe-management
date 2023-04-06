@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
+import axios, { CancelTokenSource } from 'axios';
 
 import ListItem from '../../components/shared/General/ListItem';
 import ManagementNew from '../../components/settings/ManagementNew';
@@ -21,9 +22,12 @@ const Employees: React.FC = () => {
 
   const { user } = React.useContext<UserContextType>(UserContext);
 
-  const fetchEmployees = async () => {
+  const fetchEmployees = async (cancelToken: CancelTokenSource) => {
     try {
-      const fetchedEmployees = await employeeService.getAll(user?.cafe.id!);
+      const fetchedEmployees = await employeeService.getAll(
+        user?.cafe.id!,
+        cancelToken
+      );
       setEmployees(
         fetchedEmployees.filter((employee) => employee.id !== user?.id)
       );
@@ -33,7 +37,13 @@ const Employees: React.FC = () => {
   };
 
   React.useEffect(() => {
-    fetchEmployees();
+    const source = axios.CancelToken.source();
+
+    fetchEmployees(source);
+
+    return () => {
+      source.cancel();
+    };
   }, []);
 
   const removeEmployeeHandler = async (id: string) => {
@@ -60,7 +70,7 @@ const Employees: React.FC = () => {
       <FlatList
         data={employees}
         renderItem={({ item }) => (
-          <View style={{ padding: 20, paddingLeft: 25 }}>
+          <View style={{ padding: 20 }}>
             <ListItem
               onRemove={() => removeEmployeeHandler(item.id)}
               item={item}

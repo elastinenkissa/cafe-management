@@ -9,7 +9,7 @@ import NewItem from './NewItem';
 import { Order } from '../../../util/types/order';
 import { useMenu } from '../../../util/hooks/useMenu';
 
-export type NewOrder = Omit<Order, 'id'> & { table: string };
+export type NewOrder = Omit<Order, 'id'> & { table: string; deptor: string };
 
 interface NewOrderProps {
   closeModal: () => void;
@@ -35,7 +35,8 @@ const NewOrder: React.FC<NewOrderProps> = (props) => {
     const order = {
       name: orderItem.name,
       price: orderItem.price,
-      table: id!
+      table: id!,
+      deptor: id!
     };
 
     props.addOrder(order);

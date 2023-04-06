@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, CancelTokenSource } from 'axios';
 
 import { Employee, PopulatedEmployee } from '../types/employee';
 
@@ -40,11 +40,12 @@ const login = async (formData: FormData) => {
   return response.data;
 };
 
-const getAll = async (cafeId: string) => {
+const getAll = async (cafeId: string, sourceToken: CancelTokenSource) => {
   const response = await api.get<Array<Employee>>('/employees', {
     params: {
       cafe: cafeId
-    }
+    },
+    cancelToken: sourceToken.token
   });
 
   return response.data;

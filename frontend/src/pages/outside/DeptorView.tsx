@@ -1,42 +1,38 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import { useParams } from 'react-router-native';
 
 import PageView from '../../components/shared/General/PageView';
 import OrderItem from '../../components/shared/General/OrderItem';
 import ListSeparator from '../../components/shared/UI/ListSeparator';
 
-import {
-  DeptorContext,
-  DeptorsContext
-} from '../../util/context/DeptorsContext';
+import { useOrders } from '../../util/hooks/useOrders';
+
+import { Order } from '../../util/types/order';
+
+import deptorService from '../../util/services/deptorService';
 
 const DeptorView: React.FC = () => {
-  const { id } = useParams();
+  const { orders, setOrders, removeOrder } = useOrders(deptorService);
 
-  const { deptors, removeOrderFromDeptor } =
-    React.useContext<DeptorContext>(DeptorsContext);
-
-  const deptor = deptors.find((deptor) => deptor.id === id);
-  const orders = deptor?.orders;
+  const addOrderHandler = (order: Order) => {
+    setOrders((prevOrders) => prevOrders.concat(order));
+  };
 
   return (
     <PageView
+      onAddOrder={addOrderHandler}
       list={
         <FlatList
           data={orders}
           renderItem={({ item }) => (
-            <OrderItem
-              item={item}
-              onRemove={() => removeOrderFromDeptor(id!, item.id!)}
-            />
+            <OrderItem item={item} onRemove={() => removeOrder(item.id)} />
           )}
           ItemSeparatorComponent={ListSeparator}
           keyExtractor={(item) => item.id!}
         />
       }
       entries={orders!}
-    /> 
+    />
   );
 };
 

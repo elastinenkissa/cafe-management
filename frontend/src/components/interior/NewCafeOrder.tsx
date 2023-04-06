@@ -20,7 +20,7 @@ const NewCafeOrder: React.FC<NewCafeOrderProps> = (props) => {
 
   const addOrderHandler = async (order: NewOrderType) => {
     try {
-      const newOrder = await tableService.addOrder(order.table, order, token);
+      const newOrder = await tableService.addOrder(order.table!, order, token);
       props.onAddOrder(newOrder);
     } catch (error: any) {
       errorLogger(error);

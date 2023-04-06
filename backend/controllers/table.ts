@@ -111,6 +111,8 @@ router.patch(
       return res.status(404).json({ message: 'Table not found.' });
     }
 
+    await Order.deleteMany({ table: table.id });
+
     table.orders = [];
     await table.save();
 
@@ -119,7 +121,7 @@ router.patch(
 );
 
 router.delete(
-  '/:id/:orderId',
+  '/:tableId/:orderId',
   getEmployee,
   async (req: Request<{ tableId: string; orderId: string }>, res: Response) => {
     await Table.updateOne(

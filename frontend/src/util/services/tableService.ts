@@ -1,30 +1,36 @@
-import { AxiosResponse } from 'axios';
-
-import { Table } from '../types/table';
+import { AxiosResponse, CancelTokenSource } from 'axios';
 
 import { api } from './api';
 
-import { Order } from '../types/order';
+import { Table } from '../types/table';
 import { NewOrder } from '../../components/shared/General/NewOrder';
+import { Order } from '../types/order';
+import { PopulatedEmployee } from '../types/employee';
 
-const getAll = async (cafeId: string) => {
-  const response = await api.get<Table, AxiosResponse<Array<Table>, any>>(
+const getAll = async (cafeId: string, cancelToken: CancelTokenSource) => {
+  const response = await api.get<Table, AxiosResponse<Array<Table>>>(
     '/tables',
     {
       params: {
         cafe: cafeId
-      }
+      },
+      cancelToken: cancelToken.token
     }
   );
 
   return response.data;
 };
 
-const getOrders = async (id: string, cafeId: string) => {
+const getOrders = async (
+  id: string,
+  cafeId: string,
+  cancelToken: CancelTokenSource
+) => {
   const response = await api.get<Table, AxiosResponse<Array<Order>>>(
     `/tables/${id}`,
     {
-      params: { cafe: cafeId }
+      params: { cafe: cafeId },
+      cancelToken: cancelToken.token
     }
   );
 
@@ -32,7 +38,7 @@ const getOrders = async (id: string, cafeId: string) => {
 };
 
 const addNew = async (cafeId: string) => {
-  const response = await api.post<Table, AxiosResponse<Table, any>>(
+  const response = await api.post<Table, AxiosResponse<Table>>(
     '/tables',
     {},
     {
@@ -47,6 +53,16 @@ const addNew = async (cafeId: string) => {
 
 const removeOne = async (cafeId: string, tableId: string) => {
   await api.delete(`/tables/${tableId}`, { params: { cafe: cafeId } });
+};
+
+const removeOrders = async (tableId: string, user: PopulatedEmployee) => {
+  await api.patch<Table>(
+    `/tables/${tableId}/removeOrders`,
+    {},
+    {
+      headers: { Authorization: `bearer ${user.token}` }
+    }
+  );
 };
 
 const addOrder = async (id: string, order: NewOrder, token: string) => {
@@ -67,4 +83,4 @@ const addOrder = async (id: string, order: NewOrder, token: string) => {
   return response.data;
 };
 
-export default { getAll, addNew, removeOne, addOrder, getOrders };
+export default { getAll, addNew, removeOne, addOrder, getOrders, removeOrders };
