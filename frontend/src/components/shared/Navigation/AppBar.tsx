@@ -34,7 +34,7 @@ const AppBar: React.FC = () => {
         <Link
           to="/outside"
           background="transparent"
-          text="Outside"
+          text="Deptors"
           pressDetectionDistance={30}
         />
         <Link

@@ -12,6 +12,7 @@ import {
   UserContext,
   UserContextType
 } from '../../../util/context/UserContext';
+import { errorLogger } from '../../../util/logger/errorLogger';
 
 interface ListItemProps {
   onRemove: () => void;
@@ -67,12 +68,15 @@ const ListItem: React.FC<ListItemProps> = (props) => {
       return props.onRemove();
     }
 
-    await props.onRemove();
-    setPaid(true);
-
-    setTimeout(() => {
-      setPaid(false);
-    }, 3000);
+    try {
+      await props.onRemove();
+      setPaid(true);
+      setTimeout(() => {
+        setPaid(false);
+      }, 3000);
+    } catch (error: any) {
+      errorLogger(error);
+    }
   };
 
   const statusHandler = () => {

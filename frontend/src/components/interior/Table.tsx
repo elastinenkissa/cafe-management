@@ -20,6 +20,10 @@ const Table: React.FC<TableProps> = (props) => {
   const { user } = React.useContext<UserContextType>(UserContext);
 
   const changeTableToPaidHandler = async () => {
+    if (props.item.orders.length === 0) {
+      throw new Error('No orders to be paid.');
+    }
+
     try {
       await tableService.removeOrders(props.id, user!);
       props.onRemoveOrders();
