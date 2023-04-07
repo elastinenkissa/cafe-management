@@ -46,6 +46,24 @@ const addNew = async (
   return response.data;
 };
 
+const addOrders = async (
+  id: string,
+  orders: Array<Order>,
+  user: PopulatedEmployee
+) => {
+  await api.patch(
+    `/deptors/${id}/addOrders`,
+    {
+      orders
+    },
+    {
+      headers: {
+        Authorization: `bearer ${user.token}`
+      }
+    }
+  );
+};
+
 const removeOne = async (id: string, user: PopulatedEmployee) => {
   await api.delete(`/deptors/${id}`, {
     params: {
@@ -91,4 +109,4 @@ const getOrders = async (
   return response.data;
 };
 
-export default { getAll, addNew, addOrder, getOrders, removeOne };
+export default { getAll, addNew, addOrder, addOrders, getOrders, removeOne };

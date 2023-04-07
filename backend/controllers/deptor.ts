@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 
 import { Deptor } from '../models/deptor';
-import { Order, OrderType } from '../models/order';
+import { Order } from '../models/order';
 
 import { getCurrentCafe, getEmployee } from '../util/middleware';
 
@@ -23,8 +23,6 @@ router.get(
   '/:id',
   getCurrentCafe,
   async (req: Request<{ id: string }>, res: Response) => {
-   
-    
     const deptors = (await req.cafe!.populate('deptors')).deptors;
 
     const deptor = deptors.find((deptor) => deptor.id === req.params.id);
@@ -34,7 +32,6 @@ router.get(
     }
 
     const orders = await Order.find({ deptor: deptor.id });
-
 
     res.status(200).json(orders);
   }
@@ -99,26 +96,6 @@ router.patch(
   }
 );
 
-router.patch(
-  '/:id/addOrders',
-  getEmployee,
-  async (
-    req: Request<{ id: string }, {}, { orders: Array<OrderType> }>,
-    res: Response
-  ) => {
-    const deptor = await Deptor.findById(req.params.id);
-
-    if (!deptor) {
-      return res.status(404).json({ message: 'Deptor not found.' });
-    }
-
-    deptor.orders = req.body.orders;
-    await deptor.save();
-
-    res.status(201).json({ message: 'Orders added sucessfully.' });
-  }
-);
-
 router.delete(
   '/:id/:orderId',
   getEmployee,
@@ -126,9 +103,6 @@ router.delete(
     req: Request<{ deptorId: string; orderId: string }>,
     res: Response
   ) => {
-    //@ts-ignore
-    const owner = req.owner;
-
     await Deptor.updateOne(
       {
         _id: req.params.deptorId

@@ -1,6 +1,6 @@
 import React from 'react';
 import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
-import { useLocation } from 'react-router-native';
+import { useLocation, useNavigate, useParams } from 'react-router-native';
 
 import Modal, { ModalRef } from '../UI/Modal';
 import NewEntryFooter from './NewEntryFooter';
@@ -10,6 +10,12 @@ import NewDeptor from '../../outside/NewDeptor';
 
 import { Order } from '../../../util/types/order';
 import { Deptor } from '../../../util/types/deptor';
+
+import {
+  UserContext,
+  UserContextType
+} from '../../../util/context/UserContext';
+import orderService from '../../../util/services/orderService';
 
 export interface EntryType {
   entries?: Array<Order>;
@@ -25,6 +31,11 @@ interface PageViewProps extends EntryType {
 const PageView: React.FC<PageViewProps> = (props) => {
   const modalRef = React.useRef<ModalRef>();
 
+  const { id } = useParams();
+  const redirect = useNavigate();
+
+  const { user } = React.useContext<UserContextType>(UserContext);
+
   const [transferMode, setTransferMode] = React.useState<boolean>(false);
 
   const { pathname } = useLocation();
@@ -35,6 +46,15 @@ const PageView: React.FC<PageViewProps> = (props) => {
     }
     setTransferMode(true);
     modalRef.current!.setVisible();
+  };
+
+  const addDeptorHandler = async (deptor: Deptor) => {
+    props.onAddDeptor && props.onAddDeptor!(deptor);
+
+    if (transferMode) {
+      await orderService.transferOrders(id!, deptor.id, user!);
+      redirect(`/outside`);
+    }
   };
 
   const newEntryHandler = () => {
@@ -50,7 +70,7 @@ const PageView: React.FC<PageViewProps> = (props) => {
     if (pathname === '/outside' || transferMode === true) {
       return (
         <NewDeptor
-          onAddDeptor={(deptor: Deptor) => props.onAddDeptor!(deptor)}
+          onAddDeptor={addDeptorHandler}
           closeModal={closeModalHandler}
           transferMode={transferMode}
         />

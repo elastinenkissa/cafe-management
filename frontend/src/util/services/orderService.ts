@@ -1,5 +1,6 @@
-import { PopulatedEmployee } from '../types/employee';
 import { api } from './api';
+
+import { PopulatedEmployee } from '../types/employee';
 
 const removeOne = async (
   location: string,
@@ -14,4 +15,21 @@ const removeOne = async (
   });
 };
 
-export default { removeOne };
+const transferOrders = async (
+  id: string,
+  newDeptorId: string,
+  user: PopulatedEmployee
+) => {
+  await api.put(
+    `/orders/${id}/transfer`,
+    {},
+    {
+      params: {
+        newDeptorId
+      },
+      headers: { Authorization: `bearer ${user.token}` }
+    }
+  );
+};
+
+export default { removeOne, transferOrders };
