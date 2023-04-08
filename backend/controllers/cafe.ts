@@ -17,7 +17,7 @@ router.post(
   '/',
   getEmployee,
   async (
-    req: Request<{}, {}, { name: string; currency: number }>,
+    req: Request<object, object, { name: string; currency: number }>,
     res: Response
   ) => {
     const owner = req.employee!;
@@ -60,7 +60,7 @@ router.post(
   '/menu',
   [getCurrentCafe, getEmployee, userIsOwner],
   async (
-    req: Request<{}, {}, { name: string; price: number }>,
+    req: Request<object, object, { name: string; price: number }>,
     res: Response
   ) => {
     const currentCafe = req.cafe!;
@@ -87,9 +87,6 @@ router.delete(
   async (req: Request<{ id: string }>, res: Response) => {
     const currentCafe = await req.cafe!.populate('menu');
 
-    //@ts-ignore
-    const owner = req.owner;
-
     await MenuItem.findByIdAndDelete(req.params.id);
 
     currentCafe.menu = currentCafe.menu.filter(
@@ -97,7 +94,7 @@ router.delete(
     );
     await currentCafe.save();
 
-    res.status(202).json({ message: 'Remove successfully.' });
+    res.status(202).json({ message: 'Removed successfully.' });
   }
 );
 

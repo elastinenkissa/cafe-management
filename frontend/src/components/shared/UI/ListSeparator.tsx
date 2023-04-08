@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 const ListSeparator: React.FC = () => {
@@ -11,4 +12,3 @@ const styles = StyleSheet.create({
 });
 
 export default ListSeparator;
- 

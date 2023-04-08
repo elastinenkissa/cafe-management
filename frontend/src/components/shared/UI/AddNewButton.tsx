@@ -1,3 +1,4 @@
+import React from 'react';
 import ManageButton from './ManageButton';
 
 interface AddNewProps {

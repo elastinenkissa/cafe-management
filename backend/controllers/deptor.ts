@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 
 import { Deptor } from '../models/deptor';
 import { Order } from '../models/order';
+import { Log } from '../models/log';
 
 import { getCurrentCafe, getEmployee } from '../util/middleware';
 
@@ -40,7 +41,7 @@ router.get(
 router.post(
   '/',
   [getCurrentCafe, getEmployee],
-  async (req: Request<{}, {}, { name: string }>, res: Response) => {
+  async (req: Request<object, object, { name: string }>, res: Response) => {
     const currentCafe = req.cafe!;
 
     const newDeptor = await Deptor.create({
@@ -58,9 +59,32 @@ router.delete(
   '/:id',
   [getCurrentCafe, getEmployee],
   async (req: Request, res: Response) => {
+    const currentEmployee = req.employee!;
     const currentCafe = req.cafe!;
 
-    await Deptor.findByIdAndDelete(req.params.id);
+    const deptor = await Deptor.findById(req.params.id);
+
+    if (!deptor) {
+      return res.status(404).json({ message: 'Deptor does not exist.' });
+    }
+
+    const orders = (await deptor.populate('orders')).orders.map(
+      (order) => order.name
+    );
+
+    if (deptor.orders.length > 0) {
+      await Log.create({
+        change: {
+          by: currentEmployee.id
+        },
+        action: 'removed',
+        from: deptor.name,
+        orders,
+        cafe: currentCafe.id
+      });
+    }
+
+    await Deptor.findByIdAndDelete(deptor.id);
 
     await Order.deleteMany({ deptor: req.params.id });
 
@@ -75,8 +99,11 @@ router.delete(
 
 router.patch(
   '/:id/addOrder',
-  getEmployee,
+  [getCurrentCafe, getEmployee],
   async (req: Request<{ id: string }>, res: Response) => {
+    const currentEmployee = req.employee!;
+    const currentCafe = req.cafe!;
+
     const deptor = await Deptor.findById(req.params.id);
 
     if (!deptor) {
@@ -89,6 +116,16 @@ router.patch(
       deptor: req.params.id
     });
 
+    await Log.create({
+      change: {
+        by: currentEmployee.id
+      },
+      action: 'added',
+      from: deptor.name,
+      orders: newOrder.name,
+      cafe: currentCafe.id
+    });
+
     deptor.orders = deptor.orders.concat(newOrder.id);
     await deptor.save();
 
@@ -97,12 +134,37 @@ router.patch(
 );
 
 router.delete(
-  '/:id/:orderId',
-  getEmployee,
+  '/:deptorId/:orderId',
+  [getCurrentCafe, getEmployee],
   async (
     req: Request<{ deptorId: string; orderId: string }>,
     res: Response
   ) => {
+    const currentEmployee = req.employee!;
+    const currentCafe = req.cafe!;
+
+    const order = await Order.findById(req.params.orderId);
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found.' });
+    }
+
+    const deptor = await Deptor.findById(req.params.deptorId);
+
+    if (!deptor) {
+      return res.status(404).json({ message: 'Deptor not found.' });
+    }
+
+    await Log.create({
+      change: {
+        by: currentEmployee.id
+      },
+      action: 'canceled',
+      from: deptor.name,
+      orders: order.name,
+      cafe: currentCafe.id
+    });
+
     await Deptor.updateOne(
       {
         _id: req.params.deptorId

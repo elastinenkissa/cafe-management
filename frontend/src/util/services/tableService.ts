@@ -37,13 +37,16 @@ const getOrders = async (
   return response.data;
 };
 
-const addNew = async (cafeId: string) => {
+const addNew = async (user: PopulatedEmployee) => {
   const response = await api.post<Table, AxiosResponse<Table>>(
     '/tables',
     {},
     {
       params: {
-        cafe: cafeId
+        cafe: user.cafe.id
+      },
+      headers: {
+        Authorization: `bearer ${user.token}`
       }
     }
   );
@@ -60,12 +63,17 @@ const removeOrders = async (tableId: string, user: PopulatedEmployee) => {
     `/tables/${tableId}/removeOrders`,
     {},
     {
+      params: { cafe: user.cafe.id },
       headers: { Authorization: `bearer ${user.token}` }
     }
   );
 };
 
-const addOrder = async (id: string, order: NewOrder, token: string) => {
+const addOrder = async (
+  id: string,
+  order: NewOrder,
+  user: PopulatedEmployee
+) => {
   const response = await api.patch<
     Table,
     AxiosResponse<Order>,
@@ -74,8 +82,11 @@ const addOrder = async (id: string, order: NewOrder, token: string) => {
     `/tables/${id}/addOrder`,
     { orderName: order.name, orderPrice: order.price },
     {
+      params: {
+        cafe: user.cafe.id
+      },
       headers: {
-        Authorization: `bearer ${token}`
+        Authorization: `bearer ${user.token}`
       }
     }
   );

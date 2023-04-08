@@ -9,8 +9,9 @@ interface ManagementNewProps {
   modalContent: JSX.Element;
 }
 
-interface ManagementNewRef extends ModalRef {}
+type ManagementNewRef = ModalRef;
 
+// eslint-disable-next-line react/display-name
 const ManagementNew = React.forwardRef<
   ManagementNewRef | undefined,
   ManagementNewProps

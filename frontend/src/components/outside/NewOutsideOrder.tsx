@@ -1,5 +1,4 @@
 import React from 'react';
-import 'react-native-get-random-values';
 
 import NewOrder, { NewOrder as NewOrderType } from '../shared/General/NewOrder';
 
@@ -17,15 +16,11 @@ interface NewOutsideOrderProps {
 }
 
 const NewOutsideOrder: React.FC<NewOutsideOrderProps> = (props) => {
-  const { token } = React.useContext<UserContextType>(UserContext).user!;
+  const { user } = React.useContext<UserContextType>(UserContext);
 
   const addOrderHandler = async (order: NewOrderType) => {
     try {
-      const newOrder = await deptorService.addOrder(
-        order.deptor!,
-        order,
-        token
-      );
+      const newOrder = await deptorService.addOrder(order.deptor!, order, user!);
       props.onAddOrder(newOrder);
     } catch (error: any) {
       errorLogger(error);

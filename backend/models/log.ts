@@ -1,20 +1,21 @@
 import mongoose from 'mongoose';
 
 import { EmployeeType } from './employee';
-import { OrderType } from './order';
 import { CafeType } from './cafe';
 
-export interface Change  {
+export interface Change {
   by: EmployeeType;
   timestamp: string;
 }
 
 export interface LogType extends mongoose.Document {
   id: string;
+  action: string;
   cafe: CafeType;
   change: Change;
   from: string;
-  orders: Array<OrderType>;
+  to?: string;
+  orders: Array<string>;
 }
 
 const changeSchema = new mongoose.Schema<Change>({
@@ -22,10 +23,7 @@ const changeSchema = new mongoose.Schema<Change>({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Employee'
   },
-  timestamp: {
-    type: String,
-    required: true
-  }
+  timestamp: String
 });
 
 const logSchema = new mongoose.Schema<LogType>({
@@ -37,16 +35,30 @@ const logSchema = new mongoose.Schema<LogType>({
     type: String,
     required: true
   },
+  to: String,
+  action: {
+    type: String,
+    required: true
+  },
   cafe: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Cafe'
   },
   orders: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Order'
+      type: String
     }
   ]
+});
+
+logSchema.pre('save', function (next) {
+  const date = new Date();
+
+  const timestamp = `${date.toLocaleDateString()} at ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+
+  this.change.timestamp = timestamp;
+
+  next();
 });
 
 logSchema.set('toJSON', {

@@ -4,7 +4,8 @@ import { Table } from '../models/table';
 import { Order } from '../models/order';
 import { Cafe } from '../models/cafe';
 
-import { getCurrentCafe, getEmployee } from '../util/middleware';
+import { getCurrentCafe, getEmployee, userIsOwner } from '../util/middleware';
+import { Log } from '../models/log';
 
 const router = Router();
 
@@ -40,7 +41,7 @@ router.get(
 
 router.post(
   '/',
-  [getCurrentCafe, getEmployee],
+  [getCurrentCafe, getEmployee, userIsOwner],
   async (req: Request, res: Response) => {
     const currentCafe = req.cafe!;
 
@@ -59,9 +60,9 @@ router.post(
 
 router.delete(
   '/:id',
-  [getCurrentCafe, getEmployee],
+  [getCurrentCafe, getEmployee, userIsOwner],
   async (
-    req: Request<{ id: string }, {}, {}, { cafe: string }>,
+    req: Request<{ id: string }, object, object, { cafe: string }>,
     res: Response
   ) => {
     const currentCafe = req.cafe!;
@@ -80,8 +81,11 @@ router.delete(
 
 router.patch(
   '/:id/addOrder',
-  getEmployee,
+  [getCurrentCafe, getEmployee],
   async (req: Request<{ id: string }>, res: Response) => {
+    const currentEmployee = req.employee!;
+    const currentCafe = req.cafe!;
+
     const table = await Table.findById(req.params.id);
 
     if (!table) {
@@ -94,6 +98,16 @@ router.patch(
       table: req.params.id
     });
 
+    await Log.create({
+      change: {
+        by: currentEmployee.id
+      },
+      action: 'added',
+      from: table.name,
+      orders: newOrder.name,
+      cafe: currentCafe.id
+    });
+
     table.orders = table.orders.concat(newOrder.id);
     await table.save();
 
@@ -103,13 +117,30 @@ router.patch(
 
 router.patch(
   '/:id/removeOrders',
-  getEmployee,
+  [getCurrentCafe, getEmployee],
   async (req: Request<{ id: string }>, res: Response) => {
+    const currentEmployee = req.employee!;
+    const currentCafe = req.cafe!;
+
     const table = await Table.findById(req.params.id);
 
     if (!table) {
       return res.status(404).json({ message: 'Table not found.' });
     }
+
+    const orders = (await table.populate('orders')).orders.map(
+      (order) => order.name
+    );
+
+    await Log.create({
+      change: {
+        by: currentEmployee.id
+      },
+      action: 'removed',
+      from: table.name,
+      orders,
+      cafe: currentCafe.id
+    });
 
     await Order.deleteMany({ table: table.id });
 
@@ -122,8 +153,33 @@ router.patch(
 
 router.delete(
   '/:tableId/:orderId',
-  getEmployee,
+  [getCurrentCafe, getEmployee],
   async (req: Request<{ tableId: string; orderId: string }>, res: Response) => {
+    const currentEmployee = req.employee!;
+    const currentCafe = req.cafe!;
+
+    const order = await Order.findById(req.params.orderId);
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found.' });
+    }
+
+    const table = await Table.findById(req.params.tableId);
+
+    if (!table) {
+      return res.status(404).json({ message: 'Table not found.' });
+    }
+
+    await Log.create({
+      change: {
+        by: currentEmployee.id
+      },
+      action: 'canceled',
+      from: table.name,
+      orders: order.name,
+      cafe: currentCafe.id
+    });
+
     await Table.updateOne(
       {
         _id: req.params.tableId

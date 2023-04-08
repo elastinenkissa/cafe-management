@@ -1,6 +1,8 @@
+/* eslint-disable linebreak-style */
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NativeRouter, Navigate, Route, Routes } from 'react-router-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AppBar from './src/components/shared/Navigation/AppBar';
 import Cafe from './src/pages/interior/Cafe';
@@ -16,7 +18,9 @@ import TablesManagement from './src/pages/settings/TablesManagement';
 import MenuManagement from './src/pages/settings/MenuManagement';
 
 import { useBack } from './src/util/hooks/useBack';
+
 import { UserContext } from './src/util/context/UserContext';
+
 import { PopulatedEmployee } from './src/util/types/employee';
 
 const BackPress = () => {
@@ -28,12 +32,27 @@ const BackPress = () => {
 const App: React.FC = () => {
   const [user, setUser] = React.useState<PopulatedEmployee | undefined>();
 
-  const loginHandler = (userParam: PopulatedEmployee) => {
-    setUser(userParam);
+  const getUser = async () => {
+    const fetchedUser = await AsyncStorage.getItem('user');
+    if (fetchedUser) {
+      await setUser(JSON.parse(fetchedUser));
+    }
   };
 
-  const logoutHandler = () => {
+  React.useEffect(() => {
+    getUser();
+  }, []);
+
+  const loginHandler = async (userParam: PopulatedEmployee) => {
+    setUser(userParam);
+    await AsyncStorage.setItem('user', JSON.stringify(userParam));
+  };
+
+  const logoutHandler = async () => {
     setUser(undefined);
+    await AsyncStorage.removeItem('user');
+    console.log(user);
+    
   };
 
   return (
@@ -45,6 +64,7 @@ const App: React.FC = () => {
           <BackPress />
           <AppBar />
           <Routes>
+            {user && <Route path="/" element={<Navigate to="/cafe" />} />}
             <Route path="/" element={<Welcome />} />
             <Route path="/cafe">
               <Route path="" element={<Cafe />} />

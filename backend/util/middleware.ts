@@ -4,20 +4,21 @@ import jwt from 'jsonwebtoken';
 
 import { Cafe, CafeType } from '../models/cafe';
 import { Employee, EmployeeType } from '../models/employee';
+
 import { JWT_SECRET } from './config';
 
 declare module 'express-serve-static-core' {
   interface Request {
     cafe?:
-      | (Document<unknown, {}, CafeType> &
+      | (Document<unknown, object, CafeType> &
           Omit<CafeType & { _id: Types.ObjectId }, never>)
       | null;
     employee?:
-      | (Document<unknown, {}, EmployeeType> &
+      | (Document<unknown, object, EmployeeType> &
           Omit<EmployeeType & { _id: Types.ObjectId }, never>)
       | null;
     owner:
-      | (Document<unknown, {}, EmployeeType> &
+      | (Document<unknown, object, EmployeeType> &
           Omit<EmployeeType & { _id: Types.ObjectId }, never>)
       | null;
   }
@@ -32,7 +33,6 @@ export const getEmployee = async (
 
   const token =
     authorization?.startsWith('bearer') && authorization?.split(' ')[1];
-    
 
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized.' });
@@ -84,10 +84,9 @@ export const userIsOwner = async (
 ) => {
   const cafe = await req.cafe!.populate('owner');
   const employee = req.employee;
-  
 
   if (cafe.owner.id !== employee?.id) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(403).json({ message: 'Unauthorized' });
   }
 
   req.owner = employee;
@@ -102,8 +101,12 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   if (error.name === 'ValidationError') {
-    return res.status(400).json({ error: error.message });
+    return res.status(400).json({ message: error.message });
   }
+  if (error.name === 'CastError') {
+    return res.status(400).json({ message: error.message });
+  }
+  res.status(404).json({ message: error.message });
 
   next(error);
 };

@@ -1,5 +1,4 @@
 import { Employee } from './employee';
-import { Order } from './order';
 
 export interface Change {
   by: Employee;
@@ -10,6 +9,8 @@ export interface Log {
   id: string;
   cafeId: string;
   change: Change;
+  action: string;
   from: string;
-  orders: Array<Order>;
+  to?: string;
+  orders: Array<string>;
 }

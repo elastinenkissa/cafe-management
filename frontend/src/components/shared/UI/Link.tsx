@@ -27,13 +27,13 @@ const Link: React.FC<LinkProps> = (props) => {
   const { pathname } = useLocation();
 
   const isActiveLink = (): boolean => {
-    return pathname.startsWith(props.to)
+    return pathname.startsWith(props.to);
   };
 
   const redirectHandler = () => {
     redirect(props.to);
   };
- 
+
   return (
     <Pressable
       hitSlop={props.pressDetectionDistance || 0}

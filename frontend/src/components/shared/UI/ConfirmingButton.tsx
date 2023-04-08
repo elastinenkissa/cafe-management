@@ -8,7 +8,7 @@ interface ConfirmingButtonProps {
   children: React.ReactNode;
   onPress: () => void;
   valid: boolean;
-  style?: Object;
+  style?: object;
 }
 
 const ConfirmingButton: React.FC<ConfirmingButtonProps> = (props) => {

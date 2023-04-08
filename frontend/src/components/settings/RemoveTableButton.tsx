@@ -1,3 +1,4 @@
+import React from 'react';
 import ManageButton from '../shared/UI/ManageButton';
 
 interface RemoveTableButton {

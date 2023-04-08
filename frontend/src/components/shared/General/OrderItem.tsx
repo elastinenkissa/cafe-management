@@ -30,10 +30,8 @@ const OrderItem: React.FC<OrderItemProps> = (props) => {
 
   const removeOrderHandler = async () => {
     try {
-      console.log(location);
-
       await orderService.removeOne(location, id!, props.item.id, user!);
-      props.onRemove()
+      props.onRemove();
     } catch (error: any) {
       errorLogger(error);
     }

@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import Button from '../shared/UI/Button';
@@ -17,7 +18,7 @@ const LoginChoiceButton: React.FC<LoginButtonProps> = (props) => {
       width: 300,
       height: 55,
       textAlignVertical: 'center',
-      textAlign: 'center',
+      textAlign: 'center'
     }
   });
 

@@ -5,7 +5,7 @@ interface InputProps {
   placeholder: string;
   value: string;
   onChange: (value: string) => void;
-  style?: Object;
+  style?: object;
   isPassword?: boolean;
   number?: boolean;
   error?: boolean;

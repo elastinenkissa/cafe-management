@@ -21,7 +21,11 @@ router.post(
   '/',
   [getEmployee, getCurrentCafe, userIsOwner],
   async (
-    req: Request<{}, {}, { name: string; username: string; password: string }>,
+    req: Request<
+      object,
+      object,
+      { name: string; username: string; password: string }
+    >,
     res: Response
   ) => {
     const passwordHash = await bcrypt.hash(req.body.password, 10);
@@ -52,7 +56,11 @@ router.delete(
 router.post(
   '/signup',
   async (
-    req: Request<{}, {}, { name: string; username: string; password: string }>,
+    req: Request<
+      object,
+      object,
+      { name: string; username: string; password: string }
+    >,
     res: Response
   ) => {
     const passwordHash = await bcrypt.hash(req.body.password, 10);
@@ -71,7 +79,7 @@ router.post(
 router.post(
   '/login',
   async (
-    req: Request<{}, {}, { username: string; password: string }>,
+    req: Request<object, object, { username: string; password: string }>,
     res: Response
   ) => {
     const employee = await Employee.findOne({
@@ -82,10 +90,11 @@ router.post(
       return res.status(404).json({ message: 'Employee not found.' });
     }
 
-    const passwordIsCorrect = bcrypt.compare(
+    const passwordIsCorrect = await bcrypt.compare(
       req.body.password.trim(),
       employee.password
     );
+    
 
     if (!passwordIsCorrect) {
       return res.status(401).json({ message: 'Incorrect password.' });

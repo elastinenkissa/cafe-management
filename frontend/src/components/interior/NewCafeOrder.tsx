@@ -16,11 +16,11 @@ interface NewCafeOrderProps {
 }
 
 const NewCafeOrder: React.FC<NewCafeOrderProps> = (props) => {
-  const { token } = React.useContext<UserContextType>(UserContext).user!;
+  const { user } = React.useContext<UserContextType>(UserContext);
 
   const addOrderHandler = async (order: NewOrderType) => {
     try {
-      const newOrder = await tableService.addOrder(order.table!, order, token);
+      const newOrder = await tableService.addOrder(order.table!, order, user!);
       props.onAddOrder(newOrder);
     } catch (error: any) {
       errorLogger(error);

@@ -1,6 +1,6 @@
+import React from 'react';
 import { StyleSheet } from 'react-native';
 
-// import Button from './Button';
 import ConfirmingButton from './ConfirmingButton';
 
 interface AddFinalButton {

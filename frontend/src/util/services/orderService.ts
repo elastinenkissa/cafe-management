@@ -9,6 +9,9 @@ const removeOne = async (
   user: PopulatedEmployee
 ) => {
   await api.delete(`/${location}/${locationId}/${orderId}`, {
+    params: {
+      cafe: user.cafe.id
+    },
     headers: {
       Authorization: `bearer ${user.token}`
     }
@@ -22,10 +25,12 @@ const transferOrders = async (
 ) => {
   await api.put(
     `/orders/${id}/transfer`,
-    {},
+    {
+      newDeptorId
+    },
     {
       params: {
-        newDeptorId
+        cafe: user.cafe.id
       },
       headers: { Authorization: `bearer ${user.token}` }
     }

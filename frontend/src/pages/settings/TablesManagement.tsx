@@ -34,7 +34,7 @@ const TablesManagement: React.FC = () => {
   };
 
   const addTableHandler = async () => {
-    const newTable = await tableService.addNew(user?.cafe.id!);
+    const newTable = await tableService.addNew(user!);
     setTablesOrDeptors((prevTables) => prevTables?.concat(newTable));
   };
 

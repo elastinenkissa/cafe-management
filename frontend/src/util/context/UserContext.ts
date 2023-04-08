@@ -24,6 +24,7 @@ export const UserContext = React.createContext<UserContextType>({
       owner: ''
     }
   },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   login: (_user: PopulatedEmployee) => {},
   logout: () => {}
 });

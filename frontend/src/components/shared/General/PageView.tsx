@@ -53,7 +53,7 @@ const PageView: React.FC<PageViewProps> = (props) => {
 
     if (transferMode) {
       await orderService.transferOrders(id!, deptor.id, user!);
-      redirect(`/outside`);
+      redirect('/outside');
     }
   };
 

@@ -75,7 +75,11 @@ const removeOne = async (id: string, user: PopulatedEmployee) => {
   });
 };
 
-const addOrder = async (id: string, order: NewOrder, token: string) => {
+const addOrder = async (
+  id: string,
+  order: NewOrder,
+  user: PopulatedEmployee
+) => {
   const response = await api.patch<
     Deptor,
     AxiosResponse<Order>,
@@ -84,8 +88,11 @@ const addOrder = async (id: string, order: NewOrder, token: string) => {
     `/deptors/${id}/addOrder`,
     { orderName: order.name, orderPrice: order.price },
     {
+      params: {
+        cafe: user.cafe.id
+      },
       headers: {
-        Authorization: `bearer ${token}`
+        Authorization: `bearer ${user.token}`
       }
     }
   );

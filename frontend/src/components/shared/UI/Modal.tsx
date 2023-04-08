@@ -15,6 +15,7 @@ export interface ModalRef {
   setInvisible: () => void;
 }
 
+// eslint-disable-next-line react/display-name
 const Modal = React.forwardRef<ModalRef | undefined, ModalProps>(
   (props, ref) => {
     const [modalIsVisible, setModalIsVisible] = React.useState<boolean>(false);

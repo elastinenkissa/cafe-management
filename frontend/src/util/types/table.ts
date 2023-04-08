@@ -5,4 +5,3 @@ export interface Table {
   name: string;
   orders: Array<Order>;
 }
- 
