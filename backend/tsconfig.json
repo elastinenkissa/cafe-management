@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es6",
     "module": "commonjs",
     "lib": ["es2019"],
     "allowJs": true,
-    "noEmit": true,
+    "noEmit": false,
     "isolatedModules": true,
     "strict": true,
     "moduleResolution": "node",
@@ -12,8 +12,9 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "noUnusedParameters": true,
-    "noUnusedLocals": true
-  }
+    "noUnusedLocals": true,
+    "outDir": "dist"
+  },
 }
