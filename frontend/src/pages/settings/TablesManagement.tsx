@@ -24,7 +24,7 @@ const TablesManagement: React.FC = () => {
     const tableId = tablesOrDeptors![tablesOrDeptors!.length - 1].id;
 
     try {
-      await tableService.removeOne(user?.cafe.id!, tableId);
+      await tableService.removeOne(user!, tableId);
       setTablesOrDeptors((prevTables) =>
         prevTables?.filter((table) => table.id !== tableId)
       );

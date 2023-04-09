@@ -54,8 +54,13 @@ const addNew = async (user: PopulatedEmployee) => {
   return response.data;
 };
 
-const removeOne = async (cafeId: string, tableId: string) => {
-  await api.delete(`/tables/${tableId}`, { params: { cafe: cafeId } });
+const removeOne = async (user: PopulatedEmployee, tableId: string) => {
+  await api.delete(`/tables/${tableId}`, {
+    params: { cafe: user.cafe.id },
+    headers: {
+      Authorization: `bearer ${user.token}`
+    }
+  });
 };
 
 const removeOrders = async (tableId: string, user: PopulatedEmployee) => {

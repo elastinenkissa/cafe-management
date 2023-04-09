@@ -14,7 +14,7 @@ interface CafeData {
 }
 
 const createCafe = async (formData: FormData, user: PopulatedEmployee) => {
-  await api.post<Cafe, AxiosResponse<Cafe>, CafeData>(
+  const response = await api.post<Cafe, AxiosResponse<Cafe>, CafeData>(
     '/cafe',
     {
       name: formData.cafeName,
@@ -26,6 +26,8 @@ const createCafe = async (formData: FormData, user: PopulatedEmployee) => {
       }
     }
   );
+
+  return response.data;
 };
 
 const getMenu = async (cafeId: string, sourceToken: CancelTokenSource) => {

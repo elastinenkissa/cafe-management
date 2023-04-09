@@ -51,8 +51,6 @@ const App: React.FC = () => {
   const logoutHandler = async () => {
     setUser(undefined);
     await AsyncStorage.removeItem('user');
-    console.log(user);
-    
   };
 
   return (

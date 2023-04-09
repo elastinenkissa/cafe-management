@@ -44,9 +44,10 @@ const Login: React.FC<LoginProps> = (props) => {
         await employeeService.signUp(formData);
 
         const user = await employeeService.login(formData);
-        login(user);
 
-        await cafeService.createCafe(formData, user);
+        const cafe = await cafeService.createCafe(formData, user);
+
+        login({ ...user, cafe });
 
         setTimeout(() => {
           redirect('/cafe');
