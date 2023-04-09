@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "start": "ts-node app.ts",
+    "start": "node app.js",
     "dev": "ts-node-dev app.ts",
     "lint": "eslint . --ext .ts",
-    "build": "tsc"
+    "build": "tsc ./app"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
