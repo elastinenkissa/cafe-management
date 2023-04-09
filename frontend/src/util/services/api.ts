@@ -1,3 +1,3 @@
 import axios from 'axios';
 
-export const api = axios.create({ baseURL: 'http://192.168.0.14:3000/api' });
+export const api = axios.create({ baseURL: 'https://cafeache-api.onrender.com/api' });

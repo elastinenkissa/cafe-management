@@ -58,7 +58,7 @@ router.post(
 router.delete(
   '/:id',
   [getCurrentCafe, getEmployee],
-  async (req: Request, res: Response) => {
+  async (req: Request<{ id: string }>, res: Response) => {
     const currentEmployee = req.employee!;
     const currentCafe = req.cafe!;
 
@@ -88,10 +88,7 @@ router.delete(
 
     await Order.deleteMany({ deptor: req.params.id });
 
-    currentCafe.deptors = currentCafe.deptors.filter(
-      (deptor) => deptor.id !== req.params.id
-    );
-    await currentCafe.save();
+    await currentCafe.updateOne({ $pull: { deptors: req.params.id } });
 
     res.status(200).json({ message: 'Removed successfully.' });
   }
