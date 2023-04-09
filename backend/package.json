@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node app.ts",
+    "start": "ts-node app.ts",
     "dev": "ts-node-dev app.ts",
     "lint": "eslint . --ext .ts"
   },
@@ -10,7 +10,8 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.0.0"
+    "mongoose": "^7.0.0",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
