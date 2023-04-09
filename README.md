@@ -4,6 +4,8 @@ Autoheadache is a mobile application for Android and iOS (latter not tested) cre
 
 The app uses Axios for communicating with the server, React context for global state management, custom hooks for cleaner frontend code and Express Async Errors for cleaner backend code (eliminating try-catch blocks from controllers).
 
+The apk of this app can be downloaded <a href="https://expo.dev/artifacts/eas/3PsPBjrGwqEULqsXdoRoKR.apk">from here</a>
+
 # Usage
 
 The application was originally made for personal use at my sunday job as a waiter-barista at a family cafe. It has been restructured to be usable in same manner by anyone that downloads the app.
