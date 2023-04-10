@@ -1,6 +1,6 @@
-# Autoheadache
+# Cafe Management
 
-Autoheadache is a mobile application for Android and iOS (latter not tested) created using React Native for the frontend and Node, Express and MongoDB for the backend, using TypeScript.
+Cafe Management is a mobile application for Android and iOS (latter not tested) created using React Native for the frontend and Node, Express and MongoDB for the backend, using TypeScript.
 
 The app uses Axios for communicating with the server, React context for global state management, custom hooks for cleaner frontend code and Express Async Errors for cleaner backend code (eliminating try-catch blocks from controllers).
 
