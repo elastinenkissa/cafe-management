@@ -4,7 +4,7 @@ Cafe Management is a mobile application for Android and iOS (latter not tested) 
 
 The app uses Axios for communicating with the server, React context for global state management, custom hooks for cleaner frontend code and Express Async Errors for cleaner backend code (eliminating try-catch blocks from controllers).
 
-The apk of this app can be downloaded <a href="https://expo.dev/artifacts/eas/3PsPBjrGwqEULqsXdoRoKR.apk">from here</a>
+The apk of this app can be downloaded <em>link expired, new one coming soon</em>
 
 # Usage
 
